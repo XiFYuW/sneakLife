@@ -1,0 +1,11 @@
+[
+	{
+		"tab": "dictionary",
+		"href": "#DataDictionary",
+		"name": "/static/model/system/menu/dataTables.vue"
+	}, {
+		"tab": "about",
+		"href": "#About",
+		"name": "/static/model/system/menu/dataTables.vue"
+	}
+]

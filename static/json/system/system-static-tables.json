@@ -1,0 +1,77 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "name": "test0",
+      "age": 32
+    }, {
+      "id": 1,
+      "name": "test1",
+      "age": 20
+    }, {
+      "id": 2,
+      "name": "test2",
+      "age": 17
+    }, {
+      "id": 3,
+      "name": "test3",
+      "age": 13
+    }, {
+      "id": 4,
+      "name": "test4",
+      "age": 45
+    }, {
+      "id": 5,
+      "name": "test5",
+      "age": 24
+    }, {
+      "id": 6,
+      "name": "test6",
+      "age": 23
+    }, {
+      "id": 7,
+      "name": "test7",
+      "age": 26
+    }, {
+      "id": 8,
+      "name": "test8",
+      "age": 28
+    }, {
+      "id": 9,
+      "name": "test9",
+      "age": 20
+    }
+  ],
+  "clo": [
+    {
+      "checkbox": true,
+      "data-halign": "center"
+    },
+    {
+      "field": "id",
+      "title": "Item ID"
+    }, {
+      "field":"name",
+      "title": "Item Name"
+    }, {
+      "field": "age",
+      "title": "Item Age"
+    }],
+  "operation": [{
+    "type": "button",
+    "text": "add",
+    "code": 0
+  },{
+    "type": "button",
+    "text": "update",
+    "code": 1
+  },{
+    "type": "button",
+    "text": "delete",
+    "code": 2
+  }],
+  "head": {
+    "title": "this dataTable"
+  }
+}
+
