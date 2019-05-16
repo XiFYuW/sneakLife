@@ -7,8 +7,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'system-menu',
-      component: () => import('@/components/system/menu/menu')
+      name: 'system',
+      component: () => import('@/components/system')
     }
   ]
 })
