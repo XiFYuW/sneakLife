@@ -2,10 +2,12 @@
 	{
 		"tab": "dictionary",
 		"href": "#DataDictionary",
-		"name": "/static/model/system/menu/dataTables.vue"
+    "type": "data-tables",
+    "dataUrl": "/static/json/system/system-static-tables.json"
 	}, {
 		"tab": "about",
 		"href": "#About",
-		"name": "/static/model/system/menu/dataTables.vue"
+    "type": "line-chart",
+    "dataUrl": "/static/json/chart/lineChart.json"
 	}
 ]
