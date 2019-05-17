@@ -6,13 +6,11 @@
 </template>
 
 <script>
-import SystemMenu from './system/menu/menu'
-import FunctionModal from './function/modal/modal'
 export default {
   name: 'system',
   components: {
-    SystemMenu,
-    FunctionModal
+    'system-menu': () => import('./system/menu/menu'),
+    'function-modal': () => import('./function/modal/modal')
   }
 }
 </script>

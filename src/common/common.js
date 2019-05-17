@@ -57,8 +57,8 @@ export const common = {
     }
   },
   addTable: function (el, $, pop) {
-    let data = $('#' + el).bootstrapTable('getAllSelections')
-    console.log('addTables : ', data)
+    console.log('addTables : ')
+    $('#modal').modal('show')
   },
   updateTable: function (el, $, pop) {
     let data = $('#' + el).bootstrapTable('getAllSelections')

@@ -7,7 +7,6 @@
           <h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
         </div>
         <div class="modal-body">
-          <line-chart></line-chart>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -19,10 +18,8 @@
 </template>
 
 <script>
-import LineChart from '../../chart/lineChart'
 export default {
-  name: 'function-modal',
-  components: {LineChart}
+  name: 'function-modal'
 }
 </script>
 
