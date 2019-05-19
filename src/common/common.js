@@ -1,3 +1,4 @@
+import {modalBox} from './modalBox'
 export const common = {
   /**
    * dataTable选中的数据，update适用
@@ -5,32 +6,6 @@ export const common = {
   dataT: [],
   parse: obj => {
     return JSON.parse(JSON.stringify(obj)).data
-  },
-  /**
-   * 渲染数据表格
-   * **/
-  bootstrapTable: function (el, $, body, tl) {
-    tl = tl || {
-      data: body.data,
-      striped: true,
-      clickToSelect: true,
-      showColumns: true,
-      showRefresh: true,
-      sortable: true,
-      pagination: true,
-      sidePagination: 'server',
-      pageNumber: 1,
-      pageSize: 10,
-      columns: body.clo,
-      onLoadSuccess: function (res) {
-        console.info('加载成功')
-        console.log(res)
-      },
-      onLoadError: function () {
-        console.info('加载数据失败')
-      }
-    }
-    $('#' + el).bootstrapTable(tl)
   },
   popover: (data, $, el) => {
     let o = $('.' + el)
@@ -52,9 +27,7 @@ export const common = {
    * add update delete统一入口
    * */
   selectClickMe: function (code, table, $, pop, upData) {
-    $('#modal').on('hidden.bs.modal', function () {
-      $(this).removeData('bs.modal')
-    })
+    modalBox.clearData($)
     switch (code) {
       case 0 :
         this.addTable(table, $, pop, upData)
@@ -70,7 +43,6 @@ export const common = {
     }
   },
   addTable: function (el, $, pop, upData) {
-    console.log(upData)
     upData.forEach(item => {
       item.forEach((v, index) => {
         v.value = ''
@@ -79,7 +51,7 @@ export const common = {
         // this.$set(item, index, v)
       })
     })
-    $('#modal').modal('show')
+    modalBox.show($)
   },
   updateTable: function (el, $, pop, upData) {
     this.dataT = $('#' + el).bootstrapTable('getAllSelections')
@@ -102,7 +74,7 @@ export const common = {
           // this.$set(item, index, v)
         })
       })
-      $('#modal').modal('show')
+      modalBox.show($)
     }
   },
   deleteTable: function (el, $, pop) {
@@ -110,5 +82,20 @@ export const common = {
     if (!this.popover(data, $, pop)) {
       console.log('delete')
     }
+  },
+  lazyLoadViews: AsyncView => {
+    const AsyncHandler = () => ({
+      component: AsyncView,
+      loading: require('@/components/load/load').default,
+      error: require('@/components/load/load').default,
+      delay: 200,
+      timeout: 2000
+    })
+    return Promise.resolve({
+      functional: true,
+      render (h, { data, children }) {
+        return h(AsyncHandler, data, children)
+      }
+    })
   }
 }
