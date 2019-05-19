@@ -1,13 +1,13 @@
 [
 	{
-		"tab": "dictionary",
+		"tab": "DataDictionary",
 		"href": "#DataDictionary",
-    "type": "data-tables",
+    "type": "data-dictionary",
     "dataUrl": "/static/json/system/system-static-tables.json"
 	}, {
-		"tab": "about",
-		"href": "#About",
-    "type": "line-chart",
+		"tab": "SystemMonitoring",
+		"href": "#SystemMonitoring",
+    "type": "system-monitoring",
     "dataUrl": "/static/json/chart/lineChart.json"
 	}
 ]
