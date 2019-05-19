@@ -3,11 +3,8 @@
     <h1 class="page-header">Dashboard</h1>
     <div class="row">
       <div v-for="item in option" v-bind:key="item.id">
-        <div class="col-xs-12 col-md-8 paddingNot">
+        <div class="col-xs-6 paddingNot">
           <div v-bind:style="item.style" v-bind:id="item.id"></div>
-        </div>
-        <div class="col-xs-6 col-md-4">
-          <p>......................</p>
         </div>
       </div>
     </div>
@@ -19,7 +16,7 @@ import echarts from 'echarts'
 require('echarts/lib/chart/line')
 require('echarts/lib/chart/bar')
 export default {
-  name: 'line-chart',
+  name: 'system-monitoring',
   data () {
     return {
       option: []

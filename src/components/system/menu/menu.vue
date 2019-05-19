@@ -11,7 +11,7 @@
         </div>
       </div>
     </nav>
-    <div class="container">
+    <div>
       <transition name="component-fade" mode="out-in">
         <component v-bind:is="getView" v-bind:dataUrl="dataUrl"></component>
       </transition>
@@ -30,8 +30,8 @@ export default {
     }
   },
   components: {
-    'data-tables': () => import('./../body/dataTables'),
-    'line-chart': () => import('./../body/lineChart')
+    'data-dictionary': () => import('../body/dataDictionary/dataDictionary'),
+    'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring')
   },
   created: function () {
     this.apply()
