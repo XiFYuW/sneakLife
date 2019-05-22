@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <div class="container-fluid">
-      <div class="col-sm-3 col-md-2 sidebar">
-        <div id="treeView"></div>
-      </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar treeViewMa">
+      <div id="treeView"></div>
     </div>
-    <div class="container">
+    <div class="col-md-8 sidebar">
       <table id="treeGrid"></table>
     </div>
   </div>
@@ -26,7 +24,7 @@ export default {
   mounted () {
     this.$http.get(this.dataUrl).then(resp => {
       const options = this.$common.parse(resp)
-      // treeView.init(this.$jquery, options)
+      treeView.init(this.$jquery, options)
     })
     treeGrid.init(this.$jquery, this.$http, this.$common)
   }
@@ -34,5 +32,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .treeViewMa{
+    margin-left: 120px;
+  }
 </style>
