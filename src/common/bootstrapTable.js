@@ -6,7 +6,7 @@ export const bootstrapTable = {
    * @param body 数据表格内容获取形式
    * @param tl 数据表格格式
    */
-  bootstrapTable: function (el, $, body, tl) {
+  init: function (el, $, body, tl) {
     tl = tl || {
       url: body.data,
       // 工具栏
