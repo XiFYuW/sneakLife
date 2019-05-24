@@ -3,12 +3,12 @@
 		"tab": "DataDictionary",
 		"href": "#DataDictionary",
     "type": "data-dictionary",
-    "dataUrl": "/static/json/system/system-static-tables.json"
+    "dataUrl": "static/json/system/body/dataDictionary/dataDictionary.json"
 	}, {
 		"tab": "SystemMonitoring",
 		"href": "#SystemMonitoring",
     "type": "system-monitoring",
-    "dataUrl": "/static/json/chart/lineChart.json"
+    "dataUrl": "static/json/system/body/systemMonitoring/systemMonitoring.json"
 	}, {
     "tab": "AuthorityControl",
     "href": "#",
@@ -18,7 +18,7 @@
         "tab": "FunctionConfig",
         "href": "#FunctionConfig",
         "type": "function-config",
-        "dataUrl": "/static/json/system/functionConfig.json"
+        "dataUrl": "static/json/system/body/AuthorityControl/functionConfig/functionConfig.json"
       }
     ]
   }

@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "text": "System Setting",
+      "url": "#",
+      "nodes": [
+        {
+          "text": "Data Dictionary",
+          "url": "#"
+        },
+        {
+          "text": "System Monitoring",
+          "url": "#"
+        },
+        {
+          "text": "Authority Control",
+          "url": "#",
+          "nodes": [
+            {
+              "text": "Function Config",
+              "url": "#"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
