@@ -19,7 +19,12 @@
         "href": "#FunctionConfig",
         "type": "function-config",
         "dataUrl": "static/json/system/body/AuthorityControl/functionConfig/functionConfig.json"
-      }
+      },{
+      "tab": "RoleConfig",
+      "href": "#RoleConfig",
+      "type": "role-config",
+      "dataUrl": "static/json/system/body/AuthorityControl/roleConfig/roleConfig.json"
+    }
     ]
   }
 ]

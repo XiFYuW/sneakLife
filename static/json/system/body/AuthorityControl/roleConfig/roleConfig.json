@@ -1,6 +1,6 @@
 {
   "dataTables": {
-    "data": "static/json/system/body/dataDictionary/dataTables.json",
+    "data": "static/json/system/body/AuthorityControl/roleConfig/dataTables.json",
     "clo": [
       {
         "checkbox": true,
@@ -60,6 +60,6 @@
       ]
     ]
   },
-  "head": "DataDictionary"
+  "head": "RoleConfig"
 }
 
