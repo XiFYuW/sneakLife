@@ -8,11 +8,12 @@ export const treeGrid = {
       this.el = el
     }
   },
-  init: function ($, http, common, el) {
+  init: function ($, http, common, url, el) {
     this.setEl(el)
     let treeGrid = $('#' + this.el)
+    treeGrid.bootstrapTable('destroy')
     treeGrid.bootstrapTable({
-      url: '/static/json/system/treeGrid.json',
+      url: url,
       striped: true,
       sidePagination: 'server',
       idField: this.id,

@@ -4,8 +4,18 @@
       <div class="container">
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab.type, tab.dataUrl)" v-bind:class="{ 'active': tab.type === view }">
-              <a v-bind:href="tab.href" v-bind:name="tab.name">{{ tab.tab }}</a>
+            <li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab.type, tab.dataUrl)"
+                v-bind:class="{ 'active': tab.type === view && tab.type !== '','dropdown': tab.son  }">
+              <a v-bind:class="{'dropdown-toggle': tab.son}" v-bind:data-toggle="tab.son ? 'dropdown' : ''"
+                 v-bind:href="tab.href">
+                {{ tab.tab }} <span class="caret" v-if="tab.son"></span>
+              </a>
+              <ul class="dropdown-menu" v-if="tab.son">
+                <li v-for="s in tab.son" v-bind:key="s.tab" v-on:click="onTabs(s.type, s.dataUrl)"
+                    v-bind:class="{ 'active': s.type === view && s.type !== '' }">
+                  <a v-bind:href="s.href">{{ s.tab }}</a>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -31,13 +41,17 @@ export default {
   },
   components: {
     'data-dictionary': () => import('../body/dataDictionary/dataDictionary'),
-    'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring')
+    'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring'),
+    'function-config': () => import('../body/authorityControl/functionConfig/functionConfig')
   },
   created: function () {
     this.apply()
   },
   methods: {
     onTabs: function (tab, dataUrl) {
+      if (!tab) {
+        return
+      }
       this.view = tab
       this.dataUrl = dataUrl
     },
