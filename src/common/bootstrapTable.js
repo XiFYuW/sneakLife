@@ -14,9 +14,9 @@ export const bootstrapTable = {
       // 是否显示导出按钮
       showExport: true,
       // 设置true为显示切换按钮以切换表/卡视图
-      showToggle: true,
+      showToggle: false,
       // 设置true为显示全屏按钮
-      showFullscreen: true,
+      showFullscreen: false,
       // 设置true为显示分页切换按钮
       showPaginationSwitch: true,
       // 设置true为显示列下拉列表
