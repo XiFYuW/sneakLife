@@ -55,34 +55,40 @@ export const treeGrid = {
         })
       },
       onCheck: row => {
-        this.data = treeGrid.bootstrapTable('getData')
-        let show = []
-        if (this.isChildNode(row)) {
-          show = this.selectChild(row, $, treeGrid, [], true)
-        }
-        if (this.isParentNode(row)) {
-          show = this.selectParentChecked(row, treeGrid, $, [], true)
-        }
-        treeGrid.bootstrapTable('load', this.data)
-        this.showChildNode(show, $)
+        this.toAction(treeGrid, row, $, true)
       },
       onUncheck: row => {
-        this.data = treeGrid.bootstrapTable('getData')
-        let show = []
-        if (this.isChildNode(row)) {
-          show = this.selectChild(row, $, treeGrid, [], false)
-        }
-        if (this.isParentNode(row)) {
-          show = this.selectParentChecked(row, treeGrid, $, [], false)
-        }
-        treeGrid.bootstrapTable('load', this.data)
-        this.showChildNode(show, $)
+        this.toAction(treeGrid, row, $, false)
       }
     })
   },
   /**
-   * treegrid-expanded  treegrid-collapsed
-   * 选择父节点的子节点
+   * 勾选动作
+   * @param treeGrid 元素位置
+   * @param row 当前节点
+   * @param $ jquery
+   * @param check 勾选：true | 取消勾选：false
+   */
+  toAction: function (treeGrid, row, $, check) {
+    this.data = treeGrid.bootstrapTable('getData')
+    let show = []
+    if (this.isChildNode(row)) {
+      show = this.selectChild(row, $, treeGrid, [], check)
+    }
+    if (this.isParentNode(row)) {
+      show = this.selectParentChecked(row, treeGrid, $, [], check)
+    }
+    treeGrid.bootstrapTable('load', this.data)
+    this.showChildNode(show, $)
+  },
+  /**
+   * 选择父节点的子节点  关闭：treegrid-expanded  展开：treegrid-collapsed
+   * @param row 当前节点
+   * @param $ jquery
+   * @param treeGrid 元素位置
+   * @param show 需要显示的节点
+   * @param check 勾选：true | 取消勾选：false
+   * @returns {*} 需要显示的节点
    */
   selectChild: function (row, $, treeGrid, show, check) {
     // 选中父节点所有的子节点
@@ -96,29 +102,32 @@ export const treeGrid = {
     }
     return show
   },
+  /**
+   * 显示节点
+   * @param tempChild 需要显示的节点
+   * @param $ jquery
+   */
   showChildNode: function (tempChild, $) {
-    console.log(tempChild)
     tempChild.forEach(v => {
       let el = $(v)
-      let index = v.lastIndexOf('-')
-      let str = v.substr(index + 1, v.length)
+      let str = this.cutParentNodeId(v)
       if (str !== '0') {
         el[0].style.display = ''
-        // 改变图标
-        let le = $('tr.treegrid-' + str + ' td span.treegrid-expander')
-        let ls = $('tr.treegrid-' + str)
-        if (le.hasClass('treegrid-expander-collapsed') && ls.hasClass('treegrid-collapsed')) {
-          le.removeClass('treegrid-expander-collapsed').addClass('treegrid-expander-expanded')
-          ls.removeClass('treegrid-collapsed').addClass('treegrid-expanded')
-        }
+        this.changeIcon($, str)
       }
     })
   },
   /**
    * 选择子节点的父节点
-   * @param row 子节点
+   * @param row 当前节点
+   * @param treeGrid 元素
+   * @param $ jquery
+   * @param show 需要显示的节点，数组类型
+   * @param check 勾选：true | 取消勾选：false
+   * @returns {show} 需要显示的节点
    */
   selectParentChecked: function (row, treeGrid, $, show, check) {
+    // 同级节点是否还有勾选
     let peer = false
     for (let i in this.data) {
       // 处理同级节点
@@ -132,9 +141,11 @@ export const treeGrid = {
       }
       // 处理父节点
       if (this.data[i][this.id] === row[this.pid]) {
+        // 勾选
         if (check) {
           this.data[i].check = check
         }
+        // 取消勾选 && 同级节点是否还有勾选 && 当前节点的同级节点
         if (!check && !peer && row[this.pid] === this.data[i][this.pid]) {
           this.data[i].check = check
         }
@@ -144,19 +155,50 @@ export const treeGrid = {
     }
     return show
   },
+  /**
+   * 当前节点是否含有子节点
+   * @param row
+   * @returns {boolean}
+   */
   isChildNode: function (row) {
     for (let v in this.data) {
-      console.log(this.data[v][this.pid])
       if (row[this.id] === this.data[v][this.pid]) {
         return true
       }
     }
   },
+  /**
+   * 当前节点是否含有父节点
+   * @param row
+   * @returns {boolean}
+   */
   isParentNode: function (row) {
     for (let v in this.data) {
       if (row[this.pid] === this.data[v][this.id]) {
         return true
       }
+    }
+  },
+  /**
+   * 截取节点的父节点的id
+   * @param v 节点class属性
+   * @returns {string | *}
+   */
+  cutParentNodeId: function (v) {
+    let index = v.lastIndexOf('-')
+    return v.substr(index + 1, v.length)
+  },
+  /**
+   * 改变父节点图标
+   * @param $ jquery
+   * @param str 父节点的id
+   */
+  changeIcon: function ($, str) {
+    let le = $('tr.treegrid-' + str + ' td span.treegrid-expander')
+    let ls = $('tr.treegrid-' + str)
+    if (le.hasClass('treegrid-expander-collapsed') && ls.hasClass('treegrid-collapsed')) {
+      le.removeClass('treegrid-expander-collapsed').addClass('treegrid-expander-expanded')
+      ls.removeClass('treegrid-collapsed').addClass('treegrid-expanded')
     }
   }
 }
