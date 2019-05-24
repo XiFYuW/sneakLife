@@ -41,7 +41,7 @@ export default {
       const body = this.$common.parse(resp)
       this.opera = body.opera
       this.head = body.head
-      bootstrapTable.bootstrapTable('table', this.$jquery, body.dataTables)
+      bootstrapTable.init('table', this.$jquery, body.dataTables)
     })
   },
   methods: {
