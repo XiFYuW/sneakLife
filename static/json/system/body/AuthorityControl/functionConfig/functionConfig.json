@@ -6,11 +6,11 @@
       "nodes": [
         {
           "text": "Data Dictionary",
-          "url": "#"
+          "url": "/static/json/system/body/AuthorityControl/functionConfig/body/DataDictionary.json"
         },
         {
           "text": "System Monitoring",
-          "url": "#"
+          "url": "/static/json/system/body/AuthorityControl/functionConfig/body/SystemMonitoring.json"
         },
         {
           "text": "Authority Control",
@@ -18,7 +18,7 @@
           "nodes": [
             {
               "text": "Function Config",
-              "url": "#"
+              "url": "/static/json/system/body/AuthorityControl/functionConfig/body/TreeGrid.json"
             }
           ]
         }
