@@ -1,11 +1,12 @@
 <template>
   <data-table v-bind:dataUrl="dataUrl"></data-table>
 </template>
+
 <script>
 export default {
-  name: 'data-dictionary',
+  name: 'role-config',
   components: {
-    'data-table': () => import('../../../common/dataTable')
+    'data-table': () => import('../../../../common/dataTable')
   },
   props: {
     dataUrl: {
@@ -15,3 +16,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>

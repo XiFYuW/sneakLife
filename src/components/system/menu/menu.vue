@@ -23,7 +23,9 @@
     </nav>
     <div>
       <transition name="component-fade" mode="out-in">
-        <component v-bind:is="getView" v-bind:dataUrl="dataUrl"></component>
+        <keep-alive>
+          <component v-bind:is="getView" v-bind:dataUrl="dataUrl"></component>
+        </keep-alive>
       </transition>
     </div>
   </div>
@@ -42,7 +44,8 @@ export default {
   components: {
     'data-dictionary': () => import('../body/dataDictionary/dataDictionary'),
     'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring'),
-    'function-config': () => import('../body/authorityControl/functionConfig/functionConfig')
+    'function-config': () => import('../body/authorityControl/functionConfig/functionConfig'),
+    'role-config': () => import('../body/authorityControl/roleConfig/roleConfig')
   },
   created: function () {
     this.apply()
