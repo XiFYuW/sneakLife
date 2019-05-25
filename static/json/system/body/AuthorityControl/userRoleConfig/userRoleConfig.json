@@ -1,0 +1,27 @@
+{
+  "dataTables": {
+    "data": "static/json/system/body/AuthorityControl/userRoleConfig/dataTables.json",
+    "clo": [
+      {
+        "checkbox": true,
+        "data-halign": "center"
+      },
+      {
+        "field": "id",
+        "title": "Item ID"
+      }, {
+        "field":"name",
+        "title": "Item Name"
+      }, {
+        "field": "age",
+        "title": "Item Age"
+      }
+    ]
+  },
+  "opera": {
+    "funBtn": [],
+    "funIn": []
+  },
+  "head": "UserRoleConfig"
+}
+
