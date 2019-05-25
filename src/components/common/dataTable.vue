@@ -34,14 +34,20 @@ export default {
     dataUrl: {
       type: String,
       required: true
+    },
+    handle: {
+      type: Object,
+      required: false
     }
   },
   mounted () {
     this.$http.get(this.dataUrl).then(resp => {
       const body = this.$common.parse(resp)
-      console.log(body)
       this.opera = body.opera
       this.head = body.head
+      if (this.handle) {
+        body.dataTables.clo.push(this.handle.operate)
+      }
       bootstrapTable.init('table', this.$jquery, body.dataTables)
     })
   },

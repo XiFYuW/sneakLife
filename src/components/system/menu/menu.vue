@@ -45,7 +45,8 @@ export default {
     'data-dictionary': () => import('../body/dataDictionary/dataDictionary'),
     'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring'),
     'function-config': () => import('../body/authorityControl/functionConfig/functionConfig'),
-    'role-config': () => import('../body/authorityControl/roleConfig/roleConfig')
+    'role-config': () => import('../body/authorityControl/roleConfig/roleConfig'),
+    'user-role-config': () => import('../body/authorityControl/userRoleConfig/userRoleConfig')
   },
   created: function () {
     this.apply()

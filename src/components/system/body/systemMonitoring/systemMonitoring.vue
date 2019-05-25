@@ -56,10 +56,10 @@ export default {
     }
   },
   watch: {
-    option: {
+    body: {
       handler (newVal, oldVal) {
         if (newVal !== oldVal) {
-          this.option = newVal
+          this.body = newVal
         }
       }
     },

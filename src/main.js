@@ -16,6 +16,9 @@ import 'jquery-treegrid/js/jquery.treegrid.min'
 import 'jquery-treegrid/js/bootstrap-table-treegrid'
 import 'bootstrap-treeview/dist/bootstrap-treeview.min.css'
 import 'bootstrap-treeview/dist/bootstrap-treeview.min'
+import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+import 'bootstrap-select/dist/js/bootstrap-select.min'
+import 'bootstrap-select/dist/js/i18n/defaults-zh_CN.min'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
