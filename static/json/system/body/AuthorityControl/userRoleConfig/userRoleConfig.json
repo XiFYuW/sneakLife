@@ -4,17 +4,21 @@
     "clo": [
       {
         "checkbox": true,
-        "data-halign": "center"
+        "data-halign": "center",
+        "align": "center"
       },
       {
         "field": "id",
-        "title": "Item ID"
+        "title": "Item ID",
+        "align": "center"
       }, {
         "field":"name",
-        "title": "Item Name"
+        "title": "Item Name",
+        "align": "center"
       }, {
         "field": "age",
-        "title": "Item Age"
+        "title": "Item Age",
+        "align": "center"
       }
     ]
   },
