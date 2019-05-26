@@ -6,8 +6,8 @@ export const bootstrapTable = {
    * @param body 数据表格内容获取形式
    * @param tl 数据表格格式
    */
-  init: function (el, $, body, tl) {
-    tl = tl || {
+  init: function (el, $, body, load, tl) {
+    tl = {
       url: body.data,
       // 工具栏
       toolbar: '#toolbar',
@@ -31,8 +31,18 @@ export const bootstrapTable = {
       pagination: true,
       // 分页方式：server、client
       sidePagination: 'server',
-      columns: body.clo
-    }
+      columns: body.clo,
+      onLoadSuccess: function () {
+        if (load) {
+          $('.rowOperator').each(function () {
+            let idTemp = $(this).attr('id')
+            $('#' + idTemp).parent().parent().css({'padding': 0})
+            let CommonSelect = load.vue.extend(load.com)
+            new CommonSelect().$mount('#' + idTemp)
+          })
+        }
+      }
+    } || tl
     $('#' + el).bootstrapTable(tl)
   }
 }

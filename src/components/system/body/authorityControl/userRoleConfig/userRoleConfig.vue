@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="point">
     <data-table v-bind:dataUrl="dataUrl" v-bind:handle="handle"></data-table>
   </div>
 </template>
@@ -15,30 +15,34 @@ export default {
           title: '操作',
           align: 'center',
           formatter: function (value, row, index) {
-            return '<common-select></common-select>'
+            let id = 'row' + row.id
+            let ids = 'rows' + row.id
+            return '<div id=' + id + '><div class="rowOperator" id=' + ids + '></div></div>'
           }
+        },
+        load: {
+          com: {
+            template: '<common-select></common-select>'
+          },
+          vue: this.$vue
         }
       }
     }
   },
   components: {
-    'data-table': () => import('../../../../common/dataTable'),
-    'common-select': () => import('../../../../common/commonSelect')
+    'data-table': () => import('../../../../common/dataTable')
   },
   props: {
     dataUrl: {
       type: String,
       required: true
     }
-  },
-  mounted () {
-    this.$nextTick(function () {
-      this.$forceUpdate()
-    })
   }
 }
 </script>
 
-<style scoped>
-
+<style>
+  .select-padd{
+    padding: 0;
+  }
 </style>
