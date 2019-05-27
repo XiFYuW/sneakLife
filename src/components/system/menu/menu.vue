@@ -23,9 +23,7 @@
     </nav>
     <div>
       <transition name="component-fade" mode="out-in">
-        <keep-alive>
-          <component v-bind:is="getView" v-bind:dataUrl="dataUrl"></component>
-        </keep-alive>
+        <component v-bind:is="getView" v-bind:dataUrl="dataUrl"></component>
       </transition>
     </div>
   </div>

@@ -9,7 +9,7 @@ export const selects = {
     this.setEl(el)
     $('.' + this.el).selectpicker()
   },
-  val: ($) => {
-    return $('.' + this.el).selectpicker('val')
+  setVal: function ($, val) {
+    $('.' + this.el).selectpicker('val', val)
   }
 }

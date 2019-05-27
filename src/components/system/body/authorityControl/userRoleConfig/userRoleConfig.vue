@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import CommonSelect from '../../../../common/commonSelect'
 export default {
   name: 'user-role-config',
   data () {
@@ -20,13 +21,15 @@ export default {
             return '<div id=' + id + '><div class="rowOperator" id=' + ids + '></div></div>'
           }
         },
-        load: {
+        selecting: {
           com: {
-            template: '<common-select></common-select>'
+            template: '<common-select v-bind:dataSelect="dataSelect"></common-select>'
           },
-          vue: this.$vue
+          vue: this.$vue,
+          dataSelect: {}
         }
-      }
+      },
+      dataSelect: {}
     }
   },
   components: {
@@ -37,6 +40,13 @@ export default {
       type: String,
       required: true
     }
+  },
+  created () {
+    this.$http.get('static/json/system/body/AuthorityControl/userRoleConfig/selects.json').then(resp => {
+      this.handle.selecting.dataSelect = this.$common.parse(resp)
+      // 全局初始化CommonSelect
+      this.$vue.component('common-select', CommonSelect)
+    })
   }
 }
 </script>

@@ -19,13 +19,12 @@
 </template>
 <script>
 import {bootstrapTable} from '../../common/bootstrapTable'
-import CommonSelect from './commonSelect'
 export default {
   name: 'data-table',
   data () {
     return {
       opera: {},
-      head: {}
+      head: ''
     }
   },
   components: {
@@ -48,9 +47,7 @@ export default {
       this.head = body.head
       if (this.handle) {
         body.dataTables.clo.push(this.handle.operate)
-        // 全局初始化CommonSelect
-        this.$vue.component('common-select', CommonSelect)
-        bootstrapTable.init('table', this.$jquery, body.dataTables, this.handle.load)
+        bootstrapTable.init('table', this.$jquery, body.dataTables, this.handle.selecting)
       } else {
         bootstrapTable.init('table', this.$jquery, body.dataTables)
       }

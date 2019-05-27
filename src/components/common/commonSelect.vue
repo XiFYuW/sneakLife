@@ -1,10 +1,11 @@
 <template>
-    <select class="selectpicker" title="请选择省份" multiple data-max-options="1" data-width="fit">
-      <option data-content="<span class='label label-success'>广东省</span>">广东省</option>
-      <option data-content="<span class='label label-info'>广西省</span>">广西省</option>
-      <option data-content="<span class='label label-warning'>福建省</span>">福建省</option>
-      <option data-content="<span class='label label-danger'>山东省</span>">山东省</option>
+  <div>
+    <select class="selectpicker" multiple data-max-options="1" data-width="fit">
+      <option v-for="item in dataSelect.data" :key="item.value" v-bind:data-content="item.dataContent" v-bind:value="item.value">
+        {{item.name}}
+      </option>
     </select>
+  </div>
 </template>
 
 <script>
@@ -13,6 +14,23 @@ export default {
   name: 'common-select',
   mounted () {
     selects.init(this.$jquery)
+  },
+  props: {
+    dataSelect: {
+      type: Object,
+      required: true
+    }
+  },
+  watch: {
+    dataSelect: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.dataSelect = newVal
+        }
+      }
+    },
+    immediate: true,
+    deep: true
   }
 }
 </script>
