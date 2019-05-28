@@ -39,26 +39,29 @@ export const bootstrapTable = {
       sidePagination: 'server',
       columns: body.clo,
       onLoadSuccess: data => {
-        if (mountComponent.getTransitionalComponent()) {
-          let rows = data.rows
-          $('.rowOperator').each(function () {
-            let idTemp = $(this).attr('id')
-            let co = $('#' + idTemp)
-            co.parent().parent().css({'padding': 0})
-            let id = co.parent().attr('id')
-            let rowId = id.substr(3, 4)
-            let row = rows[rowId]
-            // 挂载组件
-            mountComponent.mountSelect(idTemp)
-            let obj = $('#' + id + ' select')
-            // 初始化select值
-            selects.setVal(obj, row.value)
-            // 不可修改
-            obj.attr('disabled', true)
-          })
-        }
+        this.applySelect($, data)
       }
     } || tl
     $('#' + el).bootstrapTable(tl)
+  },
+  applySelect: function ($, data) {
+    if (mountComponent.getTransitionalComponent()) {
+      let rows = data.rows
+      $('.rowOperator').each(function () {
+        let idTemp = $(this).attr('id')
+        let co = $('#' + idTemp)
+        co.parent().parent().css({'padding': 0})
+        let id = co.parent().attr('id')
+        let rowId = id.substr(3, 4)
+        let row = rows[rowId]
+        // 挂载组件
+        mountComponent.mountSelect(idTemp)
+        let obj = $('#' + id + ' select')
+        // 初始化select值
+        selects.setVal(obj, row.value)
+        // 不可修改
+        obj.attr('disabled', true)
+      })
+    }
   }
 }
