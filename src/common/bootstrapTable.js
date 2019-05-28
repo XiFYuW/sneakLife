@@ -1,11 +1,9 @@
 import {mountComponent} from './common'
+import {selects} from './selects'
+
 export const bootstrapTable = {
-  /**
-   * 过渡组件
-   */
-  transitionalComponent: {},
-  setTraCom: function (component) {
-    this.transitionalComponent = component
+  setTraCom: function (mc) {
+    mountComponent.setTransitionalComponent(mc)
   },
   /**
    * 渲染数据表格
@@ -41,13 +39,22 @@ export const bootstrapTable = {
       sidePagination: 'server',
       columns: body.clo,
       onLoadSuccess: data => {
-        console.log(data)
-        if (this.transitionalComponent) {
-          let s = this.transitionalComponent
+        if (mountComponent.getTransitionalComponent()) {
+          let rows = data.rows
           $('.rowOperator').each(function () {
             let idTemp = $(this).attr('id')
-            $('#' + idTemp).parent().parent().css({'padding': 0})
-            mountComponent.mountSelect(s, idTemp)
+            let co = $('#' + idTemp)
+            co.parent().parent().css({'padding': 0})
+            let id = co.parent().attr('id')
+            let rowId = id.substr(3, 4)
+            let row = rows[rowId]
+            // 挂载组件
+            mountComponent.mountSelect(idTemp)
+            let obj = $('#' + id + ' select')
+            // 初始化select值
+            selects.setVal(obj, row.value)
+            // 不可修改
+            obj.attr('disabled', true)
           })
         }
       }

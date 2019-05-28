@@ -106,12 +106,21 @@ export const common = {
  */
 export const mountComponent = {
   /**
+   * 过渡组件
+   */
+  transitionalComponent: {},
+  setTransitionalComponent: function (mc) {
+    this.transitionalComponent = mc
+  },
+  getTransitionalComponent: function () {
+    return this.transitionalComponent
+  },
+  /**
    * 下拉列表
-   * @param transitionalComponent 过渡组件
    * @param el 挂载位置
    */
-  mountSelect: function (transitionalComponent, el) {
-    let CommonSelect = transitionalComponent.vue.extend(transitionalComponent.componentTra)
-    new CommonSelect({propsData: {dataSelect: transitionalComponent.dataSelect}}).$mount('#' + el)
+  mountSelect: function (el) {
+    let CommonSelect = this.transitionalComponent.vue.extend(this.transitionalComponent.componentTra)
+    new CommonSelect({propsData: {dataSelect: this.transitionalComponent.dataSelect}}).$mount('#' + el)
   }
 }
