@@ -1,4 +1,12 @@
+import {mountComponent} from './common'
 export const bootstrapTable = {
+  /**
+   * 过渡组件
+   */
+  transitionalComponent: {},
+  setTraCom: function (component) {
+    this.transitionalComponent = component
+  },
   /**
    * 渲染数据表格
    * @param el 数据表格元素的位置
@@ -6,7 +14,7 @@ export const bootstrapTable = {
    * @param body 数据表格内容获取形式
    * @param tl 数据表格格式
    */
-  init: function (el, $, body, transitionalComponent, tl) {
+  init: function (el, $, body, tl) {
     tl = {
       url: body.data,
       // 工具栏
@@ -32,13 +40,14 @@ export const bootstrapTable = {
       // 分页方式：server、client
       sidePagination: 'server',
       columns: body.clo,
-      onLoadSuccess: function () {
-        if (transitionalComponent) {
+      onLoadSuccess: data => {
+        console.log(data)
+        if (this.transitionalComponent) {
+          let s = this.transitionalComponent
           $('.rowOperator').each(function () {
             let idTemp = $(this).attr('id')
             $('#' + idTemp).parent().parent().css({'padding': 0})
-            let CommonSelect = transitionalComponent.vue.extend(transitionalComponent.componentTra)
-            new CommonSelect({propsData: {dataSelect: transitionalComponent.dataSelect}}).$mount('#' + idTemp)
+            mountComponent.mountSelect(s, idTemp)
           })
         }
       }

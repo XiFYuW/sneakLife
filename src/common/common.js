@@ -99,3 +99,19 @@ export const common = {
     })
   }
 }
+
+/**
+ * 挂载组件
+ * @type {{mountSelect: mountComponent.mountSelect}}
+ */
+export const mountComponent = {
+  /**
+   * 下拉列表
+   * @param transitionalComponent 过渡组件
+   * @param el 挂载位置
+   */
+  mountSelect: function (transitionalComponent, el) {
+    let CommonSelect = transitionalComponent.vue.extend(transitionalComponent.componentTra)
+    new CommonSelect({propsData: {dataSelect: transitionalComponent.dataSelect}}).$mount('#' + el)
+  }
+}
