@@ -116,7 +116,7 @@ export const mountComponent = {
     return this.transitionalComponent
   },
   /**
-   * 下拉列表
+   * 挂载下拉列表组件
    * @param el 挂载位置
    */
   mountSelect: function (el) {
