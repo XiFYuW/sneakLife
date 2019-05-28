@@ -6,7 +6,7 @@ export const bootstrapTable = {
    * @param body 数据表格内容获取形式
    * @param tl 数据表格格式
    */
-  init: function (el, $, body, selecting, tl) {
+  init: function (el, $, body, transitionalComponent, tl) {
     tl = {
       url: body.data,
       // 工具栏
@@ -33,13 +33,12 @@ export const bootstrapTable = {
       sidePagination: 'server',
       columns: body.clo,
       onLoadSuccess: function () {
-        if (selecting) {
+        if (transitionalComponent) {
           $('.rowOperator').each(function () {
             let idTemp = $(this).attr('id')
             $('#' + idTemp).parent().parent().css({'padding': 0})
-            let CommonSelect = selecting.vue.extend(selecting.com)
-            console.log(selecting.dataSelect)
-            new CommonSelect({propsData: {dataSelect: selecting.dataSelect}}).$mount('#' + idTemp)
+            let CommonSelect = transitionalComponent.vue.extend(transitionalComponent.componentTra)
+            new CommonSelect({propsData: {dataSelect: transitionalComponent.dataSelect}}).$mount('#' + idTemp)
           })
         }
       }

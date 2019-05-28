@@ -47,7 +47,7 @@ export default {
       this.head = body.head
       if (this.handle) {
         body.dataTables.clo.push(this.handle.operate)
-        bootstrapTable.init('table', this.$jquery, body.dataTables, this.handle.selecting)
+        bootstrapTable.init('table', this.$jquery, body.dataTables, this.handle.transitionalComponent)
       } else {
         bootstrapTable.init('table', this.$jquery, body.dataTables)
       }

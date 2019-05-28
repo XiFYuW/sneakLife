@@ -21,15 +21,23 @@ export default {
             return '<div id=' + id + '><div class="rowOperator" id=' + ids + '></div></div>'
           }
         },
-        selecting: {
-          com: {
-            template: '<common-select v-bind:dataSelect="dataSelect"></common-select>'
+        /**
+         * 过渡组件
+         */
+        transitionalComponent: {
+          componentTra: {
+            template: '<common-select v-bind:dataSelect="dataSelect"></common-select>',
+            props: {
+              dataSelect: {
+                type: Object,
+                required: true
+              }
+            }
           },
           vue: this.$vue,
           dataSelect: {}
         }
-      },
-      dataSelect: {}
+      }
     }
   },
   components: {
@@ -43,8 +51,10 @@ export default {
   },
   created () {
     this.$http.get('static/json/system/body/AuthorityControl/userRoleConfig/selects.json').then(resp => {
-      this.handle.selecting.dataSelect = this.$common.parse(resp)
-      // 全局初始化CommonSelect
+      this.handle.transitionalComponent.dataSelect = this.$common.parse(resp)
+      /**
+       * 全局初始化CommonSelect
+       */
       this.$vue.component('common-select', CommonSelect)
     })
   }
