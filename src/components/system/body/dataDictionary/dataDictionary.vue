@@ -1,9 +1,16 @@
 <template>
-  <data-table v-bind:dataUrl="dataUrl"></data-table>
+  <data-table v-bind:dataUrl="dataUrl" v-bind:operaClick="operaClick"></data-table>
 </template>
 <script>
+import {operaClick} from '../../../../common/common'
+
 export default {
   name: 'data-dictionary',
+  data () {
+    return {
+      operaClick: operaClick
+    }
+  },
   components: {
     'data-table': () => import('../../../common/dataTable')
   },

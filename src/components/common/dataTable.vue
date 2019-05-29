@@ -19,6 +19,7 @@
 </template>
 <script>
 import {bootstrapTable} from '../../common/bootstrapTable'
+
 export default {
   name: 'data-table',
   data () {
@@ -38,23 +39,40 @@ export default {
     handle: {
       type: Object,
       required: false
+    },
+    operaClick: {
+      type: Object,
+      required: false
     }
   },
   mounted () {
+    let $ = this.$jquery
     this.$http.get(this.dataUrl).then(resp => {
       const body = this.$common.parse(resp)
       this.opera = body.opera
       this.head = body.head
       if (this.handle) {
         body.dataTables.clo.push(this.handle.operate)
+        let disabled = !this.opera.funBtn
+        bootstrapTable.tl.onLoadSuccess = function (data) {
+          bootstrapTable.applySelect($, data, disabled)
+        }
         bootstrapTable.setTraCom(this.handle.transitionalComponent)
       }
-      bootstrapTable.init('table', this.$jquery, body.dataTables)
+      bootstrapTable.init('table', $, body.dataTables, bootstrapTable.tl)
     })
   },
   methods: {
+    /**
+     * 灾区
+     */
     selectMe: function (code, text) {
-      this.$common.selectClickMe(code, 'table', this.$jquery, text, this.opera.funIn)
+      if (this.head === 'UserRoleConfig') {
+        this.operaClick.updateTable = function (el, $, pop, upData) {
+          console.log($('#' + el).bootstrapTable('getAllSelections'))
+        }
+      }
+      this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.funIn)
     }
   }
 }

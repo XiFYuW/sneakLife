@@ -1,28 +1,34 @@
 import {modalBox} from './modalBox'
 export const common = {
+  parse: obj => {
+    return JSON.parse(JSON.stringify(obj)).data
+  },
+  lazyLoadViews: AsyncView => {
+    const AsyncHandler = () => ({
+      component: AsyncView,
+      loading: require('@/components/load/load').default,
+      error: require('@/components/load/load').default,
+      delay: 200,
+      timeout: 2000
+    })
+    return Promise.resolve({
+      functional: true,
+      render (h, { data, children }) {
+        return h(AsyncHandler, data, children)
+      }
+    })
+  }
+}
+
+/**
+ * 按钮相关操作
+ * @type {{dataT: Array, popover: operaClick.popover, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
+ */
+export const operaClick = {
   /**
    * dataTable选中的数据，update适用
    * */
   dataT: [],
-  parse: obj => {
-    return JSON.parse(JSON.stringify(obj)).data
-  },
-  popover: (data, $, el) => {
-    let o = $('.' + el)
-    if (data.length === 0 || data.length > 1) {
-      o.popover({
-        placement: 'bottom',
-        content: '请选择一行',
-        trigger: 'focus'
-      })
-      o.popover('show')
-      setTimeout(function () {
-        o.popover('destroy')
-      }, 1000)
-      return true
-    }
-    return false
-  },
   /**
    * add update delete统一入口
    * */
@@ -83,20 +89,21 @@ export const common = {
       console.log('delete')
     }
   },
-  lazyLoadViews: AsyncView => {
-    const AsyncHandler = () => ({
-      component: AsyncView,
-      loading: require('@/components/load/load').default,
-      error: require('@/components/load/load').default,
-      delay: 200,
-      timeout: 2000
-    })
-    return Promise.resolve({
-      functional: true,
-      render (h, { data, children }) {
-        return h(AsyncHandler, data, children)
-      }
-    })
+  popover: (data, $, el) => {
+    let o = $('.' + el)
+    if (data.length === 0 || data.length > 1) {
+      o.popover({
+        placement: 'bottom',
+        content: '请选择一行',
+        trigger: 'focus'
+      })
+      o.popover('show')
+      setTimeout(function () {
+        o.popover('destroy')
+      }, 1000)
+      return true
+    }
+    return false
   }
 }
 

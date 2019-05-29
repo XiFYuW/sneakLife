@@ -1,11 +1,13 @@
 <template>
   <div id="point">
-    <data-table v-bind:dataUrl="dataUrl" v-bind:handle="handle"></data-table>
+    <data-table v-bind:dataUrl="dataUrl" v-bind:handle="handle" v-bind:operaClick="operaClick"></data-table>
   </div>
 </template>
 
 <script>
 import CommonSelect from '../../../../common/commonSelect'
+import {operaClick} from '../../../../../common/common'
+
 export default {
   name: 'user-role-config',
   data () {
@@ -37,7 +39,8 @@ export default {
           vue: this.$vue,
           dataSelect: {}
         }
-      }
+      },
+      operaClick: operaClick
     }
   },
   components: {
