@@ -1,6 +1,6 @@
 {
   "dataTables": {
-    "data": "static/json/system/body/AuthorityControl/userRoleConfig/dataTables.json",
+    "url": "static/json/system/body/AuthorityControl/userRoleConfig/dataTables.json",
     "clo": [
       {
         "checkbox": true,
@@ -23,7 +23,14 @@
     ]
   },
   "opera": {
-    "funBtn": [],
+    "funBtn": [
+      {
+        "type": "button",
+        "text": "save",
+        "code": 1,
+        "icon": "glyphicon-floppy-saved"
+      }
+    ],
     "funIn": []
   },
   "head": "UserRoleConfig"

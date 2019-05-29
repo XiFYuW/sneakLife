@@ -1,6 +1,6 @@
 {
   "dataTables": {
-    "data": "static/json/system/body/dataDictionary/dataTables.json",
+    "url": "static/json/system/body/dataDictionary/dataTables.json",
     "clo": [
       {
         "checkbox": true,

@@ -1,6 +1,6 @@
 {
   "dataTables": {
-    "data": "static/json/system/body/AuthorityControl/roleConfig/dataTables.json",
+    "url": "static/json/system/body/AuthorityControl/roleConfig/dataTables.json",
     "clo": [
       {
         "checkbox": true,
