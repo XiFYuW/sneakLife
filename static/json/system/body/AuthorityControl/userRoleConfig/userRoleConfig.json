@@ -1,7 +1,7 @@
 {
-  "dataTables": {
+  "table": {
     "url": "static/json/system/body/AuthorityControl/userRoleConfig/dataTables.json",
-    "clo": [
+    "columns": [
       {
         "checkbox": true,
         "data-halign": "center",
@@ -23,7 +23,7 @@
     ]
   },
   "opera": {
-    "funBtn": [
+    "sb": [
       {
         "type": "button",
         "text": "save",

@@ -22,11 +22,12 @@ export const common = {
 
 /**
  * 按钮相关操作
+ * 可以动态的修改方法
  * @type {{dataT: Array, popover: operaClick.popover, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
  */
 export const operaClick = {
   /**
-   * dataTable选中的数据，update适用
+   * dataTable选中的临时数据，update适用
    * */
   dataT: [],
   /**

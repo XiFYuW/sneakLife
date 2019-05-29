@@ -16,6 +16,9 @@ export default {
     selects.init(this.$jquery)
   },
   props: {
+    /**
+     * 下拉列表数据
+     */
     dataSelect: {
       type: Object,
       required: true

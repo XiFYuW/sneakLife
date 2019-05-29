@@ -1,17 +1,21 @@
 <template>
   <div id="point">
-    <data-table v-bind:dataUrl="dataUrl" v-bind:handle="handle" v-bind:operaClick="operaClick"></data-table>
+    <data-table v-bind:initDataTable="initDataTable" v-bind:handle="handle" v-bind:operaClick="operaClick"></data-table>
   </div>
 </template>
 
 <script>
 import CommonSelect from '../../../../common/commonSelect'
 import {operaClick} from '../../../../../common/common'
+import {bootstrapTable} from '../../../../../common/bootstrapTable'
 
 export default {
   name: 'user-role-config',
   data () {
     return {
+      /**
+       * 操作列
+       */
       handle: {
         operate: {
           field: 'operate',
@@ -40,7 +44,8 @@ export default {
           dataSelect: {}
         }
       },
-      operaClick: operaClick
+      operaClick: operaClick,
+      initDataTable: {}
     }
   },
   components: {
@@ -52,7 +57,7 @@ export default {
       required: true
     }
   },
-  created () {
+  mounted () {
     this.$http.get('static/json/system/body/AuthorityControl/userRoleConfig/selects.json').then(resp => {
       this.handle.transitionalComponent.dataSelect = this.$common.parse(resp)
       /**
@@ -60,6 +65,34 @@ export default {
        */
       this.$vue.component('common-select', CommonSelect)
     })
+    let $ = this.$jquery
+    let common = this.$common
+    this.$http.get(this.dataUrl).then(resp => {
+      this.initDataTable = common.parse(resp)
+      this.initDataTable.table.columns.push(this.handle.operate)
+      let disabled = !this.initDataTable.opera.sb
+      bootstrapTable.tl.clickToSelect = false
+      bootstrapTable.tl.onLoadSuccess = function (data) {
+        bootstrapTable.applySelect($, data, disabled)
+      }
+      bootstrapTable.setTraCom(this.handle.transitionalComponent)
+      bootstrapTable.init('table', $, this.initDataTable.table, bootstrapTable.tl)
+    })
+
+    /**
+     * 保存操作
+     * @param el
+     * @param $
+     * @param pop
+     */
+    this.operaClick.updateTable = function (el, $, pop) {
+      let data = $('#' + el).bootstrapTable('getAllSelections')
+      for (let v in data) {
+        let obj = $('#row' + data[v].id + ' select').find('option:selected').selectpicker('val').get('0')
+        data[v].value = obj.value
+        data[v].text = obj.text
+      }
+    }
   }
 }
 </script>

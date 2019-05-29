@@ -43,9 +43,15 @@ export const bootstrapTable = {
    */
   init: function (el, $, body, tls) {
     tls.url = body.url
-    tls.columns = body.clo
+    tls.columns = body.columns
     $('#' + el).bootstrapTable(tls)
   },
+  /**
+   * 渲染select列表
+   * @param $
+   * @param data
+   * @param disabled
+   */
   applySelect: function ($, data, disabled) {
     if (mountComponent.getTransitionalComponent()) {
       let rows = data.rows
