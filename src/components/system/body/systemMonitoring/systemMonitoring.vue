@@ -37,7 +37,7 @@ export default {
       const timer = setInterval(() => {
         setTimeout(() => {
           self.get(this.dataUrl).then(resp => {
-            this.body = this.$common.parse(resp)
+            this.body = this.$utils.parse(resp)
             this.body.data.forEach(v => {
               let obj = document.getElementById(v.id)
               if (obj) {

@@ -1,7 +1,7 @@
 {
-  "dataTables": {
+  "table": {
     "url": "static/json/system/body/AuthorityControl/roleConfig/dataTables.json",
-    "clo": [
+    "columns": [
       {
         "checkbox": true,
         "data-halign": "center"
@@ -19,7 +19,7 @@
     ]
   },
   "opera": {
-    "funBtn": [
+    "sb": [
       {
         "type": "button",
         "text": "add",
@@ -36,7 +36,7 @@
         "code": 2,
         "icon": "glyphicon-trash"
       }],
-    "funIn": [
+    "in": [
       [
         {
           "textName": "Item ID",

@@ -59,7 +59,7 @@ export default {
     },
     apply: function () {
       this.$http.get('/static/json/system/system-static-tab.json').then(response => {
-        this.tabs = this.$common.parse(response)
+        this.tabs = this.$utils.parse(response)
       })
     }
   },

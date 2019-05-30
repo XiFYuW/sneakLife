@@ -1,13 +1,13 @@
 <template>
   <div id="point">
-    <data-table v-bind:initDataTable="initDataTable" v-bind:handle="handle" v-bind:operaClick="operaClick"></data-table>
+    <data-table v-bind:opera="opera" v-bind:head="head" v-bind:handle="handle" v-bind:operaClick="operaClick"></data-table>
   </div>
 </template>
 
 <script>
 import CommonSelect from '../../../../common/commonSelect'
-import {operaClick} from '../../../../../common/common'
-import {bootstrapTable} from '../../../../../common/bootstrapTable'
+import {operaClickCopy} from '../../../../../common/common'
+import {bootstrapTableCopy} from '../../../../../common/bootstrapTable'
 
 export default {
   name: 'user-role-config',
@@ -44,8 +44,18 @@ export default {
           dataSelect: {}
         }
       },
-      operaClick: operaClick,
-      initDataTable: {}
+      /**
+       * 操作按钮的动作
+       */
+      operaClick: operaClickCopy,
+      /**
+       * 功能按钮
+       */
+      opera: {},
+      /**
+       * 标题头
+       */
+      head: ''
     }
   },
   components: {
@@ -66,17 +76,18 @@ export default {
       this.$vue.component('common-select', CommonSelect)
     })
     let $ = this.$jquery
-    let common = this.$common
     this.$http.get(this.dataUrl).then(resp => {
-      this.initDataTable = common.parse(resp)
-      this.initDataTable.table.columns.push(this.handle.operate)
-      let disabled = !this.initDataTable.opera.sb
-      bootstrapTable.tl.clickToSelect = false
-      bootstrapTable.tl.onLoadSuccess = function (data) {
-        bootstrapTable.applySelect($, data, disabled)
+      const initDataTable = this.$utils.parse(resp)
+      this.opera = initDataTable.opera
+      this.head = initDataTable.head
+      initDataTable.table.columns.push(this.handle.operate)
+      let disabled = !initDataTable.opera.sb
+      bootstrapTableCopy.tl.clickToSelect = false
+      bootstrapTableCopy.tl.onLoadSuccess = function (data) {
+        bootstrapTableCopy.applySelect($, data, disabled)
       }
-      bootstrapTable.setTraCom(this.handle.transitionalComponent)
-      bootstrapTable.init('table', $, this.initDataTable.table, bootstrapTable.tl)
+      bootstrapTableCopy.setTraCom(this.handle.transitionalComponent)
+      bootstrapTableCopy.init('table', $, initDataTable.table, bootstrapTableCopy.tl)
     })
 
     /**
@@ -92,6 +103,7 @@ export default {
         data[v].value = obj.value
         data[v].text = obj.text
       }
+      console.log(data)
     }
   }
 }

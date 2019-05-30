@@ -1,5 +1,10 @@
 import {modalBox} from './modalBox'
-export const common = {
+
+/**
+ * 工具对象
+ * @type {{parse: (function(*=): *), lazyLoadViews: (function(*=): Promise<{functional: boolean, render(*, {data?: *, children?: *}): *}>)}}
+ */
+export const utils = {
   parse: obj => {
     return JSON.parse(JSON.stringify(obj)).data
   },
@@ -21,11 +26,28 @@ export const common = {
 }
 
 /**
+ * 对象复制
+ * @type {{deepCopy: deepCopy.deepCopy}}
+ */
+export const deepCopy = {
+  deepCopy: function (obj) {
+    if (typeof obj !== 'object') {
+      return obj
+    }
+    let newobj = {}
+    for (let attr in obj) {
+      newobj[attr] = this.deepCopy(obj[attr])
+    }
+    return newobj
+  }
+}
+
+/**
  * 按钮相关操作
  * 可以动态的修改方法
  * @type {{dataT: Array, popover: operaClick.popover, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
  */
-export const operaClick = {
+const operaClick = {
   /**
    * dataTable选中的临时数据，update适用
    * */
@@ -107,6 +129,7 @@ export const operaClick = {
     return false
   }
 }
+export const operaClickCopy = deepCopy.deepCopy(operaClick)
 
 /**
  * 挂载组件

@@ -1,7 +1,8 @@
 import {mountComponent} from './common'
 import {selects} from './selects'
+const deepCopy = require('./common').deepCopy
 
-export const bootstrapTable = {
+const bootstrapTable = {
   tl: {
     url: '',
     // 工具栏
@@ -73,3 +74,5 @@ export const bootstrapTable = {
     }
   }
 }
+
+export const bootstrapTableCopy = deepCopy.deepCopy(bootstrapTable)

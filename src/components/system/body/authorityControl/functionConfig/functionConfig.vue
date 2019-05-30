@@ -22,7 +22,7 @@ export default {
   },
   mounted () {
     this.$http.get(this.dataUrl).then(resp => {
-      const options = this.$common.parse(resp)
+      const options = this.$utils.parse(resp)
       treeView.init(this.$jquery, options, this.$http, this.$common)
     })
   }

@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import {common} from './common/common'
+import {utils} from './common/common'
 import $ from 'jquery'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min'
@@ -24,7 +24,7 @@ Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$jquery = $
 Vue.prototype.$vue = Vue
-Vue.prototype.$common = common
+Vue.prototype.$utils = utils
 
 /* eslint-disable no-new */
 new Vue({
