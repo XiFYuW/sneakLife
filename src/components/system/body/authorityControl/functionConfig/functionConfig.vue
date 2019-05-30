@@ -1,19 +1,29 @@
 <template>
   <div class="row">
     <div class="col-sm-2 col-md-3 sidebar treeViewMa">
-      <div id="treeView"></div>
+      <tree-view></tree-view>
     </div>
     <div class="col-md-8 sidebar">
-      <table id="treeGrid"></table>
+      <tree-grid v-bind:head="head"></tree-grid>
     </div>
   </div>
 </template>
 
 <script>
 import {treeView} from '../../../../../common/treeview'
+import {treeGrid} from '../../../../../common/treeGrid'
 
 export default {
   name: 'function-config',
+  components: {
+    'tree-view': () => import('../../../../common/treeview'),
+    'tree-grid': () => import('../../../../common/treeGrid')
+  },
+  data () {
+    return {
+      head: ''
+    }
+  },
   props: {
     dataUrl: {
       type: String,
@@ -21,9 +31,22 @@ export default {
     }
   },
   mounted () {
-    this.$http.get(this.dataUrl).then(resp => {
+    let $ = this.$jquery
+    let http = this.$http
+    http.get(this.dataUrl).then(resp => {
       const options = this.$utils.parse(resp)
-      treeView.init(this.$jquery, options, this.$http, this.$common)
+      treeView.init(this.$jquery, options)
+      treeView.nodeSelected(this.$jquery, (event, data) => {
+        if (data.url !== '#') {
+          http.get(data.url).then(resp => {
+            const initDataTable = this.$utils.parse(resp)
+            this.head = initDataTable.head
+            initDataTable.table.columns[0].formatter = treeGrid.defalut.checkFormatter
+            initDataTable.table.columns[2].formatter = treeGrid.defalut.stutsFormatter
+            treeGrid.init($, initDataTable.table)
+          })
+        }
+      })
     })
   }
 }

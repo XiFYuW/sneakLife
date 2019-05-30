@@ -69,7 +69,7 @@ export default {
   },
   mounted () {
     this.$http.get('static/json/system/body/AuthorityControl/userRoleConfig/selects.json').then(resp => {
-      this.handle.transitionalComponent.dataSelect = this.$common.parse(resp)
+      this.handle.transitionalComponent.dataSelect = this.$utils.parse(resp)
       /**
        * 全局初始化CommonSelect
        */

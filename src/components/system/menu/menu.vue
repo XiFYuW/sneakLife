@@ -44,7 +44,8 @@ export default {
     'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring'),
     'function-config': () => import('../body/authorityControl/functionConfig/functionConfig'),
     'role-config': () => import('../body/authorityControl/roleConfig/roleConfig'),
-    'user-role-config': () => import('../body/authorityControl/userRoleConfig/userRoleConfig')
+    'user-role-config': () => import('../body/authorityControl/userRoleConfig/userRoleConfig'),
+    'role-function-config': () => import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig')
   },
   created: function () {
     this.apply()
@@ -58,8 +59,8 @@ export default {
       this.dataUrl = dataUrl
     },
     apply: function () {
-      this.$http.get('/static/json/system/system-static-tab.json').then(response => {
-        this.tabs = this.$utils.parse(response)
+      this.$http.get('/static/json/system/system-static-tab.json').then(resp => {
+        this.tabs = this.$utils.parse(resp)
       })
     }
   },
