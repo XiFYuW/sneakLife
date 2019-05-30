@@ -1,4 +1,3 @@
-import {treeGrid} from './treeGrid'
 export const treeView = {
   el: 'treeView',
   setEl: function (el) {
@@ -10,11 +9,9 @@ export const treeView = {
     this.setEl(el)
     const tree = $('#' + this.el)
     tree.treeview(options)
-    tree.on('nodeSelected ', (event, data) => {
-      if (data.url !== '#') {
-        treeGrid.init($, http, common, data.url)
-      }
-    })
+  },
+  nodeSelected: function ($, f) {
+    $('#' + this.el).on('nodeSelected ', f)
   },
   getOptions: (el) => {
     this.setEl(el)

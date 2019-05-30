@@ -3,44 +3,36 @@ export const treeGrid = {
   data: [],
   id: 'id',
   pid: 'pid',
+  defalut: {
+    checkFormatter: function (value, row, index) {
+      if (row.check === true) {
+        // 设置选中
+        return { checked: true }
+      }
+    },
+    stutsFormatter: function (value, row, index) {
+      if (value === 1) {
+        return '<span class="label label-success">正常</span>'
+      } else {
+        return '<span class="label label-default">锁定</span>'
+      }
+    }
+  },
   setEl: function (el) {
     if (el) {
       this.el = el
     }
   },
-  init: function ($, http, common, url, el) {
+  init: function ($, table, el) {
     this.setEl(el)
     let treeGrid = $('#' + this.el)
     treeGrid.bootstrapTable('destroy')
     treeGrid.bootstrapTable({
-      url: url,
+      url: table.url,
       striped: true,
       sidePagination: 'server',
       idField: this.id,
-      columns: [
-        { field: 'check',
-          checkbox: true,
-          formatter: function (value, row, index) {
-            if (row.check === true) {
-              // 设置选中
-              return { checked: true }
-            }
-          }
-        },
-        { field: 'name', title: '名称' },
-        { field: 'status',
-          title: '状态',
-          sortable: true,
-          align: 'center',
-          formatter: function (value, row, index) {
-            if (value === 1) {
-              return '<span class="label label-success">正常</span>'
-            } else {
-              return '<span class="label label-default">锁定</span>'
-            }
-          }},
-        { field: 'permissionValue', title: '权限值' }
-      ],
+      columns: table.columns,
       // 在哪一列展开树形
       treeShowField: 'name',
       // 指定父id列
