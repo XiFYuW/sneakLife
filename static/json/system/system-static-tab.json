@@ -29,6 +29,11 @@
         "href": "#UserRoleConfig",
         "type": "user-role-config",
         "dataUrl": "static/json/system/body/AuthorityControl/userRoleConfig/userRoleConfig.json"
+      },{
+        "tab": "RoleFunctionConfig",
+        "href": "#RoleFunctionConfig",
+        "type": "role-function-config",
+        "dataUrl": "static/json/system/body/AuthorityControl/roleFunctionConfig/roleFunctionConfig.json"
       }
     ]
   }

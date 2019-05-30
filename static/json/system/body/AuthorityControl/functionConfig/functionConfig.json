@@ -6,11 +6,11 @@
       "nodes": [
         {
           "text": "Data Dictionary",
-          "url": "/static/json/system/body/AuthorityControl/functionConfig/body/DataDictionary.json"
+          "url": "static/json/system/body/AuthorityControl/functionConfig/body/me/DataDictionary.json"
         },
         {
           "text": "System Monitoring",
-          "url": "/static/json/system/body/AuthorityControl/functionConfig/body/SystemMonitoring.json"
+          "url": "static/json/system/body/AuthorityControl/functionConfig/body/me/SystemMonitoring.json"
         },
         {
           "text": "Authority Control",
@@ -18,7 +18,7 @@
           "nodes": [
             {
               "text": "Function Config",
-              "url": "/static/json/system/body/AuthorityControl/functionConfig/body/TreeGrid.json"
+              "url": "static/json/system/body/AuthorityControl/functionConfig/body/me/TreeGrid.json"
             }
           ]
         }
