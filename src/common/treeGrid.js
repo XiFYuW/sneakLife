@@ -18,42 +18,46 @@ export const treeGrid = {
       }
     }
   },
+  tl: {
+    url: '',
+    striped: true,
+    sidePagination: 'server',
+    idField: this.id,
+    columns: [],
+    // 在哪一列展开树形
+    treeShowField: 'name',
+    // 指定父id列
+    parentIdField: this.pid,
+    // onPostBody  onResetView  onLoadSuccess
+    onResetView: null,
+    onCheck: null,
+    onUncheck: null
+  },
   setEl: function (el) {
     if (el) {
       this.el = el
     }
   },
-  init: function ($, table, el) {
+  init: function ($, el) {
     this.setEl(el)
     let treeGrid = $('#' + this.el)
     treeGrid.bootstrapTable('destroy')
-    treeGrid.bootstrapTable({
-      url: table.url,
-      striped: true,
-      sidePagination: 'server',
-      idField: this.id,
-      columns: table.columns,
-      // 在哪一列展开树形
-      treeShowField: 'name',
-      // 指定父id列
-      parentIdField: this.pid,
-      // onPostBody  onResetView  onLoadSuccess
-      onResetView: function () {
-        treeGrid.treegrid({
-          initialState: 'collapsed',
-          treeColumn: 1,
-          onChange: function () {
-            treeGrid.bootstrapTable('resetWidth')
-          }
-        })
-      },
-      onCheck: row => {
-        this.toAction(treeGrid, row, $, true)
-      },
-      onUncheck: row => {
-        this.toAction(treeGrid, row, $, false)
-      }
-    })
+    this.tl.onResetView = function () {
+      treeGrid.treegrid({
+        initialState: 'collapsed',
+        treeColumn: 1,
+        onChange: function () {
+          treeGrid.bootstrapTable('resetWidth')
+        }
+      })
+    }
+    this.tl.onCheck = row => {
+      this.toAction(treeGrid, row, $, true)
+    }
+    this.tl.onUncheck = row => {
+      this.toAction(treeGrid, row, $, false)
+    }
+    treeGrid.bootstrapTable(this.tl)
   },
   /**
    * 勾选动作

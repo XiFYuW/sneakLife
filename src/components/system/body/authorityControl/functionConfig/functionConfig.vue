@@ -43,7 +43,9 @@ export default {
             this.head = initDataTable.head
             initDataTable.table.columns[0].formatter = treeGrid.defalut.checkFormatter
             initDataTable.table.columns[2].formatter = treeGrid.defalut.stutsFormatter
-            treeGrid.init($, initDataTable.table)
+            treeGrid.tl.columns = initDataTable.table.columns
+            treeGrid.tl.url = initDataTable.table.url
+            treeGrid.init($)
           })
         }
       })

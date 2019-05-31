@@ -3,6 +3,17 @@
     <div class="panel panel-default">
       <div class="panel-heading" v-if="head">{{head}}</div>
       <div class="panel-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="input-group">
+              <span class="input-group-addon" id="sizing-addon1">@</span>
+              <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <date-time-picker></date-time-picker>
+          </div>
+        </div>
         <div class="btn-group" role="group" id="toolbar" v-if="opera">
           <button class="btn btn-default" v-bind:class="item.text" v-bind:key="item.text" v-bind:type="item.type"
                   v-for="item in opera.sb" v-on:click="selectMe(item.code, item.text)">
@@ -21,7 +32,8 @@
 export default {
   name: 'data-table',
   components: {
-    'modal-frame': () => import('./modalFrame')
+    'modal-frame': () => import('./modalFrame'),
+    'date-time-picker': () => import('./dateTimePicker')
   },
   props: {
     /**
