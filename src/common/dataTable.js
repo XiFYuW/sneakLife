@@ -2,7 +2,7 @@ import {mountComponent} from './common'
 import {selects} from './selects'
 const deepCopy = require('./common').deepCopy
 
-const bootstrapTable = {
+const dataTable = {
   tl: {
     url: '',
     // 工具栏
@@ -32,6 +32,10 @@ const bootstrapTable = {
       alert('失败')
     }
   },
+  /**
+   * 设置过渡组件
+   * @param mc
+   */
   setTraCom: function (mc) {
     mountComponent.setTransitionalComponent(mc)
   },
@@ -75,4 +79,4 @@ const bootstrapTable = {
   }
 }
 
-export const bootstrapTableCopy = deepCopy.deepCopy(bootstrapTable)
+export const dataTableCopy = deepCopy.deepCopy(dataTable)

@@ -1,0 +1,27 @@
+{
+  "table": {
+    "url": "static/json/common/selectDataTable/dataTables.json",
+    "columns": [
+      {
+        "checkbox": true,
+        "data-halign": "center"
+      },
+      {
+        "field": "id",
+        "title": "Item ID"
+      }, {
+        "field":"name",
+        "title": "Item Name"
+      }, {
+        "field": "age",
+        "title": "Item Age"
+      }
+    ]
+  },
+  "opera": {
+    "sb": [],
+    "in": []
+  },
+  "head": ""
+}
+

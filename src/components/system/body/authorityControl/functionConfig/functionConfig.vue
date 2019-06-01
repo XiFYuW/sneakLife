@@ -16,7 +16,7 @@ import {treeGrid} from '../../../../../common/treeGrid'
 export default {
   name: 'function-config',
   components: {
-    'tree-view': () => import('../../../../common/treeview'),
+    'tree-view': () => import('../../../../common/treeView'),
     'tree-grid': () => import('../../../../common/treeGrid')
   },
   data () {
@@ -35,7 +35,8 @@ export default {
     let http = this.$http
     http.get(this.dataUrl).then(resp => {
       const options = this.$utils.parse(resp)
-      treeView.init(this.$jquery, options)
+      treeView.options.data = options.data
+      treeView.init(this.$jquery)
       treeView.nodeSelected(this.$jquery, (event, data) => {
         if (data.url !== '#') {
           http.get(data.url).then(resp => {

@@ -2,16 +2,26 @@
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-heading" v-if="head">{{head}}</div>
-      <div class="panel-body">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="input-group">
-              <span class="input-group-addon" id="sizing-addon1">@</span>
-              <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+      <div class="panel-body operaBod">
+        <div>
+          <div class="row rowPadd">
+            <div class="col-md-4">
+              <input-text></input-text>
+            </div>
+            <div class="col-md-4">
+              <date-time-picker></date-time-picker>
+            </div>
+            <div class="col-md-4">
+              <select-tree-view></select-tree-view>
             </div>
           </div>
-          <div class="col-md-4">
-            <date-time-picker></date-time-picker>
+          <div class="row rowPadd">
+            <div class="col-md-4">
+              <select-data-table></select-data-table>
+            </div>
+            <div class="col-md-4">
+              <select-tree-grid></select-tree-grid>
+            </div>
           </div>
         </div>
         <div class="btn-group" role="group" id="toolbar" v-if="opera">
@@ -33,7 +43,11 @@ export default {
   name: 'data-table',
   components: {
     'modal-frame': () => import('./modalFrame'),
-    'date-time-picker': () => import('./dateTimePicker')
+    'date-time-picker': () => import('./dateTimePicker'),
+    'select-tree-view': () => import('./selectTreeView'),
+    'select-data-table': () => import('./selectDataTable'),
+    'select-tree-grid': () => import('./selectTreeGrid'),
+    'input-text': () => import('./inputText')
   },
   props: {
     /**
@@ -72,3 +86,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .operaBod{
+    padding: unset;
+  }
+  .rowPadd{
+    padding: 10px;
+  }
+</style>

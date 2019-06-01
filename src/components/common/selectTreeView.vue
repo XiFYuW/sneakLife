@@ -1,17 +1,43 @@
 <template>
-  <div class="form-group">
-    <label class="col-lg-2 col-md-2 control-label">上级目录</label>
-    <input id="selectCatalog" type="text" autocomplete="off" class="col-lg-10 col-md-2 form-group selectTreeView-input" onclick="$('#tree').show()" tabindex="2">
-    <div id="select-tree-view" class="selectTreeView"></div>
+  <div class="input-group">
+    <span class="input-group-addon" id="sizing-addon2">下拉树</span>
+    <input id="tv" type="text" autocomplete="off" class="form-control selectTreeView-input"
+           v-on:click="showTreeView" aria-describedby="sizing-addon2" tabindex="2">
+    <div id="select-tree-view" class="selectTreeView">
+      <tree-view></tree-view>
+    </div>
   </div>
 </template>
 
 <script>
+import {treeView} from '../../common/treeview'
+
 export default {
   name: 'select-tree-view',
+  components: {
+    'tree-view': () => import('./treeView')
+  },
+  mounted () {
+    this.$http.get('static/json/system/body/AuthorityControl/functionConfig/functionConfig.json').then(resp => {
+      const data = this.$utils.parse(resp)
+      const $ = this.$jquery
+      treeView.options.data = data.data
+      treeView.init($, 'select-tree-view')
+    })
+
+    this.$jquery('#select-tree-view').mouseleave(() => {
+      this.$jquery('#select-tree-view').hide()
+    })
+  },
   methods: {
     showTreeView: function () {
-
+      const $ = this.$jquery
+      $('#select-tree-view').show()
+      treeView.nodeSelected($, (event, data) => {
+        $('#tv').val(data.text)
+        $('#select-tree-view').hide()
+        treeView.selectNode($, data.nodeId)
+      })
     }
   }
 }
@@ -23,14 +49,13 @@ export default {
     position:absolute;
     z-index:1010;
     background-color:white;
-    margin-left:95px;
+    margin-top:34px;
     width: 250px
   }
-
   .selectTreeView-input{
     width: 250px;
-    height: 31px;
-    margin-left: 10px;
-    margin-bottom: 0px;
+    height: 34px;
+    margin-left: 0;
+    margin-bottom: 0;
   }
 </style>

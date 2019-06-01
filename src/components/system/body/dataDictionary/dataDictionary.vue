@@ -3,7 +3,7 @@
 </template>
 <script>
 import {operaClickCopy} from '../../../../common/common'
-import {bootstrapTableCopy} from '../../../../common/bootstrapTable'
+import {dataTableCopy} from '../../../../common/dataTable'
 
 export default {
   name: 'data-dictionary',
@@ -38,7 +38,7 @@ export default {
       const initDataTable = this.$utils.parse(resp)
       this.opera = initDataTable.opera
       this.head = initDataTable.head
-      bootstrapTableCopy.init('table', $, initDataTable.table, bootstrapTableCopy.tl)
+      dataTableCopy.init('table', $, initDataTable.table, dataTableCopy.tl)
     })
   }
 }

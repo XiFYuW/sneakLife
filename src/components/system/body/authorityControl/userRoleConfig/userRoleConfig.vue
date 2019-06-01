@@ -7,7 +7,7 @@
 <script>
 import CommonSelect from '../../../../common/commonSelect'
 import {operaClickCopy} from '../../../../../common/common'
-import {bootstrapTableCopy} from '../../../../../common/bootstrapTable'
+import {dataTableCopy} from '../../../../../common/dataTable'
 
 export default {
   name: 'user-role-config',
@@ -82,12 +82,12 @@ export default {
       this.head = initDataTable.head
       initDataTable.table.columns.push(this.handle.operate)
       let disabled = !initDataTable.opera.sb
-      bootstrapTableCopy.tl.clickToSelect = false
-      bootstrapTableCopy.tl.onLoadSuccess = function (data) {
-        bootstrapTableCopy.applySelect($, data, disabled)
+      dataTableCopy.tl.clickToSelect = false
+      dataTableCopy.tl.onLoadSuccess = function (data) {
+        dataTableCopy.applySelect($, data, disabled)
       }
-      bootstrapTableCopy.setTraCom(this.handle.transitionalComponent)
-      bootstrapTableCopy.init('table', $, initDataTable.table, bootstrapTableCopy.tl)
+      dataTableCopy.setTraCom(this.handle.transitionalComponent)
+      dataTableCopy.init('table', $, initDataTable.table, dataTableCopy.tl)
     })
 
     /**
@@ -97,7 +97,7 @@ export default {
      * @param pop
      */
     this.operaClick.updateTable = function (el, $, pop) {
-      let data = $('#' + el).bootstrapTable('getAllSelections')
+      let data = $('#' + el).dataTable('getAllSelections')
       for (let v in data) {
         let obj = $('#row' + data[v].id + ' select').find('option:selected').selectpicker('val').get('0')
         data[v].value = obj.value

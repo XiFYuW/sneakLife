@@ -1,7 +1,7 @@
 <template>
   <div class="input-group">
     <span class="input-group-addon" id="sizing-addon2">日期</span>
-    <input type="text" value="2018-12-12 12:12:12" class="form-control form_datetime" placeholder="请输入日期" aria-describedby="sizing-addon2">
+    <input type="text" value="2018-12-12 12:12:12" class="form-control form_datetime dateTimePicker" placeholder="请输入日期" aria-describedby="sizing-addon2">
   </div>
 </template>
 
@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .dateTimePicker{
+    width: 250px;
+  }
 </style>
