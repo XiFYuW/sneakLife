@@ -50,9 +50,6 @@ export default {
   created: function () {
     this.apply()
   },
-  mounted () {
-    window.addEventListener('beforeunload', e => this.beforeunloadFn(e))
-  },
   methods: {
     onTabs: function (tab, dataUrl) {
       if (!tab) {
@@ -65,19 +62,12 @@ export default {
       this.$http.get('/static/json/system/system-static-tab.json').then(resp => {
         this.tabs = this.$utils.parse(resp)
       })
-    },
-    beforeunloadFn: function (e) {
-      alert(1)
-      return '1'
     }
   },
   computed: {
     getView: function () {
       return this.view
     }
-  },
-  destroyed () {
-    window.removeEventListener('beforeunload', e => this.beforeunloadFn(e))
   }
 }
 </script>
