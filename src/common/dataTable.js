@@ -1,8 +1,7 @@
 import {mountComponent} from './common'
 import {selects} from './selects'
-const deepCopy = require('./common').deepCopy
 
-const dataTable = {
+export const dataTable = {
   tl: {
     url: '',
     // 工具栏
@@ -27,10 +26,7 @@ const dataTable = {
     pagination: true,
     // 分页方式：server、client
     sidePagination: 'server',
-    columns: [],
-    onLoadError: function () {
-      alert('失败')
-    }
+    columns: []
   },
   /**
    * 设置过渡组件
@@ -78,5 +74,3 @@ const dataTable = {
     }
   }
 }
-
-export const dataTableCopy = deepCopy.deepCopy(dataTable)

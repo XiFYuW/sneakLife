@@ -2,9 +2,10 @@
   <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"></data-table>
 </template>
 <script>
-import {operaClickCopy} from '../../../../common/common'
-import {dataTableCopy} from '../../../../common/dataTable'
-
+import {operaClick} from '../../../../common/common'
+import {dataTable} from '../../../../common/dataTable'
+const operaClickCopy = require('../../../../common/common').deepCopy.deepCopy(operaClick)
+const dataTableCopy = require('../../../../common/common').deepCopy.deepCopy(dataTable)
 export default {
   name: 'data-dictionary',
   data () {
@@ -40,6 +41,17 @@ export default {
       this.head = initDataTable.head
       dataTableCopy.init('table', $, initDataTable.table, dataTableCopy.tl)
     })
+  },
+  watch: {
+    opera: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.opera = newVal
+        }
+      }
+    },
+    immediate: true,
+    deep: true
   }
 }
 </script>

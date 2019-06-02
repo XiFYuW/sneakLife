@@ -7,9 +7,9 @@
       <div class="panel panel-default">
         <div class="panel-heading" v-if="head">{{head}}</div>
         <div class="panel-body">
-          <div class="btn-group" role="group" id="toolbar" v-if="opera">
+          <div class="btn-group" role="group" id="toolbars">
             <button class="btn btn-default" v-bind:class="item.text" v-bind:key="item.text" v-bind:type="item.type"
-                    v-for="item in opera.sb" v-on:click="selectMe(item.code, item.text)">
+                    v-for="item in operas.sb" v-on:click="selectMe(item.code, item.text)">
               <span class="glyphicon" v-bind:class="item.icon" aria-hidden="true"></span> {{item.text}}
             </button>
           </div>
@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import {dataTableCopy} from '../../common/dataTable'
-
+import {dataTable} from '../../common/dataTable'
+const dataTableCopy = require('../../common/common').deepCopy.deepCopy(dataTable)
 export default {
   name: 'select-data-table',
   components: {
@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       head: '',
-      opera: {}
+      operas: {}
     }
   },
   mounted () {
@@ -40,6 +40,7 @@ export default {
     this.$http.get('static/json/common/selectDataTable/selectDataTable.json').then(resp => {
       const data = this.$utils.parse(resp)
       this.head = data.head
+      dataTableCopy.tl.toolbar = '#toolbars'
       dataTableCopy.init('select-data-tables', $, data.table, dataTableCopy.tl)
     })
 

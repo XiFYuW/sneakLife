@@ -15,7 +15,7 @@
 
 <script>
 import {treeGrid} from '../../common/treeGrid'
-
+const treeGridCopy = require('../../common/common').deepCopy.deepCopy(treeGrid)
 export default {
   name: 'select-tree-grid',
   data () {
@@ -27,12 +27,12 @@ export default {
     this.$http.get('static/json/common/selectTreeGrid/roleFunctionConfig.json').then(resp => {
       const data = this.$utils.parse(resp)
       this.head = data.head
-      data.table.columns[0].formatter = treeGrid.defalut.checkFormatter
-      data.table.columns[2].formatter = treeGrid.defalut.stutsFormatter
-      treeGrid.tl.columns = data.table.columns
-      treeGrid.tl.url = data.table.url
-      treeGrid.tl.pagination = true
-      treeGrid.init(this.$jquery, 'select-tree-grids')
+      data.table.columns[0].formatter = treeGridCopy.defalut.checkFormatter
+      data.table.columns[2].formatter = treeGridCopy.defalut.stutsFormatter
+      treeGridCopy.tl.columns = data.table.columns
+      treeGridCopy.tl.url = data.table.url
+      treeGridCopy.tl.pagination = true
+      treeGridCopy.init(this.$jquery, 'select-tree-grids')
     })
 
     this.$jquery('#select-tree-grid').mouseleave(() => {

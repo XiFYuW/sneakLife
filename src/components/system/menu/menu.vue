@@ -7,13 +7,13 @@
             <li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab.type, tab.dataUrl)"
                 v-bind:class="{ 'active': tab.type === view && tab.type !== '','dropdown': tab.son  }">
               <a v-bind:class="{'dropdown-toggle': tab.son}" v-bind:data-toggle="tab.son ? 'dropdown' : ''"
-                 v-bind:href="tab.href">
+                 href="javascript:void(0)">
                 {{ tab.tab }} <span class="caret" v-if="tab.son"></span>
               </a>
               <ul class="dropdown-menu" v-if="tab.son">
                 <li v-for="s in tab.son" v-bind:key="s.tab" v-on:click="onTabs(s.type, s.dataUrl)"
                     v-bind:class="{ 'active': s.type === view && s.type !== '' }">
-                  <a v-bind:href="s.href">{{ s.tab }}</a>
+                  <a href="javascript:void(0)">{{ s.tab }}</a>
                 </li>
               </ul>
             </li>
@@ -50,6 +50,9 @@ export default {
   created: function () {
     this.apply()
   },
+  mounted () {
+    window.addEventListener('beforeunload', e => this.beforeunloadFn(e))
+  },
   methods: {
     onTabs: function (tab, dataUrl) {
       if (!tab) {
@@ -62,12 +65,19 @@ export default {
       this.$http.get('/static/json/system/system-static-tab.json').then(resp => {
         this.tabs = this.$utils.parse(resp)
       })
+    },
+    beforeunloadFn: function (e) {
+      alert(1)
+      return '1'
     }
   },
   computed: {
     getView: function () {
       return this.view
     }
+  },
+  destroyed () {
+    window.removeEventListener('beforeunload', e => this.beforeunloadFn(e))
   }
 }
 </script>

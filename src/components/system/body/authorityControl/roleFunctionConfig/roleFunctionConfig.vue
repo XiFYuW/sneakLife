@@ -6,6 +6,7 @@
 
 <script>
 import {treeGrid} from '../../../../../common/treeGrid'
+const treeGridCopy = require('../../../../../common/common').deepCopy.deepCopy(treeGrid)
 export default {
   name: 'role-function-config',
   components: {
@@ -26,12 +27,12 @@ export default {
     this.$http.get(this.dataUrl).then(resp => {
       const initDataTable = this.$utils.parse(resp)
       this.head = initDataTable.head
-      initDataTable.table.columns[0].formatter = treeGrid.defalut.checkFormatter
-      initDataTable.table.columns[2].formatter = treeGrid.defalut.stutsFormatter
-      treeGrid.tl.columns = initDataTable.table.columns
-      treeGrid.tl.url = initDataTable.table.url
-      treeGrid.tl.pagination = true
-      treeGrid.init(this.$jquery)
+      initDataTable.table.columns[0].formatter = treeGridCopy.defalut.checkFormatter
+      initDataTable.table.columns[2].formatter = treeGridCopy.defalut.stutsFormatter
+      treeGridCopy.tl.columns = initDataTable.table.columns
+      treeGridCopy.tl.url = initDataTable.table.url
+      treeGridCopy.tl.pagination = true
+      treeGridCopy.init(this.$jquery)
     })
   }
 }

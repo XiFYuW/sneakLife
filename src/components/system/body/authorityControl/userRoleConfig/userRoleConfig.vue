@@ -6,9 +6,10 @@
 
 <script>
 import CommonSelect from '../../../../common/commonSelect'
-import {operaClickCopy} from '../../../../../common/common'
-import {dataTableCopy} from '../../../../../common/dataTable'
-
+import {operaClick} from '../../../../../common/common'
+import {dataTable} from '../../../../../common/dataTable'
+const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
+const dataTableCopy = require('../../../../../common/common').deepCopy.deepCopy(dataTable)
 export default {
   name: 'user-role-config',
   data () {
@@ -97,7 +98,7 @@ export default {
      * @param pop
      */
     this.operaClick.updateTable = function (el, $, pop) {
-      let data = $('#' + el).dataTable('getAllSelections')
+      let data = $('#' + el).bootstrapTable('getAllSelections')
       for (let v in data) {
         let obj = $('#row' + data[v].id + ' select').find('option:selected').selectpicker('val').get('0')
         data[v].value = obj.value

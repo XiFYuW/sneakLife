@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import {operaClickCopy} from '../../../../../common/common'
-import {dataTableCopy} from '../../../../../common/dataTable'
-
+import {operaClick} from '../../../../../common/common'
+import {dataTable} from '../../../../../common/dataTable'
+const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
+const dataTableCopy = require('../../../../../common/common').deepCopy.deepCopy(dataTable)
 export default {
   name: 'role-config',
   data () {

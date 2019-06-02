@@ -11,7 +11,7 @@
 
 <script>
 import {treeView} from '../../common/treeview'
-
+const treeViewCopy = require('../../common/common').deepCopy.deepCopy(treeView)
 export default {
   name: 'select-tree-view',
   components: {
@@ -21,8 +21,8 @@ export default {
     this.$http.get('static/json/system/body/AuthorityControl/functionConfig/functionConfig.json').then(resp => {
       const data = this.$utils.parse(resp)
       const $ = this.$jquery
-      treeView.options.data = data.data
-      treeView.init($, 'select-tree-view')
+      treeViewCopy.options.data = data.data
+      treeViewCopy.init($, 'select-tree-view')
     })
 
     this.$jquery('#select-tree-view').mouseleave(() => {
@@ -32,11 +32,12 @@ export default {
   methods: {
     showTreeView: function () {
       const $ = this.$jquery
-      $('#select-tree-view').show()
-      treeView.nodeSelected($, (event, data) => {
+      let obj = $('#select-tree-view')
+      obj.show()
+      treeViewCopy.nodeSelected($, (event, data) => {
         $('#tv').val(data.text)
-        $('#select-tree-view').hide()
-        treeView.selectNode($, data.nodeId)
+        obj.hide()
+        treeViewCopy.selectNode($, data.nodeId)
       })
     }
   }

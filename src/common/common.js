@@ -47,7 +47,7 @@ export const deepCopy = {
  * 可以动态的修改方法
  * @type {{dataT: Array, popover: operaClick.popover, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
  */
-const operaClick = {
+export const operaClick = {
   /**
    * dataTable选中的临时数据，update适用
    * */
@@ -55,14 +55,14 @@ const operaClick = {
   /**
    * add update delete统一入口
    * */
-  selectClickMe: function (code, table, $, pop, upData) {
+  selectClickMe: function (code, table, $, pop, columns) {
     modalBox.clearData($)
     switch (code) {
       case 0 :
-        this.addTable(table, $, pop, upData)
+        this.addTable(table, $, pop, columns)
         break
       case 1 :
-        this.updateTable(table, $, pop, upData)
+        this.updateTable(table, $, pop, columns)
         break
       case 2 :
         this.deleteTable(table, $, pop)
@@ -71,8 +71,8 @@ const operaClick = {
         alert('.....')
     }
   },
-  addTable: function (el, $, pop, upData) {
-    upData.forEach(item => {
+  addTable: function (el, $, pop, columns) {
+    columns.forEach(item => {
       item.forEach((v, index) => {
         v.value = ''
         // 子组件更新值
@@ -82,11 +82,11 @@ const operaClick = {
     })
     modalBox.show($)
   },
-  updateTable: function (el, $, pop, upData) {
+  updateTable: function (el, $, pop, columns) {
     this.dataT = $('#' + el).bootstrapTable('getAllSelections')
     if (!this.popover(this.dataT, $, pop)) {
       // 传入子组件的值
-      upData.forEach(item => {
+      columns.forEach(item => {
         item.forEach((v, index) => {
           let key = v.field
           // 对应key,增加value属性
@@ -129,7 +129,6 @@ const operaClick = {
     return false
   }
 }
-export const operaClickCopy = deepCopy.deepCopy(operaClick)
 
 /**
  * 挂载组件
