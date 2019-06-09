@@ -40,12 +40,19 @@ import 'bootstrap-select/dist/js/i18n/defaults-zh_CN.min'
 import 'bootstrap-datetimepicker/src/css/bootstrap-datetimepicker.min.css'
 import 'bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.min'
 import 'bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.zh-CN'
+/**
+ * ce
+ */
+import {central} from './common/keyless/central'
+
+axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$jquery = $
 Vue.prototype.$vue = Vue
 Vue.prototype.$utils = utils
+Vue.prototype.$central = central
 
 /* eslint-disable no-new */
 new Vue({

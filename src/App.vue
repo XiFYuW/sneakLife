@@ -10,6 +10,20 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created: async function () {
+    let sms = {
+      me: 'getVerifyImagesBase64',
+      data: {
+        mk: '123'
+      }
+    }
+    await this.$central.serverInit(this.$http)
+    this.$central.send(this.$http, sms).then(resp => {
+      console.log(resp)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 }
 </script>
