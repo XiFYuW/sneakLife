@@ -21,25 +21,39 @@ export default {
       /**
        * 标题头
        */
-      head: ''
+      head: this.item.tab
     }
   },
   components: {
     'data-table': () => import('../../../common/dataTable')
   },
   props: {
-    dataUrl: {
-      type: String,
+    item: {
+      type: Object,
       required: true
     }
   },
   mounted () {
-    let $ = this.$jquery
-    this.$http.get(this.dataUrl).then(resp => {
-      const initDataTable = this.$utils.parse(resp)
-      this.opera = initDataTable.opera
-      this.head = initDataTable.head
-      dataTableCopy.init('table', $, initDataTable.table, dataTableCopy.tl)
+    this.$central.send(this.$http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+      const data = resp.respData
+      this.opera = data.opera
+      dataTableCopy.tl.queryParams = params => {
+        let parameter = {
+          me: data.table.dataUrl,
+          data: {
+            // 页面大小
+            rows: params.limit,
+            // 页码
+            page: (params.offset / params.limit) + 1,
+            // 排序列名
+            sort: params.sort,
+            // 排序命令（desc，asc）
+            sortOrder: params.order
+          }
+        }
+        return {data: this.$central.enParameter(parameter)}
+      }
+      dataTableCopy.init('table', this.$jquery, data.table, dataTableCopy.tl)
     })
   },
   watch: {

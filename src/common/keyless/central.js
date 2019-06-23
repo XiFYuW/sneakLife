@@ -1,7 +1,7 @@
 import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 const Base64 = require('js-base64').Base64
 const CryptoJS = require('crypto-js')
-const initUrl = 'http://127.0.0.1:8080/sneakLife_admin/common'
+export const initUrl = 'http://127.0.0.1:8080/sneakLife_admin/common'
 export const central = {
   url: '',
   token: '',
@@ -17,7 +17,6 @@ export const central = {
   },
   serverInit: async function (http) {
     let resp = await this.post(http, initUrl, {})
-    console.log(resp)
     this.url = Base64.decode(resp.data.respData.link)
     this.rsa = new JSEncrypt()
     this.publicKey = resp.data.respData.puk
@@ -25,13 +24,16 @@ export const central = {
     this.token = Base64.decode(resp.data.respData.ptk).substring(0, 16)
   },
   send: async function (http, parameter) {
+    let resp = await this.post(http, this.url, {data: this.enParameter(parameter)})
+    return resp.data
+  },
+  enParameter: function (parameter) {
     let ps = {
       data: this.aesEncrypts(JSON.stringify(parameter)),
       token: this.rsa.encryptLong(this.token)
     }
     let str = JSON.stringify(ps)
-    let resp = await this.post(http, this.url, {data: this.rsa.encryptLong(str)})
-    return resp.data
+    return this.rsa.encryptLong(str)
   },
   aesEncrypts: function (word) {
     return CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(word), CryptoJS.enc.Utf8.parse(this.token), {

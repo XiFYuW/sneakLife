@@ -4,13 +4,13 @@
       <div class="container">
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab.type, tab.dataUrl)"
-                v-bind:class="{ 'active': tab.type === view && tab.type !== '','dropdown': tab.son  }">
-              <a v-bind:class="{'dropdown-toggle': tab.son}" v-bind:data-toggle="tab.son ? 'dropdown' : ''"
+            <li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab)"
+                v-bind:class="{ 'active': tab.type === view && tab.type !== '','dropdown': tab.son.length > 0  }">
+              <a v-bind:class="{'dropdown-toggle': tab.son.length > 0}" v-bind:data-toggle="tab.son.length > 0 ? 'dropdown' : ''"
                  href="javascript:void(0)">
-                {{ tab.tab }} <span class="caret" v-if="tab.son"></span>
+                {{ tab.tab }} <span class="caret" v-if="tab.son.length > 0"></span>
               </a>
-              <ul class="dropdown-menu" v-if="tab.son">
+              <ul class="dropdown-menu" v-if="tab.son.length > 0">
                 <li v-for="s in tab.son" v-bind:key="s.tab" v-on:click="onTabs(s.type, s.dataUrl)"
                     v-bind:class="{ 'active': s.type === view && s.type !== '' }">
                   <a href="javascript:void(0)">{{ s.tab }}</a>
@@ -23,7 +23,7 @@
     </nav>
     <div>
       <transition name="component-fade" mode="out-in">
-        <component v-bind:is="getView" v-bind:dataUrl="dataUrl"></component>
+        <component v-bind:is="getView" v-bind:item="item"></component>
       </transition>
     </div>
   </div>
@@ -36,7 +36,7 @@ export default {
     return {
       view: '',
       tabs: [],
-      dataUrl: ''
+      item: {}
     }
   },
   components: {
@@ -51,16 +51,16 @@ export default {
     this.apply()
   },
   methods: {
-    onTabs: function (tab, dataUrl) {
-      if (!tab) {
+    onTabs: function (tab) {
+      if (!tab.type) {
         return
       }
-      this.view = tab
-      this.dataUrl = dataUrl
+      this.view = tab.type
+      this.item = tab
     },
     apply: function () {
-      this.$http.get('/static/json/system/system-static-tab.json').then(resp => {
-        this.tabs = this.$utils.parse(resp)
+      this.$central.send(this.$http, {me: 'getMenu', data: {}}).then(resp => {
+        this.tabs = resp.respData
       })
     }
   },

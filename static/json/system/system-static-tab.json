@@ -1,37 +1,30 @@
 [
 	{
 		"tab": "DataDictionary",
-		"href": "#DataDictionary",
     "type": "data-dictionary",
     "dataUrl": "static/json/system/body/dataDictionary/dataDictionary.json"
 	}, {
 		"tab": "SystemMonitoring",
-		"href": "#SystemMonitoring",
     "type": "system-monitoring",
     "dataUrl": "static/json/system/body/systemMonitoring/systemMonitoring.json"
 	}, {
     "tab": "AuthorityControl",
-    "href": "#",
     "type": "",
     "dataUrl": "",
     "son": [{
         "tab": "FunctionConfig",
-        "href": "#FunctionConfig",
         "type": "function-config",
         "dataUrl": "static/json/system/body/AuthorityControl/functionConfig/functionConfig.json"
       },{
         "tab": "RoleConfig",
-        "href": "#RoleConfig",
         "type": "role-config",
         "dataUrl": "static/json/system/body/AuthorityControl/roleConfig/roleConfig.json"
       },{
         "tab": "UserRoleConfig",
-        "href": "#UserRoleConfig",
         "type": "user-role-config",
         "dataUrl": "static/json/system/body/AuthorityControl/userRoleConfig/userRoleConfig.json"
       },{
         "tab": "RoleFunctionConfig",
-        "href": "#RoleFunctionConfig",
         "type": "role-function-config",
         "dataUrl": "static/json/system/body/AuthorityControl/roleFunctionConfig/roleFunctionConfig.json"
       }

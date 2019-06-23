@@ -3,7 +3,9 @@ import {selects} from './selects'
 
 export const dataTable = {
   tl: {
-    url: '',
+    url: 'http://127.0.0.1:8080/sneakLife_admin/service',
+    // data: null,
+    method: 'post',
     // 工具栏
     toolbar: '#toolbar',
     // 是否显示导出按钮
@@ -26,7 +28,19 @@ export const dataTable = {
     pagination: true,
     // 分页方式：server、client
     sidePagination: 'server',
-    columns: []
+    // 是否启用排序
+    sortable: true,
+    // 排序方式
+    sortOrder: 'asc',
+    // 是否显示表格搜索
+    search: false,
+    // 每一行的唯一标识
+    uniqueId: 'id',
+    // 是否使用缓存
+    cache: false,
+    // 字段
+    columns: [],
+    contentType: 'application/x-www-form-urlencoded'
   },
   /**
    * 设置过渡组件
@@ -43,7 +57,7 @@ export const dataTable = {
    * @param tls 数据表格格式
    */
   init: function (el, $, body, tls) {
-    tls.url = body.url
+    // tls.url = body.url
     tls.columns = body.columns
     $('#' + el).bootstrapTable(tls)
   },
