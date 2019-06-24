@@ -45,6 +45,13 @@ import {central} from './common/keyless/central'
 
 axios.defaults.withCredentials = true
 
+$.ajaxSetup({
+  crossDomain: true,
+  xhrFields: {
+    withCredentials: true
+  }
+})
+
 Vue.config.productionTip = false
 
 Vue.prototype.$http = axios

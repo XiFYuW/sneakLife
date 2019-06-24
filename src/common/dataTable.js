@@ -4,7 +4,6 @@ import {selects} from './selects'
 export const dataTable = {
   tl: {
     url: 'http://127.0.0.1:8080/sneakLife_admin/service',
-    // data: null,
     method: 'post',
     // 工具栏
     toolbar: '#toolbar',
@@ -33,11 +32,11 @@ export const dataTable = {
     // 排序方式
     sortOrder: 'asc',
     // 是否显示表格搜索
-    search: false,
+    // search: false,
     // 每一行的唯一标识
-    uniqueId: 'id',
+    // uniqueId: 'id',
     // 是否使用缓存
-    cache: false,
+    // cache: false,
     // 字段
     columns: [],
     contentType: 'application/x-www-form-urlencoded'
@@ -56,9 +55,9 @@ export const dataTable = {
    * @param body 数据表格内容获取形式
    * @param tls 数据表格格式
    */
-  init: function (el, $, body, tls) {
+  init: function (el, $, tls) {
     // tls.url = body.url
-    tls.columns = body.columns
+    // tls.columns = body.columns
     $('#' + el).bootstrapTable(tls)
   },
   /**

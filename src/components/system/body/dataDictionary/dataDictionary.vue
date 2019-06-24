@@ -40,11 +40,11 @@ export default {
       dataTableCopy.tl.queryParams = params => {
         let parameter = {
           me: data.table.dataUrl,
-          data: {
+          pag: {
             // 页面大小
             rows: params.limit,
             // 页码
-            page: (params.offset / params.limit) + 1,
+            page: params.offset / params.limit,
             // 排序列名
             sort: params.sort,
             // 排序命令（desc，asc）
@@ -53,7 +53,18 @@ export default {
         }
         return {data: this.$central.enParameter(parameter)}
       }
-      dataTableCopy.init('table', this.$jquery, data.table, dataTableCopy.tl)
+      dataTableCopy.tl.responseHandler = resp => {
+        return {
+          total: resp.respData.totalElements,
+          rows: resp.respData.content
+        }
+      }
+      dataTableCopy.tl.columns = data.table.columns
+      dataTableCopy.tl.columns.splice(0, 1, {
+        'checkbox': true,
+        'data-halign': 'center'
+      })
+      dataTableCopy.init('table', this.$jquery, dataTableCopy.tl)
     })
   },
   watch: {
