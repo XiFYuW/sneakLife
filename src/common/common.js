@@ -1,4 +1,13 @@
-import {modalBox} from './modalBox'
+import {modalFrame} from './modalFrame'
+
+/**
+ * 信息对象
+ * @type {{msg: string, code: number}}
+ */
+export const message = {
+  code: 0,
+  msg: ''
+}
 
 /**
  * 工具对象
@@ -55,16 +64,16 @@ export const operaClick = {
   /**
    * add update delete统一入口
    * */
-  selectClickMe: function (code, table, $, pop, columns) {
-    modalBox.clearData($)
+  selectClickMe: function (code, table, $, pop, columns, toastr) {
+    modalFrame.clearData($)
     switch (code) {
-      case 0 :
+      case '0' :
         this.addTable(table, $, pop, columns)
         break
-      case 1 :
-        this.updateTable(table, $, pop, columns)
+      case '1' :
+        this.updateTable(table, $, pop, columns, toastr)
         break
-      case 2 :
+      case '2' :
         this.deleteTable(table, $, pop)
         break
       default :
@@ -80,11 +89,11 @@ export const operaClick = {
         // this.$set(item, index, v)
       })
     })
-    modalBox.show($)
+    modalFrame.show($)
   },
-  updateTable: function (el, $, pop, columns) {
+  updateTable: function (el, $, pop, columns, toastr) {
     this.dataT = $('#' + el).bootstrapTable('getAllSelections')
-    if (!this.popover(this.dataT, $, pop)) {
+    if (!this.hint(this.dataT, toastr)) {
       // 传入子组件的值
       columns.forEach(item => {
         item.forEach((v, index) => {
@@ -103,7 +112,7 @@ export const operaClick = {
           // this.$set(item, index, v)
         })
       })
-      modalBox.show($)
+      modalFrame.show($)
     }
   },
   deleteTable: function (el, $, pop) {
@@ -127,6 +136,13 @@ export const operaClick = {
       return true
     }
     return false
+  },
+  hint: function (data, toastr) {
+    if (this.dataT.length === 0 || this.dataT.length > 1) {
+      toastr.warning('请选择一行')
+      return false
+    }
+    return true
   }
 }
 

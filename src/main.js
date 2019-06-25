@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import {utils} from './common/common'
+import {utils, message} from './common/common'
 import $ from 'jquery'
 /**
  * bootstrap
@@ -43,8 +43,12 @@ import 'bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.zh-CN'
  */
 import {central} from './common/keyless/central'
 
-axios.defaults.withCredentials = true
+import 'toastr/build/toastr.css'
+import toastr from 'toastr/build/toastr.min'
+import {myToastr} from './common/toastr'
+myToastr.init(toastr)
 
+axios.defaults.withCredentials = true
 $.ajaxSetup({
   crossDomain: true,
   xhrFields: {
@@ -59,6 +63,8 @@ Vue.prototype.$jquery = $
 Vue.prototype.$vue = Vue
 Vue.prototype.$utils = utils
 Vue.prototype.$central = central
+Vue.prototype.$message = message
+Vue.prototype.$myToastr = myToastr
 
 /* eslint-disable no-new */
 new Vue({

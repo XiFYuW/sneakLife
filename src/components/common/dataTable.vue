@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     selectMe: function (code, text) {
-      this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.in)
+      this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.in, this.$myToastr)
     }
   },
   watch: {

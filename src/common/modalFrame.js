@@ -1,4 +1,4 @@
-export const modalBox = {
+export const modalFrame = {
   /**
    * 模态框弹出的位置
    */
