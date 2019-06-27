@@ -47,6 +47,7 @@ export default {
       let data = this.dispColumnsNull()
       if (this.$utils.getObjLength(data) > 0) {
         this.$central.send(this.$http, {me: this.btnUrl, data: data}).then(resp => {
+          this.$utils.modalFrame.hide(this.$jquery)
           this.$central.toastr.success(resp.respMsg)
         })
       }

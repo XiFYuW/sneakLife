@@ -87,7 +87,7 @@ export default {
   methods: {
     selectMe: function (code, text, url) {
       this.btnUrl = url
-      this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.in, this.$myToastr)
+      this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.in)
     }
   },
   watch: {

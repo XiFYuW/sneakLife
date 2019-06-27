@@ -1,19 +1,16 @@
-import {modalFrame} from './modalFrame'
-
-/**
- * 信息对象
- * @type {{msg: string, code: number}}
- */
-export const message = {
-  code: 0,
-  msg: ''
-}
-
 /**
  * 工具对象
  * @type {{parse: (function(*=): *), lazyLoadViews: (function(*=): Promise<{functional: boolean, render(*, {data?: *, children?: *}): *}>)}}
  */
 export const utils = {
+  toastr: null,
+  modalFrame: null,
+  setToastr: function (toastr) {
+    this.toastr = toastr
+  },
+  setModalFrame: function (modalFrame) {
+    this.modalFrame = modalFrame
+  },
   parse: obj => {
     return JSON.parse(JSON.stringify(obj)).data
   },
@@ -71,14 +68,14 @@ export const operaClick = {
   /**
    * add update delete统一入口
    * */
-  selectClickMe: function (code, table, $, pop, columns, toastr) {
-    modalFrame.clearData($)
+  selectClickMe: function (code, table, $, pop, columns) {
+    utils.modalFrame.clearData($)
     switch (code) {
       case '0' :
         this.addTable(table, $, pop, columns)
         break
       case '1' :
-        this.updateTable(table, $, pop, columns, toastr)
+        this.updateTable(table, $, pop, columns)
         break
       case '2' :
         this.deleteTable(table, $, pop)
@@ -96,11 +93,11 @@ export const operaClick = {
         // this.$set(item, index, v)
       })
     })
-    modalFrame.show($)
+    utils.modalFrame.show($)
   },
-  updateTable: function (el, $, pop, columns, toastr) {
+  updateTable: function (el, $, pop, columns) {
     this.dataT = $('#' + el).bootstrapTable('getAllSelections')
-    if (!this.hint(this.dataT, toastr)) {
+    if (!this.hint(this.dataT)) {
       // 传入子组件的值
       columns.forEach(item => {
         item.forEach((v, index) => {
@@ -119,7 +116,7 @@ export const operaClick = {
           // this.$set(item, index, v)
         })
       })
-      modalFrame.show($)
+      utils.modalFrame.show($)
     }
   },
   deleteTable: function (el, $, pop) {
@@ -144,9 +141,9 @@ export const operaClick = {
     }
     return false
   },
-  hint: function (data, toastr) {
-    if (this.dataT.length === 0 || this.dataT.length > 1) {
-      toastr.warning('请选择一行')
+  hint: function (data) {
+    if (data.length === 0 || data.length > 1) {
+      this.utils.toastr.warning('请选择一行')
       return false
     }
     return true

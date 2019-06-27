@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import {utils, message} from './common/common'
 import $ from 'jquery'
 /**
  * bootstrap
@@ -39,16 +38,23 @@ import 'bootstrap-datetimepicker/src/css/bootstrap-datetimepicker.min.css'
 import 'bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.min'
 import 'bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.zh-CN'
 /**
- * ce
+ * 消息提示
  */
-import {central} from './common/keyless/central'
-
 import 'toastr/build/toastr.css'
 import toastr from 'toastr/build/toastr.min'
-import {myToastr} from './common/toastr'
-myToastr.init(toastr)
 
+/**
+ * 共有
+ */
+import {utils} from './common/common'
+import {central} from './common/keyless/central'
+import {modalFrame} from './common/modalFrame'
+import {myToastr} from './common/toastr'
+
+myToastr.init(toastr)
 central.setToastr(myToastr)
+utils.setToastr(myToastr)
+utils.setModalFrame(modalFrame)
 
 axios.defaults.withCredentials = true
 $.ajaxSetup({
@@ -65,7 +71,6 @@ Vue.prototype.$jquery = $
 Vue.prototype.$vue = Vue
 Vue.prototype.$utils = utils
 Vue.prototype.$central = central
-Vue.prototype.$message = message
 Vue.prototype.$myToastr = myToastr
 
 /* eslint-disable no-new */

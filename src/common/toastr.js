@@ -1,19 +1,38 @@
 export const myToastr = {
   toastr: null,
   option: {
+    // 是否显示关闭按钮（提示框右上角关闭按钮）
     closeButton: false,
+    // 是否为调试
     debug: false,
-    progressBar: false,
+    // 是否显示进度条（设置关闭的超时时间进度条）
+    progressBar: true,
+    // 消息框在页面显示的位置
     positionClass: 'toast-center-center',
+    // 点击消息框自定义事件
     onclick: null,
-    showDuration: '300',
-    hideDuration: '1000',
-    timeOut: '3000',
-    extendedTimeOut: '1000',
+    // 显示动作时间
+    showDuration: 1000,
+    // 隐藏动作时间
+    hideDuration: 800,
+    // 自动关闭超时时间
+    timeOut: 3000,
+    // 关闭动作时间
+    closeDuration: 600,
+    // 加长展示时间
+    extendedTimeOut: 300,
+    // 显示时的动画缓冲方式
     showEasing: 'swing',
+    // 消失时的动画缓冲方式
     hideEasing: 'linear',
-    showMethod: 'fadeIn',
-    hideMethod: 'fadeOut'
+    // 关闭时的动画缓冲方式
+    closeEasing: 'linear',
+    // 显示时的动画方法
+    showMethod: 'slideDown',
+    // 消失时的动画方法
+    hideMethod: 'slideUp',
+    // 关闭时的动画方法
+    closeMethod: 'slideUp'
   },
   init: function (toastr) {
     this.toastr = toastr
