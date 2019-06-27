@@ -21,6 +21,9 @@ export const myToastr = {
   setOption: function (option) {
     this.option = option
   },
+  success: function (msg, title) {
+    this.toastr.success(msg, title, this.option)
+  },
   info: function (msg, title) {
     this.toastr.info(msg, title, this.option)
   },

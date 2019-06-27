@@ -7,6 +7,10 @@ export const central = {
   token: '',
   publicKey: '',
   rsa: null,
+  toastr: null,
+  setToastr: function (toastr) {
+    this.toastr = toastr
+  },
   ajaxSetup: function ($) {
     $.ajaxSetup({
       crossDomain: true,
@@ -60,7 +64,12 @@ export const central = {
           return ret
         }]
       }).then((res) => {
-        resolve(res)
+        let respCode = res.data.respCode
+        if (respCode !== 2000 && respCode !== 5566) {
+          this.toastr.error(res.data.respMsg)
+        } else {
+          resolve(res)
+        }
       }).catch((err) => {
         reject(err)
       })

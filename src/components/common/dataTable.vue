@@ -27,20 +27,25 @@
       </div>
       <div class="btn-group" role="group" id="toolbar">
         <button class="btn btn-default" v-bind:class="item.text" v-bind:key="item.text" v-bind:type="item.type"
-                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.text)">
+                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.text, item.url)">
           <span class="glyphicon" v-bind:class="item.icon" aria-hidden="true"></span> {{item.text}}
         </button>
       </div>
       <table class="table" id="table"></table>
     </div>
     <div>
-      <modal-frame v-bind:funIn="opera.in"></modal-frame>
+      <modal-frame v-bind:funIn="opera.in" v-bind:btnUrl="btnUrl"></modal-frame>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: 'data-table',
+  data () {
+    return {
+      btnUrl: ''
+    }
+  },
   components: {
     'modal-frame': () => import('./modalFrame'),
     'date-time-picker': () => import('./dateTimePicker'),
@@ -80,7 +85,8 @@ export default {
     }
   },
   methods: {
-    selectMe: function (code, text) {
+    selectMe: function (code, text, url) {
+      this.btnUrl = url
       this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.in, this.$myToastr)
     }
   },

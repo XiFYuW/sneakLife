@@ -22,7 +22,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" v-on:click="send()">Save changes</button>
         </div>
       </div>
     </div>
@@ -36,6 +36,37 @@ export default {
     funIn: {
       type: Array,
       redirect: true
+    },
+    btnUrl: {
+      type: String,
+      redirect: true
+    }
+  },
+  methods: {
+    send: function () {
+      let data = this.dispColumnsNull()
+      if (this.$utils.getObjLength(data) > 0) {
+        this.$central.send(this.$http, {me: this.btnUrl, data: data}).then(resp => {
+          this.$central.toastr.success(resp.respMsg)
+        })
+      }
+    },
+    dispColumnsNull: function () {
+      let $ = this.$jquery
+      let data = {}
+      for (let i = 0; i < this.funIn.length; i++) {
+        let arr = this.funIn[i]
+        for (let j = 0; j < arr.length; j++) {
+          let v = $('#' + arr[j].field).val()
+          if (v === '' || v === undefined) {
+            this.$myToastr.warning(arr[j].textName + '不能为空')
+            return {}
+          }
+          // 构造请求参数
+          data = this.$utils.toObj(data, arr[j].field, v)
+        }
+      }
+      return data
     }
   },
   watch: {
@@ -43,6 +74,13 @@ export default {
       handler (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.funIn = newVal
+        }
+      }
+    },
+    btnUrl: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.btnUrl = newVal
         }
       }
     },

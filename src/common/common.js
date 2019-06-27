@@ -31,6 +31,13 @@ export const utils = {
         return h(AsyncHandler, data, children)
       }
     })
+  },
+  toObj: (data, name, value) => {
+    data[name] = value
+    return data
+  },
+  getObjLength: obj => {
+    return Object.keys(obj).length
   }
 }
 

@@ -48,6 +48,8 @@ import toastr from 'toastr/build/toastr.min'
 import {myToastr} from './common/toastr'
 myToastr.init(toastr)
 
+central.setToastr(myToastr)
+
 axios.defaults.withCredentials = true
 $.ajaxSetup({
   crossDomain: true,

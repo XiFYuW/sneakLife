@@ -39,7 +39,7 @@ export default {
       this.opera = data.opera
       dataTableCopy.tl.queryParams = params => {
         let parameter = {
-          me: data.table.dataUrl,
+          me: this.item.dataUrl,
           pag: {
             // 页面大小
             rows: params.limit,
@@ -53,6 +53,7 @@ export default {
         }
         return {data: this.$central.enParameter(parameter)}
       }
+      dataTableCopy.tl.url = this.$central.url
       dataTableCopy.tl.responseHandler = resp => {
         return {
           total: resp.respData.totalElements,
@@ -60,7 +61,7 @@ export default {
         }
       }
       dataTableCopy.tl.columns = data.table.columns
-      dataTableCopy.tl.columns.splice(0, 1, {
+      dataTableCopy.tl.columns.splice(0, 0, {
         'checkbox': true,
         'data-halign': 'center'
       })
