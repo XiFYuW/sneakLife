@@ -1,7 +1,7 @@
 import {central} from './keyless/central'
 
 /**
- * 工具站
+ * 中转站
  * @type {{parse: (function(*=): *), lazyLoadViews: (function(*=): Promise<{functional: boolean, render(*, {data?: *, children?: *}): *}>)}}
  */
 export const utils = {
@@ -12,6 +12,7 @@ export const utils = {
   central: null,
   url: '',
   http: null,
+  table: '',
   setToastr: function (toastr) {
     this.toastr = toastr
   },
@@ -32,6 +33,9 @@ export const utils = {
   },
   setHttp: function (http) {
     this.http = http
+  },
+  setTable: function (table) {
+    this.table = table
   },
   parse: obj => {
     return JSON.parse(JSON.stringify(obj)).data
@@ -89,6 +93,7 @@ export const operaClick = {
   selectClickMe: function (code, table, $, pop, columns) {
     utils.modalFrame.clearData($)
     utils.setCode(code)
+    utils.setTable(table)
     switch (code) {
       case '0' :
         this.addTable(table, $, columns)
@@ -144,6 +149,7 @@ export const operaClick = {
     if (this.hint(data)) {
       utils.central.send(utils.http, {me: utils.url, data: {id: data[0].id}}).then(resp => {
         utils.central.toastr.success(resp.respMsg)
+        $('#' + el).bootstrapTable('refresh')
       })
     }
   },

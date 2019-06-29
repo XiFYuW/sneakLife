@@ -50,6 +50,7 @@ export default {
         if (this.$utils.getObjLength(data) > 0) {
           this.toSend(data)
         }
+        this.$jquery('#' + this.$utils.table).bootstrapTable('refresh')
       }
     },
     dispColumnsNull: function () {
