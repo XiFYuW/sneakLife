@@ -59,7 +59,7 @@ export default {
       this.item = tab
     },
     apply: function () {
-      this.$central.send(this.$http, {me: 'getMenu', data: {}}).then(resp => {
+      this.$utils.central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
         this.tabs = resp.respData
       })
     }

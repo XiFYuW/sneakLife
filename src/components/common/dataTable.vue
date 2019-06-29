@@ -87,6 +87,7 @@ export default {
   methods: {
     selectMe: function (code, text, url) {
       this.btnUrl = url
+      this.$utils.setUrl(url)
       this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.in)
     }
   },

@@ -1,15 +1,37 @@
+import {central} from './keyless/central'
+
 /**
- * 工具对象
+ * 工具站
  * @type {{parse: (function(*=): *), lazyLoadViews: (function(*=): Promise<{functional: boolean, render(*, {data?: *, children?: *}): *}>)}}
  */
 export const utils = {
+  id: '',
+  code: '',
   toastr: null,
   modalFrame: null,
+  central: null,
+  url: '',
+  http: null,
   setToastr: function (toastr) {
     this.toastr = toastr
   },
   setModalFrame: function (modalFrame) {
     this.modalFrame = modalFrame
+  },
+  setCentral: function (central) {
+    this.central = central
+  },
+  setId: function (id) {
+    this.id = id
+  },
+  setCode: function (code) {
+    this.code = code
+  },
+  setUrl: function (url) {
+    this.url = url
+  },
+  setHttp: function (http) {
+    this.http = http
   },
   parse: obj => {
     return JSON.parse(JSON.stringify(obj)).data
@@ -58,33 +80,30 @@ export const deepCopy = {
 /**
  * 按钮相关操作
  * 可以动态的修改方法
- * @type {{dataT: Array, popover: operaClick.popover, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
+ * @type {{popover: operaClick.popover, hint: operaClick.hint, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
  */
 export const operaClick = {
-  /**
-   * dataTable选中的临时数据，update适用
-   * */
-  dataT: [],
   /**
    * add update delete统一入口
    * */
   selectClickMe: function (code, table, $, pop, columns) {
     utils.modalFrame.clearData($)
+    utils.setCode(code)
     switch (code) {
       case '0' :
-        this.addTable(table, $, pop, columns)
+        this.addTable(table, $, columns)
         break
       case '1' :
-        this.updateTable(table, $, pop, columns)
+        this.updateTable(table, $, columns)
         break
       case '2' :
-        this.deleteTable(table, $, pop)
+        this.deleteTable(table, $)
         break
       default :
         alert('.....')
     }
   },
-  addTable: function (el, $, pop, columns) {
+  addTable: function (el, $, columns) {
     columns.forEach(item => {
       item.forEach((v, index) => {
         v.value = ''
@@ -95,16 +114,17 @@ export const operaClick = {
     })
     utils.modalFrame.show($)
   },
-  updateTable: function (el, $, pop, columns) {
-    this.dataT = $('#' + el).bootstrapTable('getAllSelections')
-    if (!this.hint(this.dataT)) {
+  updateTable: function (el, $, columns) {
+    let data = $('#' + el).bootstrapTable('getAllSelections')
+    utils.setId(data[0].id)
+    if (this.hint(data)) {
       // 传入子组件的值
       columns.forEach(item => {
         item.forEach((v, index) => {
           let key = v.field
           // 对应key,增加value属性
-          for (let i = 0; i < this.dataT.length; i++) {
-            let jsons = this.dataT[i]
+          for (let i = 0; i < data.length; i++) {
+            let jsons = data[i]
             for (let p in jsons) {
               if (key === p) {
                 v.value = jsons[p]
@@ -119,10 +139,12 @@ export const operaClick = {
       utils.modalFrame.show($)
     }
   },
-  deleteTable: function (el, $, pop) {
+  deleteTable: function (el, $) {
     let data = $('#' + el).bootstrapTable('getAllSelections')
-    if (!this.popover(data, $, pop)) {
-      console.log('delete')
+    if (this.hint(data)) {
+      utils.central.send(utils.http, {me: utils.url, data: {id: data[0].id}}).then(resp => {
+        utils.central.toastr.success(resp.respMsg)
+      })
     }
   },
   popover: (data, $, el) => {
@@ -143,7 +165,7 @@ export const operaClick = {
   },
   hint: function (data) {
     if (data.length === 0 || data.length > 1) {
-      this.utils.toastr.warning('请选择一行')
+      utils.toastr.warning('请选择一行')
       return false
     }
     return true

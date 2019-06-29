@@ -17,7 +17,7 @@ export default {
   name: 'hint-modal',
   data () {
     return {
-      msg: this.$message.msg
+      msg: ''
     }
   }
 }

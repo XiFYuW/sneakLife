@@ -34,8 +34,7 @@ export default {
     }
   },
   mounted () {
-    this.$myToastr.warning('123')
-    this.$central.send(this.$http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+    this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
       this.opera = data.opera
       dataTableCopy.tl.queryParams = params => {

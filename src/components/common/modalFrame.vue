@@ -44,12 +44,12 @@ export default {
   },
   methods: {
     send: function () {
-      let data = this.dispColumnsNull()
-      if (this.$utils.getObjLength(data) > 0) {
-        this.$central.send(this.$http, {me: this.btnUrl, data: data}).then(resp => {
-          this.$utils.modalFrame.hide(this.$jquery)
-          this.$central.toastr.success(resp.respMsg)
-        })
+      let code = this.$utils.code
+      if (code === '0' || code === '1') {
+        let data = this.dispColumnsNull()
+        if (this.$utils.getObjLength(data) > 0) {
+          this.toSend(data)
+        }
       }
     },
     dispColumnsNull: function () {
@@ -65,9 +65,16 @@ export default {
           }
           // 构造请求参数
           data = this.$utils.toObj(data, arr[j].field, v)
+          data.id = this.$utils.id
         }
       }
       return data
+    },
+    toSend: function (data) {
+      this.$utils.central.send(this.$utils.http, {me: this.btnUrl, data: data}).then(resp => {
+        this.$utils.modalFrame.hide(this.$jquery)
+        this.$utils.central.toastr.success(resp.respMsg)
+      })
     }
   },
   watch: {
