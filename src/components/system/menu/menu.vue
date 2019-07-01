@@ -11,7 +11,7 @@
                 {{ tab.tab }} <span class="caret" v-if="tab.son.length > 0"></span>
               </a>
               <ul class="dropdown-menu" v-if="tab.son.length > 0">
-                <li v-for="s in tab.son" v-bind:key="s.tab" v-on:click="onTabs(s.type, s.dataUrl)"
+                <li v-for="s in tab.son" v-bind:key="s.tab" v-on:click="onTabs(s)"
                     v-bind:class="{ 'active': s.type === view && s.type !== '' }">
                   <a href="javascript:void(0)">{{ s.tab }}</a>
                 </li>
@@ -47,8 +47,10 @@ export default {
     'user-role-config': () => import('../body/authorityControl/userRoleConfig/userRoleConfig'),
     'role-function-config': () => import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig')
   },
-  created: function () {
-    this.apply()
+  mounted: function () {
+    this.$utils.central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
+      this.tabs = resp.respData
+    })
   },
   methods: {
     onTabs: function (tab) {
@@ -57,11 +59,6 @@ export default {
       }
       this.view = tab.type
       this.item = tab
-    },
-    apply: function () {
-      this.$utils.central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
-        this.tabs = resp.respData
-      })
     }
   },
   computed: {

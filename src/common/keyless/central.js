@@ -65,7 +65,7 @@ export const central = {
         }]
       }).then((res) => {
         let respCode = res.data.respCode
-        let ok = [2000, 5566, 7766, 4467]
+        let ok = [2000, 5566, 7766, 4467, 4466]
         if (ok.indexOf(respCode) < 0) {
           this.toastr.error(res.data.respMsg)
         } else {

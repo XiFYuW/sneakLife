@@ -3,7 +3,7 @@
     <div class="col-sm-2 col-md-3 sidebar treeViewMa">
       <tree-view></tree-view>
     </div>
-    <div class="col-md-8 sidebar">
+    <div class="col-md-8 sidebar" style="display: none">
       <tree-grid v-bind:head="head"></tree-grid>
     </div>
   </div>
@@ -26,17 +26,16 @@ export default {
     }
   },
   props: {
-    dataUrl: {
-      type: String,
+    item: {
+      type: Object,
       required: true
     }
   },
   mounted () {
     let $ = this.$jquery
-    let http = this.$http
-    http.get(this.dataUrl).then(resp => {
-      const options = this.$utils.parse(resp)
-      treeViewCopy.options.data = options.data
+    let http = this.$utils.http
+    this.$central.send(http, {me: this.item.pageUrl, data: {}}).then(resp => {
+      treeViewCopy.options.data = resp.respData
       treeViewCopy.init(this.$jquery)
       treeViewCopy.nodeSelected(this.$jquery, (event, data) => {
         if (data.url !== '#') {
