@@ -56,8 +56,6 @@ export const dataTable = {
    * @param tls 数据表格格式
    */
   init: function (el, $, tls) {
-    // tls.url = body.url
-    // tls.columns = body.columns
     $('#' + el).bootstrapTable(tls)
   },
   /**

@@ -10,7 +10,7 @@ export const treeGrid = {
         return { checked: true }
       }
     },
-    stutsFormatter: function (value, row, index) {
+    statusFormatter: function (value, row, index) {
       if (value === 1) {
         return '<span class="label label-success">正常</span>'
       } else {
@@ -20,6 +20,8 @@ export const treeGrid = {
   },
   tl: {
     url: '',
+    method: 'post',
+    contentType: 'application/x-www-form-urlencoded',
     striped: true,
     sidePagination: 'server',
     idField: this.id,
@@ -31,7 +33,9 @@ export const treeGrid = {
     // onPostBody  onResetView  onLoadSuccess
     onResetView: null,
     onCheck: null,
-    onUncheck: null
+    onUncheck: null,
+    // 是否使用缓存
+    cache: false
   },
   setEl: function (el) {
     if (el) {
