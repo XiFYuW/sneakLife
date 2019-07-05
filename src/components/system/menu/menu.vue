@@ -22,9 +22,9 @@
       </div>
     </nav>
     <div>
-      <transition name="component-fade" mode="out-in">
-        <component v-bind:is="getView" v-bind:item="item"></component>
-      </transition>
+      <!--<transition name="component-fade" mode="out-in">-->
+      <component v-bind:is="getView" v-bind:item="item"></component>
+      <!--</transition>-->
     </div>
   </div>
 </template>

@@ -1,10 +1,10 @@
 <template>
   <div class="row">
-    <div class="col-sm-2 col-md-3 sidebar treeViewMa">
+    <div class="col-sm-2 col-md-2 sidebar treeViewMa">
       <tree-view></tree-view>
     </div>
-    <div class="col-md-8 sidebar">
-      <tree-grid v-bind:head="head"></tree-grid>
+    <div class="col-md-9 sidebar" v-if="is">
+      <tree-grid v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"></tree-grid>
     </div>
   </div>
 </template>
@@ -12,8 +12,10 @@
 <script>
 import {treeView} from '../../../../../common/treeview'
 import {treeGrid} from '../../../../../common/treeGrid'
+import {operaClick} from '../../../../../common/common'
 const treeViewCopy = require('../../../../../common/common').deepCopy.deepCopy(treeView)
 const treeGridCopy = require('../../../../../common/common').deepCopy.deepCopy(treeGrid)
+const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
 export default {
   name: 'function-config',
   components: {
@@ -22,7 +24,19 @@ export default {
   },
   data () {
     return {
-      head: ''
+      /**
+       * 操作按钮的动作
+       */
+      operaClick: operaClickCopy,
+      /**
+       * 功能按钮
+       */
+      opera: {},
+      /**
+       * 标题头
+       */
+      head: this.item.tab,
+      is: false
     }
   },
   props: {
@@ -38,10 +52,12 @@ export default {
       treeViewCopy.options.data = resp.respData
       treeViewCopy.init(this.$jquery)
       treeViewCopy.nodeSelected(this.$jquery, (event, data) => {
+        this.is = true
         if (data.url !== '#') {
           this.$central.send(http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {
             const initDataTable = resp.respData
-            this.head = initDataTable.head
+            this.head = this.item.tab + ' - ' + data.text
+            this.opera = initDataTable.opera
             initDataTable.table.columns.splice(0, 0, {
               'field': 'check',
               'checkbox': true
@@ -85,12 +101,23 @@ export default {
         }
       }
     }
+  },
+  watch: {
+    opera: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.opera = newVal
+        }
+      }
+    },
+    immediate: true,
+    deep: true
   }
 }
 </script>
 
 <style scoped>
   .treeViewMa{
-    margin-left: 80px;
+    margin-left: 60px;
   }
 </style>

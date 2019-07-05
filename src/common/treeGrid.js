@@ -22,6 +22,8 @@ export const treeGrid = {
     url: '',
     method: 'post',
     contentType: 'application/x-www-form-urlencoded',
+    // 工具栏
+    toolbar: '#toolbars',
     striped: true,
     sidePagination: 'server',
     idField: this.id,
