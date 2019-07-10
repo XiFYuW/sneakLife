@@ -1,4 +1,3 @@
-import {central} from './keyless/central'
 
 /**
  * 中转站

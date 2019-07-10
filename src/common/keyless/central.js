@@ -31,6 +31,14 @@ export const central = {
     let resp = await this.post(http, this.url, {data: this.enParameter(parameter)})
     return resp.data
   },
+  sendTimeOut: function () {
+    if (this.rsa !== null || this.rsa !== undefined) {
+      return true
+    }
+    setTimeout(() => {
+      this.sendTimeOut()
+    }, 900)
+  },
   enParameter: function (parameter) {
     let ps = {
       data: this.aesEncrypts(JSON.stringify(parameter)),

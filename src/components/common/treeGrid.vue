@@ -11,6 +11,9 @@
       </div>
       <table id="treeGrid"></table>
     </div>
+    <div>
+      <modal-frame v-bind:funIn="opera.in" v-bind:btnUrl="btnUrl"></modal-frame>
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,14 @@ export default {
     return {
       btnUrl: ''
     }
+  },
+  components: {
+    'modal-frame': () => import('./modalFrame'),
+    'date-time-picker': () => import('./dateTimePicker'),
+    'select-tree-view': () => import('./selectTreeView'),
+    'select-data-table': () => import('./selectDataTable'),
+    'select-tree-grid': () => import('./selectTreeGrid'),
+    'input-text': () => import('./inputText')
   },
   props: {
     /**

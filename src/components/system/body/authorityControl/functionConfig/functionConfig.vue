@@ -4,7 +4,9 @@
       <tree-view></tree-view>
     </div>
     <div class="col-md-9 sidebar" v-if="is">
-      <tree-grid v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"></tree-grid>
+      <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"
+                  v-bind:tableId="tableId" v-bind:toolbarId="toolbarId"></data-table>
+      <!--<tree-grid v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"></tree-grid>-->
     </div>
   </div>
 </template>
@@ -20,7 +22,8 @@ export default {
   name: 'function-config',
   components: {
     'tree-view': () => import('../../../../common/treeView'),
-    'tree-grid': () => import('../../../../common/treeGrid')
+    'tree-grid': () => import('../../../../common/treeGrid'),
+    'data-table': () => import('../../../../common/dataTable')
   },
   data () {
     return {
@@ -36,7 +39,9 @@ export default {
        * 标题头
        */
       head: this.item.tab,
-      is: false
+      is: false,
+      tableId: 'function-config-treeGrid',
+      toolbarId: 'function-config-toolbar'
     }
   },
   props: {
@@ -71,6 +76,7 @@ export default {
             initDataTable.table.columns[0].formatter = treeGridCopy.defalut.checkFormatter
             initDataTable.table.columns[2].formatter = treeGridCopy.defalut.statusFormatter
             treeGridCopy.tl.columns = initDataTable.table.columns
+            treeGridCopy.tl.toolbar = '#' + this.toolbarId
             treeGridCopy.tl.url = this.$central.url
             treeGridCopy.tl.queryParams = params => {
               let parameter = {
@@ -84,7 +90,7 @@ export default {
                 data: resp.respData
               }
             }
-            treeGridCopy.init($)
+            treeGridCopy.init($, this.tableId)
           })
         }
       })

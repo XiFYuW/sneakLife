@@ -11,7 +11,7 @@
 <script>
 export default {
   name: 'App',
-  created: async function () {
+  mounted: async function () {
     await this.$central.serverInit(this.$utils.http)
   }
 }

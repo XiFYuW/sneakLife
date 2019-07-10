@@ -1,5 +1,6 @@
 <template>
-  <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"></data-table>
+  <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"
+              v-bind:tableId="tableId" v-bind:toolbarId="toolbarId"></data-table>
 </template>
 <script>
 import {operaClick} from '../../../../common/common'
@@ -21,7 +22,9 @@ export default {
       /**
        * 标题头
        */
-      head: this.item.tab
+      head: this.item.tab,
+      tableId: 'data-dictionary-table',
+      toolbarId: 'data-dictionary-toolbar'
     }
   },
   components: {
@@ -54,6 +57,7 @@ export default {
         return {data: this.$central.enParameter(parameter)}
       }
       dataTableCopy.tl.url = this.$central.url
+      dataTableCopy.tl.toolbar = '#' + this.toolbarId
       dataTableCopy.tl.responseHandler = resp => {
         return {
           total: resp.respData.totalElements,
@@ -65,7 +69,7 @@ export default {
         'checkbox': true,
         'data-halign': 'center'
       })
-      dataTableCopy.init('table', this.$jquery, dataTableCopy.tl)
+      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
     })
   },
   watch: {

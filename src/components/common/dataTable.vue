@@ -25,13 +25,13 @@
           </div>
         </div>
       </div>
-      <div class="btn-group" role="group" id="toolbar">
+      <div class="btn-group" role="group" :id="toolbarId">
         <button class="btn btn-default" v-bind:class="item.text" v-bind:key="item.text" v-bind:type="item.type"
                 v-for="item in opera.sb" v-on:click="selectMe(item.code, item.text, item.url)">
           <span class="glyphicon" v-bind:class="item.icon" aria-hidden="true"></span> {{item.text}}
         </button>
       </div>
-      <table class="table" id="table"></table>
+      <table class="table" :id="tableId"></table>
     </div>
     <div>
       <modal-frame v-bind:funIn="opera.in" v-bind:btnUrl="btnUrl"></modal-frame>
@@ -55,6 +55,14 @@ export default {
     'input-text': () => import('./inputText')
   },
   props: {
+    toolbarId: {
+      type: String,
+      required: true
+    },
+    tableId: {
+      type: String,
+      required: true
+    },
     /**
      * 功能按钮
      */
@@ -88,7 +96,7 @@ export default {
     selectMe: function (code, text, url) {
       this.btnUrl = url
       this.$utils.setUrl(url)
-      this.operaClick.selectClickMe(code, 'table', this.$jquery, text, this.opera.in)
+      this.operaClick.selectClickMe(code, this.tableId, this.$jquery, text, this.opera.in)
     }
   },
   watch: {

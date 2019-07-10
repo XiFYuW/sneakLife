@@ -23,7 +23,7 @@ export const treeGrid = {
     method: 'post',
     contentType: 'application/x-www-form-urlencoded',
     // 工具栏
-    toolbar: '#toolbars',
+    toolbar: '#toolbar',
     striped: true,
     sidePagination: 'server',
     idField: this.id,

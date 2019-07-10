@@ -13,7 +13,7 @@
 
 <script>
 import echarts from 'echarts'
-import {modalBox} from '@/common/modalBox'
+import {modalBox} from '@/common/modalFrame'
 export default {
   name: 'system-monitoring',
   data () {
