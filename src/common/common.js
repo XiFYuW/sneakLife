@@ -4,6 +4,7 @@
  * @type {{parse: (function(*=): *), lazyLoadViews: (function(*=): Promise<{functional: boolean, render(*, {data?: *, children?: *}): *}>)}}
  */
 export const utils = {
+  vue: null,
   id: '',
   code: '',
   toastr: null,
@@ -12,6 +13,13 @@ export const utils = {
   url: '',
   http: null,
   table: '',
+  selectTreeViewData: null,
+  setSelectTreeViewData: function (item) {
+    this.selectTreeViewData = item
+  },
+  setVue: function (vue) {
+    this.vue = vue
+  },
   setToastr: function (toastr) {
     this.toastr = toastr
   },
@@ -60,7 +68,8 @@ export const utils = {
   },
   getObjLength: obj => {
     return Object.keys(obj).length
-  }
+  },
+  addObjAttr: null
 }
 
 /**
@@ -120,8 +129,8 @@ export const operaClick = {
   },
   updateTable: function (el, $, columns) {
     let data = $('#' + el).bootstrapTable('getAllSelections')
-    utils.setId(data[0].id)
     if (this.hint(data)) {
+      utils.setId(data[0].id)
       // 传入子组件的值
       columns.forEach(item => {
         item.forEach((v, index) => {
@@ -131,13 +140,10 @@ export const operaClick = {
             let jsons = data[i]
             for (let p in jsons) {
               if (key === p) {
-                v.value = jsons[p]
+                utils.vue.set(v, 'value', jsons[p])
               }
             }
           }
-          // 子组件更新值
-          item.splice(index, index + 1, v)
-          // this.$set(item, index, v)
         })
       })
       utils.modalFrame.show($)

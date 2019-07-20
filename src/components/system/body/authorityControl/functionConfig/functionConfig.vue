@@ -59,7 +59,7 @@ export default {
       treeViewCopy.nodeSelected(this.$jquery, (event, data) => {
         this.is = true
         if (data.url !== '#') {
-          this.$central.send(http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {
+          this.$central.send(http, {me: data.url, data: {treeViewId: this.item.id}}).then(resp => {
             const initDataTable = resp.respData
             this.head = this.item.tab + ' - ' + data.text
             this.opera = initDataTable.opera
@@ -81,7 +81,7 @@ export default {
             treeGridCopy.tl.queryParams = params => {
               let parameter = {
                 me: this.item.dataUrl,
-                data: {menuId: data.id, treeViewId: this.item.id, name: data.text}
+                data: {treeViewId: data.id, menuId: this.item.id, name: data.text}
               }
               return {data: this.$central.enParameter(parameter)}
             }
@@ -95,6 +95,21 @@ export default {
         }
       })
     })
+
+    this.operaClick.addTable = (el, $, columns) => {
+      // this.$utils.modalFrame.clearData($)
+      let pageData = $('#function-config-treeGrid').bootstrapTable('getData')
+      let data = this.buildTreeViewList(pageData)
+      columns.forEach(item => {
+        item.forEach((v, index) => {
+          // 对应key,增加value属性
+          if (v.field === 'id') {
+            this.$utils.vue.set(v, 'value', data)
+          }
+        })
+      })
+      this.$utils.modalFrame.show($)
+    }
   },
   methods: {
     findArray: (arr, item) => {
@@ -106,6 +121,38 @@ export default {
           return array
         }
       }
+    },
+    findParent: function (parent, data, obj) {
+      for (let j = 0; j < data.length; j++) {
+        let item = data[j]
+        let is = item.id === parent.id
+        if (item.hasOwnProperty('nodes') && !is) {
+          data = this.findParent(parent, data[j], obj)
+        } else if (item.hasOwnProperty('nodes') && is) {
+          item['nodes'].push(obj)
+        } else {
+          item['nodes'] = []
+          item['nodes'].push(obj)
+        }
+      }
+      return data
+    },
+    buildTreeViewList: function (pageData) {
+      let data = []
+      for (let i = 0; i < pageData.length; i++) {
+        let item = pageData[i]
+        let obj = {text: item.name, value: item.treeViewId, id: item.id}
+        let nodes = item._nodes
+        if (nodes.length > 0) {
+          if (item.hasOwnProperty('_parent')) {
+            let parent = item._parent
+            data = this.findParent(parent, data, obj)
+          } else {
+            data.push(obj)
+          }
+        }
+      }
+      return data
     }
   },
   watch: {

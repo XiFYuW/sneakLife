@@ -57,6 +57,7 @@ utils.setToastr(myToastr)
 utils.setModalFrame(modalFrame)
 utils.setCentral(central)
 utils.setHttp(axios)
+utils.setVue(Vue)
 
 axios.defaults.withCredentials = true
 $.ajaxSetup({

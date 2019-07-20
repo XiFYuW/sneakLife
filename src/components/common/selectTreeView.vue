@@ -1,9 +1,10 @@
 <template>
   <div class="input-group">
-    <span class="input-group-addon" id="sizing-addon2">下拉树</span>
-    <input id="tv" type="text" autocomplete="off" class="form-control selectTreeView-input"
+    <span class="input-group-addon" v-if="isSpan">{{treeView.textName}}</span>
+    <label class="control-label" v-else>{{treeView.textName}}</label>
+    <input :id="treeView.id.substr(0, 30)" :type="treeView.type" autocomplete="off" class="form-control selectTreeView-input"
            v-on:click="showTreeView" aria-describedby="sizing-addon2" tabindex="2">
-    <div id="select-tree-view" class="selectTreeView">
+    <div :id="treeView.id" class="selectTreeView">
       <tree-view></tree-view>
     </div>
   </div>
@@ -17,29 +18,56 @@ export default {
   components: {
     'tree-view': () => import('./treeView')
   },
+  props: {
+    treeView: {
+      type: Object,
+      required: false
+    },
+    isSpan: {
+      type: Boolean,
+      required: false
+    }
+  },
   mounted () {
-    this.$http.get('static/json/system/body/AuthorityControl/functionConfig/functionConfig.json').then(resp => {
-      const data = this.$utils.parse(resp)
-      const $ = this.$jquery
-      treeViewCopy.options.data = data.data
-      treeViewCopy.init($, 'select-tree-view')
+    this.$jquery('#' + this.treeView.id).mouseleave(() => {
+      this.$jquery('#' + this.treeView.id).hide()
     })
-
-    this.$jquery('#select-tree-view').mouseleave(() => {
-      this.$jquery('#select-tree-view').hide()
-    })
+  },
+  updated () {
+    this.$jquery('#' + this.treeView.id.substr(0, 30)).val('')
+    treeViewCopy.options.data = this.treeView.value
+    treeViewCopy.init(this.$jquery, this.treeView.id)
   },
   methods: {
     showTreeView: function () {
       const $ = this.$jquery
-      let obj = $('#select-tree-view')
+      let obj = $('#' + this.treeView.id)
       obj.show()
       treeViewCopy.nodeSelected($, (event, data) => {
-        $('#tv').val(data.text)
+        $('#' + this.treeView.id.substr(0, 30)).val(data.text)
+        this.$utils.setSelectTreeViewData(data)
         obj.hide()
         treeViewCopy.selectNode($, data.nodeId)
       })
     }
+  },
+  watch: {
+    treeView: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.treeView = newVal
+        }
+      }
+    },
+    isSpan: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.isSpan = newVal
+        }
+      }
+    },
+    immediate: true,
+    deep: true
   }
 }
 </script>

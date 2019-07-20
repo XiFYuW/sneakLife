@@ -10,12 +10,8 @@
           <form>
             <div class="row" v-for="(item, index) in funIn" v-bind:key="index">
               <div class="col-lg-6" v-for="(items, cindex) in item" v-bind:key="cindex">
-                <div class="input-group inputBottom">
-                  <div class="form-group">
-                    <label v-bind:for="items.field" class="control-label">{{items.textName}}</label>
-                    <input type="text" class="form-control" v-bind:id="items.field" v-bind:value="items.value !== '' ? items.value : ''">
-                  </div>
-                </div>
+                <input-label v-bind:inputLable="items" v-bind:isSpan="false" v-if="items.htmlType === 'inputLable'"></input-label>
+                <select-tree-view v-bind:treeView="items" v-bind:isSpan="false" v-else></select-tree-view>
               </div>
             </div>
           </form>
@@ -42,11 +38,23 @@ export default {
       redirect: true
     }
   },
+  components: {
+    'date-time-picker': () => import('./dateTimePicker'),
+    'select-tree-view': () => import('./selectTreeView'),
+    'select-data-table': () => import('./selectDataTable'),
+    'select-tree-grid': () => import('./selectTreeGrid'),
+    'input-text': () => import('./inputText'),
+    'input-label': () => import('./inputLabel')
+  },
   methods: {
     send: function () {
       let code = this.$utils.code
       if (code === '0' || code === '1') {
         let data = this.dispColumnsNull()
+        console.log(data)
+        if (code === '1') {
+          data.id = this.$utils.id
+        }
         if (this.$utils.getObjLength(data) > 0) {
           this.toSend(data)
         }
@@ -59,16 +67,32 @@ export default {
       for (let i = 0; i < this.funIn.length; i++) {
         let arr = this.funIn[i]
         for (let j = 0; j < arr.length; j++) {
-          let v = $('#' + arr[j].field).val()
-          if (v === '' || v === undefined) {
-            this.$myToastr.warning(arr[j].textName + '不能为空')
-            return {}
-          }
-          // 构造请求参数
-          data = this.$utils.toObj(data, arr[j].field, v)
-          data.id = this.$utils.id
+          let obj = arr[j]
+          data = this.getByHtmlType($, obj, data)
         }
       }
+      return data
+    },
+    getByHtmlType: function ($, item, data) {
+      let v = null
+      switch (item.htmlType) {
+        case 'inputLable':
+          v = $('#' + item.id).val()
+          break
+        case 'treeView':
+          let temp = this.$utils.selectTreeViewData
+          if (temp !== null && temp !== undefined) {
+            v = temp.value
+          }
+          break
+        default:
+          break
+      }
+      if (v === '' || undefined === v) {
+        this.$utils.toastr.warning(item.textName + '不能为空')
+        return {}
+      }
+      data = this.$utils.toObj(data, item.field, v)
       return data
     },
     toSend: function (data) {
