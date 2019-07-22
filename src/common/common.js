@@ -69,6 +69,11 @@ export const utils = {
   getObjLength: obj => {
     return Object.keys(obj).length
   },
+  delObj: (obj, key) => {
+    if (obj.hasOwnProperty(key)) {
+      delete obj[key]
+    }
+  },
   addObjAttr: null
 }
 

@@ -83,6 +83,11 @@ export default {
           let temp = this.$utils.selectTreeViewData
           if (temp !== null && temp !== undefined) {
             v = temp.value
+            if (temp.hasOwnProperty('tempMenuId')) {
+              data = this.$utils.toObj(data, 'tempMenuId', temp.tempMenuId)
+            } else {
+              data = this.$utils.toObj(data, 'tempMenuId', v)
+            }
           }
           break
         default:

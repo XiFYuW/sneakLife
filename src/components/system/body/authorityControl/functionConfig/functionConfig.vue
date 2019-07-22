@@ -59,7 +59,7 @@ export default {
       treeViewCopy.nodeSelected(this.$jquery, (event, data) => {
         this.is = true
         if (data.url !== '#') {
-          this.$central.send(http, {me: data.url, data: {treeViewId: this.item.id}}).then(resp => {
+          this.$central.send(http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {
             const initDataTable = resp.respData
             this.head = this.item.tab + ' - ' + data.text
             this.opera = initDataTable.opera
@@ -81,7 +81,7 @@ export default {
             treeGridCopy.tl.queryParams = params => {
               let parameter = {
                 me: this.item.dataUrl,
-                data: {treeViewId: data.id, menuId: this.item.id, name: data.text}
+                data: {treeViewId: this.item.id, menuId: data.id, name: data.text}
               }
               return {data: this.$central.enParameter(parameter)}
             }
@@ -104,11 +104,25 @@ export default {
         item.forEach((v, index) => {
           // 对应key,增加value属性
           if (v.field === 'id') {
+            console.log(data)
             this.$utils.vue.set(v, 'value', data)
           }
         })
       })
       this.$utils.modalFrame.show($)
+    }
+
+    this.operaClick.updateTable = (el, $, columns) => {
+      let pageData = $('#function-config-treeGrid').bootstrapTable('getData')
+      pageData.forEach(e => {
+        this.$utils.delObj(e, '_nodes')
+        this.$utils.delObj(e, '_parent')
+      })
+      console.log(pageData)
+      this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: pageData}}).then(resp => {
+        this.$utils.central.toastr.success(resp.respMsg)
+        $('#function-config-treeGrid').bootstrapTable('refresh')
+      })
     }
   },
   methods: {
@@ -146,6 +160,7 @@ export default {
         if (nodes.length > 0) {
           if (item.hasOwnProperty('_parent')) {
             let parent = item._parent
+            obj.tempMenuId = parent.treeViewId
             data = this.findParent(parent, data, obj)
           } else {
             data.push(obj)

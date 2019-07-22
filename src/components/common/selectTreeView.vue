@@ -2,7 +2,7 @@
   <div class="input-group">
     <span class="input-group-addon" v-if="isSpan">{{treeView.textName}}</span>
     <label class="control-label" v-else>{{treeView.textName}}</label>
-    <input :id="treeView.id.substr(0, 30)" :type="treeView.type" autocomplete="off" class="form-control selectTreeView-input"
+    <input :id="treeView.id.substr(0, 30)" :type="treeView.type" :name="treeView.menuId" autocomplete="off" class="form-control selectTreeView-input"
            v-on:click="showTreeView" aria-describedby="sizing-addon2" tabindex="2">
     <div :id="treeView.id" class="selectTreeView">
       <tree-view></tree-view>

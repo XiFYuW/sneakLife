@@ -25,7 +25,7 @@ export const treeView = {
   selectNode: function ($, nodeId) {
     $('#' + this.el).treeview('selectNode', [nodeId, {silent: true}])
   },
-  getOptions: (el) => {
+  getOptions: function (el) {
     this.setEl(el)
     return this.el.data().treeview.options
   }
