@@ -11,7 +11,7 @@ export const treeGrid = {
       }
     },
     statusFormatter: function (value, row, index) {
-      if (value === 1) {
+      if (value === 0) {
         return '<span class="label label-success">正常</span>'
       } else {
         return '<span class="label label-default">锁定</span>'
