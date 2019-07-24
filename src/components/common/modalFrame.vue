@@ -51,7 +51,6 @@ export default {
       let code = this.$utils.code
       if (code === '0' || code === '1') {
         let data = this.dispColumnsNull()
-        console.log(data)
         if (code === '1') {
           data.id = this.$utils.id
         }

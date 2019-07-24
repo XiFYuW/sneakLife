@@ -104,7 +104,6 @@ export default {
         item.forEach((v, index) => {
           // 对应key,增加value属性
           if (v.field === 'id') {
-            console.log(data)
             this.$utils.vue.set(v, 'value', data)
           }
         })
@@ -118,11 +117,24 @@ export default {
         this.$utils.delObj(e, '_nodes')
         this.$utils.delObj(e, '_parent')
       })
-      console.log(pageData)
       this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: pageData}}).then(resp => {
         this.$utils.central.toastr.success(resp.respMsg)
         $('#function-config-treeGrid').bootstrapTable('refresh')
       })
+    }
+
+    this.operaClick.deleteTable = (el, $, columns) => {
+      let pageData = $('#function-config-treeGrid').bootstrapTable('getData')
+      let data = this.buildTreeViewList(pageData)
+      columns.forEach(item => {
+        item.forEach((v, index) => {
+          // 对应key,增加value属性
+          if (v.field === 'id') {
+            this.$utils.vue.set(v, 'value', data)
+          }
+        })
+      })
+      this.$utils.modalFrame.show($)
     }
   },
   methods: {

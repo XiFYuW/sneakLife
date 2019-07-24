@@ -115,7 +115,7 @@ export const operaClick = {
         this.updateTable(table, $, columns)
         break
       case '2' :
-        this.deleteTable(table, $)
+        this.deleteTable(table, $, columns)
         break
       default :
         alert('.....')
@@ -154,7 +154,7 @@ export const operaClick = {
       utils.modalFrame.show($)
     }
   },
-  deleteTable: function (el, $) {
+  deleteTable: function (el, $, columns) {
     let data = $('#' + el).bootstrapTable('getAllSelections')
     if (this.hint(data)) {
       utils.central.send(utils.http, {me: utils.url, data: {id: data[0].id}}).then(resp => {
