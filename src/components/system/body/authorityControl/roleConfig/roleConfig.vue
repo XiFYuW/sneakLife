@@ -1,5 +1,6 @@
 <template>
-  <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"></data-table>
+  <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"
+              v-bind:tableId="tableId" v-bind:toolbarId="toolbarId"></data-table>
 </template>
 
 <script>
@@ -22,26 +23,66 @@ export default {
       /**
        * 标题头
        */
-      head: ''
+      head: this.item.tab,
+      tableId: 'role-config-table',
+      toolbarId: 'role-config-toolbar'
     }
   },
   components: {
     'data-table': () => import('../../../../common/dataTable')
   },
   mounted () {
-    let $ = this.$jquery
-    this.$http.get(this.dataUrl).then(resp => {
-      const initDataTable = this.$utils.parse(resp)
-      this.opera = initDataTable.opera
-      this.head = initDataTable.head
-      dataTableCopy.init('table', $, initDataTable.table, dataTableCopy.tl)
+    this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+      const data = resp.respData
+      this.opera = data.opera
+      dataTableCopy.tl.queryParams = params => {
+        let parameter = {
+          me: this.item.dataUrl,
+          pag: {
+            // 页面大小
+            rows: params.limit,
+            // 页码
+            page: params.offset / params.limit,
+            // 排序列名
+            sort: params.sort,
+            // 排序命令（desc，asc）
+            sortOrder: params.order
+          }
+        }
+        return {data: this.$central.enParameter(parameter)}
+      }
+      dataTableCopy.tl.url = this.$central.url
+      dataTableCopy.tl.toolbar = '#' + this.toolbarId
+      dataTableCopy.tl.responseHandler = resp => {
+        return {
+          total: resp.respData.totalElements,
+          rows: resp.respData.content
+        }
+      }
+      dataTableCopy.tl.columns = data.table.columns
+      dataTableCopy.tl.columns.splice(0, 0, {
+        'checkbox': true,
+        'data-halign': 'center'
+      })
+      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
     })
   },
   props: {
-    dataUrl: {
-      type: String,
+    item: {
+      type: Object,
       required: true
     }
+  },
+  watch: {
+    opera: {
+      handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.opera = newVal
+        }
+      }
+    },
+    immediate: true,
+    deep: true
   }
 }
 </script>

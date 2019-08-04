@@ -57,7 +57,6 @@ export default {
         if (this.$utils.getObjLength(data) > 0) {
           this.toSend(data)
         }
-        this.$jquery('#' + this.$utils.table).bootstrapTable('refresh')
       }
     },
     dispColumnsNull: function () {
@@ -102,6 +101,7 @@ export default {
     toSend: function (data) {
       this.$utils.central.send(this.$utils.http, {me: this.btnUrl, data: data}).then(resp => {
         this.$utils.modalFrame.hide(this.$jquery)
+        this.$jquery('#' + this.$utils.table).bootstrapTable('refresh')
         this.$utils.central.toastr.success(resp.respMsg)
       })
     }
