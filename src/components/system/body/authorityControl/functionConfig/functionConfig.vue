@@ -69,7 +69,7 @@ export default {
             })
             if (initDataTable.table.columns[1].field !== 'name') {
               let temp = initDataTable.table.columns[1]
-              let cons = this.findArray(initDataTable.table.columns, 'name')
+              let cons = this.$utils.findArray(initDataTable.table.columns, 'name')
               initDataTable.table.columns[1] = cons[0]
               initDataTable.table.columns[cons[1]] = temp
             }
@@ -138,16 +138,6 @@ export default {
     }
   },
   methods: {
-    findArray: (arr, item) => {
-      let array = []
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].field === item) {
-          array.push(arr[i])
-          array.push(i)
-          return array
-        }
-      }
-    },
     findParent: function (parent, data, obj) {
       for (let j = 0; j < data.length; j++) {
         let item = data[j]

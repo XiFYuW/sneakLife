@@ -74,7 +74,17 @@ export const utils = {
       delete obj[key]
     }
   },
-  addObjAttr: null
+  addObjAttr: null,
+  findArray: (arr, item) => {
+    let array = []
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].field === item) {
+        array.push(arr[i])
+        array.push(i)
+        return array
+      }
+    }
+  }
 }
 
 /**
