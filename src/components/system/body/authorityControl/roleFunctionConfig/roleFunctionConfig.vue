@@ -52,7 +52,7 @@ export default {
   mounted () {
     let $ = this.$jquery
     let http = this.$utils.http
-    this.$central.send(http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+    this.$central.send(http, {me: this.item.pageUrl, data: {}}).then(resp => {
       treeViewCopy.options.data = resp.respData
       treeViewCopy.init(this.$jquery)
       treeViewCopy.nodeSelected(this.$jquery, (event, data) => {
@@ -80,7 +80,7 @@ export default {
             treeGridCopy.tl.queryParams = params => {
               let parameter = {
                 me: this.item.dataUrl,
-                data: {}
+                data: {treeViewId: this.item.id, menuId: data.id, name: data.text}
               }
               return {data: this.$central.enParameter(parameter)}
             }

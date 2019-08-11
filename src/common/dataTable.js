@@ -72,8 +72,14 @@ export const dataTable = {
         let co = $('#' + idTemp)
         co.parent().parent().css({'padding': 0})
         let id = co.parent().attr('id')
-        let rowId = id.substr(3, 4)
-        let row = rows[rowId]
+        let rowId = id.substr(3, 32)
+        let row = {}
+        for (let index in rows) {
+          if (rows[index].userId === rowId) {
+            row = rows[index]
+            break
+          }
+        }
         // 挂载组件
         mountComponent.mountSelect(idTemp)
         let obj = $('#' + id + ' select')
