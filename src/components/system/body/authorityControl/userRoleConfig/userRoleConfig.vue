@@ -79,13 +79,6 @@ export default {
          */
       this.$vue.component('common-select', CommonSelect)
     })
-    // this.$http.get('static/json/system/body/AuthorityControl/userRoleConfig/selects.json').then(resp => {
-    //   this.handle.transitionalComponent.dataSelect = this.$utils.parse(resp)
-    //   /**
-    //    * 全局初始化CommonSelect
-    //    */
-    //   this.$vue.component('common-select', CommonSelect)
-    // })
     let $ = this.$jquery
     this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
@@ -128,34 +121,17 @@ export default {
       dataTableCopy.setTraCom(this.handle.transitionalComponent)
       dataTableCopy.init(this.tableId, $, dataTableCopy.tl)
     })
-    // this.$http.get(this.dataUrl).then(resp => {
-    //   const initDataTable = this.$utils.parse(resp)
-    //   this.opera = initDataTable.opera
-    //   this.head = initDataTable.head
-    //   initDataTable.table.columns.push(this.handle.operate)
-    //   let disabled = !initDataTable.opera.sb
-    //   dataTableCopy.tl.clickToSelect = false
-    //   dataTableCopy.tl.onLoadSuccess = function (data) {
-    //     dataTableCopy.applySelect($, data, disabled)
-    //   }
-    //   dataTableCopy.setTraCom(this.handle.transitionalComponent)
-    //   dataTableCopy.init('table', $, initDataTable.table, dataTableCopy.tl)
-    // })
-
-    /**
-     * 保存操作
-     * @param el
-     * @param $
-     * @param pop
-     */
-    this.operaClick.updateTable = function (el, $, pop) {
+    this.operaClick.updateTable = (el, $, columns) => {
       let data = $('#' + el).bootstrapTable('getAllSelections')
       for (let v in data) {
-        let obj = $('#row' + data[v].id + ' select').find('option:selected').selectpicker('val').get('0')
+        let obj = $('#row' + data[v].userId + ' select').find('option:selected').selectpicker('val').get('0')
         data[v].value = obj.value
         data[v].text = obj.text
       }
-      console.log(data)
+      this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: data}}).then(resp => {
+        this.$utils.toastr.success(resp.respMsg)
+        $('#user-role-config').bootstrapTable('refresh')
+      })
     }
   },
   watch: {
