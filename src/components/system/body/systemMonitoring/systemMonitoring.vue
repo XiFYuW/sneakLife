@@ -28,7 +28,7 @@ export default {
   props: {
     dataUrl: {
       type: String,
-      required: true
+      required: false
     }
   },
   methods: {
@@ -36,7 +36,7 @@ export default {
       let self = this.$http
       const timer = setInterval(() => {
         setTimeout(() => {
-          self.get(this.dataUrl).then(resp => {
+          self.get('static/json/system/body/systemMonitoring/systemMonitoring.json').then(resp => {
             this.body = this.$utils.parse(resp)
             this.body.data.forEach(v => {
               let obj = document.getElementById(v.id)
