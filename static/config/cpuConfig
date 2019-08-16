@@ -1,0 +1,94 @@
+{
+  "id": "",
+  "style": {
+    "width": "100%",
+    "height": "500px"
+  },
+  "option": {
+    "title": {
+      "text": "",
+      "subtext": ""
+    },
+    "tooltip": {
+      "trigger": "axis"
+    },
+    "legend": {
+      "data": []
+    },
+    "toolbox": {
+      "show": true,
+      "feature": {
+        "mark": {
+          "show": true
+        },
+        "magicType": {
+          "show": true,
+          "type": [
+            "stack",
+            "tiled"
+          ]
+        },
+        "restore": {
+          "show": true
+        },
+        "saveAsImage": {
+          "show": true
+        }
+      }
+    },
+    "calculable": true,
+    "xAxis": [
+      {
+        "type": "category",
+        "boundaryGap": false,
+        "data": []
+      }
+    ],
+    "yAxis": [
+      {
+        "type": "value"
+      }
+    ],
+    "series": [
+      {
+        "name": "成交",
+        "type": "line",
+        "smooth": true,
+        "itemStyle": {
+          "normal": {
+            "areaStyle": {
+              "type": "default"
+            }
+          }
+        },
+        "data": []
+      },
+      {
+        "name": "预购",
+        "type": "line",
+        "smooth": true,
+        "itemStyle": {
+          "normal": {
+            "areaStyle": {
+              "type": "default"
+            }
+          }
+        },
+        "data": []
+      },
+      {
+        "name": "意向",
+        "type": "line",
+        "smooth": true,
+        "itemStyle": {
+          "normal": {
+            "areaStyle": {
+              "type": "default"
+            }
+          }
+        },
+        "data": []
+      }
+    ]
+  }
+}

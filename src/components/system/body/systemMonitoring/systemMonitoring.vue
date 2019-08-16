@@ -13,7 +13,6 @@
 
 <script>
 import echarts from 'echarts'
-import {modalBox} from '@/common/modalFrame'
 export default {
   name: 'system-monitoring',
   data () {
@@ -26,32 +25,42 @@ export default {
     this.drawChart()
   },
   props: {
-    dataUrl: {
-      type: String,
-      required: false
+    item: {
+      type: Object,
+      required: true
     }
   },
   methods: {
     drawChart () {
-      let self = this.$http
-      const timer = setInterval(() => {
-        setTimeout(() => {
-          self.get('static/json/system/body/systemMonitoring/systemMonitoring.json').then(resp => {
-            this.body = this.$utils.parse(resp)
-            this.body.data.forEach(v => {
-              let obj = document.getElementById(v.id)
-              if (obj) {
-                let myChart = echarts.init(obj)
-                this.isHead = true
-                myChart.setOption(v.option)
-                window.addEventListener('resize', myChart.resize)
-              }
+      this.$http.get('static/config/cpuConfig').then(modal => {
+        const timer = setInterval(() => {
+          setTimeout(() => {
+            this.$utils.central.send(this.$utils.http, {me: 'cpuListen', data: {}}).then(resp => {
+              this.body = resp.respData
+              let data = []
+              this.body.data.forEach(v => {
+                modal.id = v.id
+                modal.option.title.text = v.text
+                modal.option.title.subtext = v.subtext
+                modal.option.legend.data = v.legendData
+                modal.option.xAxis[0].data = v.xAxisData
+                modal.option.legend.data = v.legendData
+              })
+              this.body.data.forEach(v => {
+                let obj = document.getElementById(v.id)
+                if (obj) {
+                  let myChart = echarts.init(obj)
+                  this.isHead = true
+                  myChart.setOption(v.option)
+                  window.addEventListener('resize', myChart.resize)
+                }
+              })
             })
           })
+        }, 1000)
+        this.$once('hook:beforeDestroy', () => {
+          clearInterval(timer)
         })
-      }, 1000)
-      this.$once('hook:beforeDestroy', () => {
-        clearInterval(timer)
       })
     }
   },
