@@ -13,12 +13,31 @@
 
 <script>
 import echarts from 'echarts'
+const copy = require('../../../../common/common').deepCopy
 export default {
   name: 'system-monitoring',
   data () {
     return {
       body: {},
-      isHead: false
+      isHead: false,
+      series: {
+        'name': '',
+        'type': 'line',
+        'smooth': true,
+        'itemStyle': {
+          'normal': {
+            'areaStyle': {
+              'type': 'default'
+            }
+          }
+        },
+        'data': []
+      },
+      xAxis: {
+        'type': 'category',
+        'boundaryGap': false,
+        'data': []
+      }
     }
   },
   mounted () {
@@ -33,31 +52,38 @@ export default {
   methods: {
     drawChart () {
       this.$http.get('static/config/cpuConfig').then(modal => {
+        modal = this.$utils.parse(modal)
         const timer = setInterval(() => {
           setTimeout(() => {
             this.$utils.central.send(this.$utils.http, {me: 'cpuListen', data: {}}).then(resp => {
               this.body = resp.respData
-              let data = []
+              console.log(this.body.data)
               this.body.data.forEach(v => {
                 modal.id = v.id
                 modal.option.title.text = v.text
                 modal.option.title.subtext = v.subtext
                 modal.option.legend.data = v.legendData
-                modal.option.xAxis[0].data = v.xAxisData
-                modal.option.legend.data = v.legendData
-              })
-              this.body.data.forEach(v => {
-                let obj = document.getElementById(v.id)
+                this.xAxis.data = v.xAxisData
+                let series = copy.deepCopy(this.series)
+                for (let i = 0; i < v.legendData.length; i++) {
+                  series.name = v.legendData[i]
+                  series.data = v.seriesDataList[i]
+                  console.log(series)
+                  modal.option.series.push(series)
+                }
+                modal.option.xAxis = this.xAxis
+
+                let obj = document.getElementById(modal.id)
                 if (obj) {
                   let myChart = echarts.init(obj)
                   this.isHead = true
-                  myChart.setOption(v.option)
+                  myChart.setOption(modal.option)
                   window.addEventListener('resize', myChart.resize)
                 }
               })
             })
           })
-        }, 1000)
+        }, 3000)
         this.$once('hook:beforeDestroy', () => {
           clearInterval(timer)
         })
