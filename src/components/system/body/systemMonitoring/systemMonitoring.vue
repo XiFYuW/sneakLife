@@ -72,7 +72,6 @@ export default {
                   modal.option.series.push(series)
                 }
                 modal.option.xAxis = this.xAxis
-
                 let obj = document.getElementById(modal.id)
                 if (obj) {
                   let myChart = echarts.init(obj)
