@@ -37,58 +37,12 @@
       }
     },
     "calculable": true,
-    "xAxis": [
-      {
-        "type": "category",
-        "boundaryGap": false,
-        "data": []
-      }
-    ],
+    "xAxis": [],
     "yAxis": [
       {
         "type": "value"
       }
     ],
-    "series": [
-      {
-        "name": "成交",
-        "type": "line",
-        "smooth": true,
-        "itemStyle": {
-          "normal": {
-            "areaStyle": {
-              "type": "default"
-            }
-          }
-        },
-        "data": []
-      },
-      {
-        "name": "预购",
-        "type": "line",
-        "smooth": true,
-        "itemStyle": {
-          "normal": {
-            "areaStyle": {
-              "type": "default"
-            }
-          }
-        },
-        "data": []
-      },
-      {
-        "name": "意向",
-        "type": "line",
-        "smooth": true,
-        "itemStyle": {
-          "normal": {
-            "areaStyle": {
-              "type": "default"
-            }
-          }
-        },
-        "data": []
-      }
-    ]
+    "series": []
   }
 }
