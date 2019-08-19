@@ -4,7 +4,7 @@
     <div class="row">
       <div v-for="item in body.data" v-bind:key="item.id">
         <div class="col-xs-6 paddingNot">
-          <div v-bind:style="item.style" v-bind:id="item.id"></div>
+          <div v-bind:style="body.style" v-bind:id="item.id"></div>
         </div>
       </div>
     </div>
@@ -57,22 +57,22 @@ export default {
           setTimeout(() => {
             this.$utils.central.send(this.$utils.http, {me: 'cpuListen', data: {}}).then(resp => {
               this.body = resp.respData
-              console.log(this.body.data)
+              modal.option.series = []
+              modal.option.xAxis = []
+              this.body.style = modal.style
               this.body.data.forEach(v => {
                 modal.id = v.id
                 modal.option.title.text = v.text
                 modal.option.title.subtext = v.subtext
                 modal.option.legend.data = v.legendData
                 this.xAxis.data = v.xAxisData
-                let series = copy.deepCopy(this.series)
                 for (let i = 0; i < v.legendData.length; i++) {
+                  let series = copy.deepCopy(this.series)
                   series.name = v.legendData[i]
                   series.data = v.seriesDataList[i]
-                  console.log(series)
                   modal.option.series.push(series)
                 }
-                modal.option.xAxis = this.xAxis
-
+                modal.option.xAxis.push(this.xAxis)
                 let obj = document.getElementById(modal.id)
                 if (obj) {
                   let myChart = echarts.init(obj)
@@ -83,7 +83,7 @@ export default {
               })
             })
           })
-        }, 3000)
+        }, 1000)
         this.$once('hook:beforeDestroy', () => {
           clearInterval(timer)
         })

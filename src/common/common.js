@@ -47,6 +47,9 @@ export const utils = {
   parse: obj => {
     return JSON.parse(JSON.stringify(obj)).data
   },
+  parseAll: obj => {
+    return JSON.parse(JSON.stringify(obj))
+  },
   lazyLoadViews: AsyncView => {
     const AsyncHandler = () => ({
       component: AsyncView,
@@ -137,7 +140,7 @@ export const operaClick = {
         v.value = ''
         // 子组件更新值
         item.splice(index, index + 1, v)
-        // this.$set(item, index, v)
+        // this.(item, index, v)
       })
     })
     utils.modalFrame.show($)
