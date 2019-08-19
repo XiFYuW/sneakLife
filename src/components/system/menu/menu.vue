@@ -3,21 +3,22 @@
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab)"
-                v-bind:class="{ 'active': tab.type === view && tab.type !== '','dropdown': tab.son.length > 0  }">
-              <a v-bind:class="{'dropdown-toggle': tab.son.length > 0}" v-bind:data-toggle="tab.son.length > 0 ? 'dropdown' : ''"
-                 href="javascript:void(0)">
-                {{ tab.tab }} <span class="caret" v-if="tab.son.length > 0"></span>
-              </a>
-              <ul class="dropdown-menu" v-if="tab.son.length > 0">
-                <li v-for="s in tab.son" v-bind:key="s.tab" v-on:click="onTabs(s)"
-                    v-bind:class="{ 'active': s.type === view && s.type !== '' }">
-                  <a href="javascript:void(0)">{{ s.tab }}</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
+          <menu-child v-bind:tabs="tabs" v-bind:view="view" v-bind:cla="'nav navbar-nav'" @introduce="getItem"></menu-child>
+          <!--<ul class="nav navbar-nav">-->
+            <!--<li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab)"-->
+                <!--v-bind:class="{ 'active': tab.type === view && tab.type !== '','dropdown': tab.son.length > 0  }">-->
+              <!--<a v-bind:class="{'dropdown-toggle': tab.son.length > 0}" v-bind:data-toggle="tab.son.length > 0 ? 'dropdown' : ''"-->
+                 <!--href="javascript:void(0)">-->
+                <!--{{ tab.tab }} <span class="caret" v-if="tab.son.length > 0"></span>-->
+              <!--</a>-->
+              <!--<ul class="dropdown-menu" v-if="tab.son.length > 0">-->
+                <!--<li v-for="s in tab.son" v-bind:key="s.tab" v-on:click="onTabs(s)"-->
+                    <!--v-bind:class="{ 'active': s.type === view && s.type !== '' }">-->
+                  <!--<a href="javascript:void(0)">{{ s.tab }}</a>-->
+                <!--</li>-->
+              <!--</ul>-->
+            <!--</li>-->
+          <!--</ul>-->
         </div>
       </div>
     </nav>
@@ -40,6 +41,7 @@ export default {
     }
   },
   components: {
+    'menu-child': () => import('./menuChild'),
     'data-dictionary': () => import('../body/dataDictionary/dataDictionary'),
     'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring'),
     'function-config': () => import('../body/authorityControl/functionConfig/functionConfig'),
@@ -53,12 +55,15 @@ export default {
     })
   },
   methods: {
-    onTabs: function (tab) {
-      if (!tab.type) {
-        return
-      }
-      this.view = tab.type
-      this.item = tab
+    // onTabs: function (tab) {
+    //   if (!tab.type) {
+    //     return
+    //   }
+    //   this.view = tab.type
+    //   this.item = tab
+    // },
+    getItem: function (item) {
+      this.item = item.item
     }
   },
   computed: {
