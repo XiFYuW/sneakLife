@@ -75,8 +75,8 @@ export default {
     this.$utils.central.send(this.$utils.http, {me: 'selectsList', data: {}}).then(resp => {
       this.handle.transitionalComponent.dataSelect = resp.respData
       /**
-         * 全局初始化CommonSelect
-         */
+       * 全局初始化CommonSelect
+       */
       this.$vue.component('common-select', CommonSelect)
     })
     let $ = this.$jquery

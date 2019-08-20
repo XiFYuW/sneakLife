@@ -189,5 +189,6 @@ export default {
 <style scoped>
   .treeViewMa{
     margin-left: 60px;
+    width: max-content;
   }
 </style>

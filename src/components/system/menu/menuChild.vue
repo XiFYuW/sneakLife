@@ -1,12 +1,12 @@
 <template>
   <ul v-bind:class="cla">
-    <li v-for="tab in tabs" v-bind:key="tab.tab" v-on:click="onTabs(tab)"
-        v-bind:class="{ 'active': tab.type === view && tab.type !== '','dropdown': tab.son.length > 0  }">
-      <a v-bind:class="{'dropdown-toggle': tab.son.length > 0}" v-bind:data-toggle="tab.son.length > 0 ? 'dropdown' : ''"
+    <li v-for="tab in tabs" v-bind:key="tab.tab" @click.stop="onTabs(tab)"
+        v-bind:class="{ 'active': tab.type !== '' && tab.type === view,'dropdown': tab.son.length > 0 }">
+      <a v-bind:id="tab.id" v-bind:class="{'dropdown-toggle': tab.son.length > 0}" v-bind:data-toggle="tab.son.length > 0 ? 'dropdown' : ''"
          href="javascript:void(0)">
         {{ tab.tab }} <span class="caret" v-if="tab.son.length > 0"></span>
       </a>
-      <menu-child v-if="tab.son.length > 0" v-bind:tabs="tab.son" v-bind:view="view" v-bind:cla="'dropdown-menu'"></menu-child>
+      <menu-child v-if="tab.son.length > 0" v-bind:tabs="tab.son" v-bind:cla="'dropdown-menu'" @introduce="getItem"></menu-child>
     </li>
   </ul>
 </template>
@@ -14,14 +14,15 @@
 <script>
 export default {
   name: 'menu-child',
+  data () {
+    return {
+      view: ''
+    }
+  },
   props: {
     tabs: {
       type: Array,
       required: true
-    },
-    view: {
-      type: String,
-      required: false
     },
     cla: {
       type: String,
@@ -31,24 +32,34 @@ export default {
   methods: {
     onTabs: function (tab) {
       if (!tab.type) {
+        this.addOpen(tab)
         return
       }
       this.view = tab.type
       this.$emit('introduce', {
-        item: tab
+        item: tab,
+        view: this.view
       })
-    }
-  },
-  watch: {
-    view: {
-      handler (newVal, oldVal) {
-        if (newVal !== oldVal) {
-          this.view = newVal
-        }
+      this.removeOpen(tab)
+    },
+    getItem: function (item) {
+      this.$emit('introduce', {
+        item: item.item,
+        view: item.view
+      })
+    },
+    removeOpen: function (tab) {
+      if (tab.pid !== '') {
+        let parent = this.$jquery('#' + tab.pid).parent()
+        parent.removeClass('open')
       }
     },
-    immediate: true,
-    deep: true
+    addOpen: function (tab) {
+      let parent = this.$jquery('#' + tab.id).parent()
+      if (!parent.hasClass('open')) {
+        parent.addClass('open')
+      }
+    }
   }
 }
 </script>
