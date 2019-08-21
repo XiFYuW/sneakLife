@@ -53,7 +53,7 @@ export default {
   mounted () {
     let $ = this.$jquery
     let http = this.$utils.http
-    this.$central.send(http, {me: this.item.pageUrl, data: {}}).then(resp => {
+    this.$central.send(http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       treeViewCopy.options.data = resp.respData
       treeViewCopy.init(this.$jquery)
       treeViewCopy.nodeSelected(this.$jquery, (event, data) => {
