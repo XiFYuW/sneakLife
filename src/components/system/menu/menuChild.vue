@@ -40,7 +40,7 @@ export default {
         item: tab,
         view: this.view
       })
-      this.removeOpen(tab)
+      this.$jquery('li.dropdown').removeClass('open')
     },
     getItem: function (item) {
       this.$emit('introduce', {

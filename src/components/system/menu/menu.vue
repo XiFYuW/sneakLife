@@ -32,7 +32,10 @@ export default {
     'function-config': () => import('../body/authorityControl/functionConfig/functionConfig'),
     'role-config': () => import('../body/authorityControl/roleConfig/roleConfig'),
     'user-role-config': () => import('../body/authorityControl/userRoleConfig/userRoleConfig'),
-    'role-function-config': () => import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig')
+    'role-function-config': () => import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig'),
+    'function-button-config': () => import('../body/business/businessFunction/functionButton/functionButtonConfig'),
+    'function-columns-config': () => import('../body/business/businessFunction/functionColumns/functionColumnsConfig'),
+    'function-input-config': () => import('../body/business/businessFunction/functionInput/functionInputConfig')
   },
   mounted: function () {
     this.$utils.central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
