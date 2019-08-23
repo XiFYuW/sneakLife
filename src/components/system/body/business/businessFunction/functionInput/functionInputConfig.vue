@@ -73,7 +73,8 @@ export default {
                   sort: params.sort,
                   // 排序命令（desc，asc）
                   sortOrder: params.order
-                }
+                },
+                data: {menuId: data.id, name: data.text}
               }
               return {data: this.$central.enParameter(parameter)}
             }

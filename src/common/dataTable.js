@@ -56,7 +56,9 @@ export const dataTable = {
    * @param tls 数据表格格式
    */
   init: function (el, $, tls) {
-    $('#' + el).bootstrapTable(tls)
+    let table = $('#' + el)
+    table.bootstrapTable('destroy')
+    table.bootstrapTable(tls)
   },
   /**
    * 渲染select列表

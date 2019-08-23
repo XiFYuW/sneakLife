@@ -73,14 +73,14 @@ export default {
                   sort: params.sort,
                   // 排序命令（desc，asc）
                   sortOrder: params.order
-                }
+                },
+                data: {menuId: data.id, name: data.text}
               }
               return {data: this.$central.enParameter(parameter)}
             }
             dataTableCopy.tl.url = this.$central.url
             dataTableCopy.tl.toolbar = '#' + this.toolbarId
             dataTableCopy.tl.responseHandler = resp => {
-              debugger
               return {
                 total: resp.respData.totalElements,
                 rows: resp.respData.content
@@ -91,6 +91,9 @@ export default {
               'checkbox': true,
               'data-halign': 'center'
             })
+            // dataTableCopy.tl.onResetView = function () {
+            //   $('#' + this.tableId).bootstrapTable('resetWidth')
+            // }
             dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
           })
         }

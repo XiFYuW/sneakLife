@@ -41,6 +41,7 @@ export default {
         view: this.view
       })
       this.$jquery('li.dropdown').removeClass('open')
+      this.$jquery('li.dropdown').removeClass('open')
     },
     getItem: function (item) {
       this.$emit('introduce', {
