@@ -39,7 +39,8 @@ export default {
       head: this.item.tab,
       isShowData: false,
       tableId: 'function-columns-config',
-      toolbarId: 'function-columns-config-toolbar'
+      toolbarId: 'function-columns-config-toolbar',
+      menuIdTemp: ''
     }
   },
   props: {
@@ -61,6 +62,7 @@ export default {
             const initDataTable = resp.respData
             this.head = this.item.tab + ' - ' + data.text
             this.opera = initDataTable.opera
+            this.menuIdTemp = data.id
             dataTableCopy.tl.queryParams = params => {
               let parameter = {
                 me: this.item.dataUrl,
@@ -74,7 +76,7 @@ export default {
                   // 排序命令（desc，asc）
                   sortOrder: params.order
                 },
-                data: {menuId: data.id, name: data.text}
+                data: {menuId: this.menuIdTemp, name: data.text}
               }
               return {data: this.$central.enParameter(parameter)}
             }
@@ -97,11 +99,16 @@ export default {
       })
     })
 
-    this.operaClick.addTable = (el, $, columns) => {}
-
-    this.operaClick.updateTable = (el, $, columns) => {}
-
-    this.operaClick.deleteTable = (el, $, columns) => {}
+    this.operaClick.addTable = (el, $, columns) => {
+      columns.forEach(item => {
+        item.forEach((v, index) => {
+          v.value = ''
+          v.menuIdTemp = this.menuIdTemp
+          item.splice(index, index + 1, v)
+        })
+      })
+      this.$utils.modalFrame.show($)
+    }
   }
 }
 </script>

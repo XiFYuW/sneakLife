@@ -67,6 +67,9 @@ export default {
         for (let j = 0; j < arr.length; j++) {
           let obj = arr[j]
           data = this.getByHtmlType($, obj, data)
+          if (obj.hasOwnProperty('menuIdTemp')) {
+            data = this.$utils.toObj(data, 'menuIdTemp', obj.menuIdTemp)
+          }
         }
       }
       return data
