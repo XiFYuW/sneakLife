@@ -25,17 +25,8 @@ export default {
   },
   data () {
     return {
-      /**
-       * 操作按钮的动作
-       */
       operaClick: operaClickCopy,
-      /**
-       * 功能按钮
-       */
       opera: {},
-      /**
-       * 标题头
-       */
       head: this.item.tab,
       isShowData: false,
       tableId: 'function-button-config',
@@ -99,10 +90,17 @@ export default {
       })
     })
 
-    this.operaClick.addTable = (el, $, columns) => {
+    this.operaClick.addTable = async (el, $, columns) => {
+      let iconSelectData = ''
+      await this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: 35}}).then(resp => {
+        iconSelectData = resp.respData
+      })
       columns.forEach(item => {
         item.forEach((v, index) => {
           v.value = ''
+          if (v.field === 'icon') {
+            this.$utils.vue.set(v, v.field + 'SelectData', iconSelectData)
+          }
           v.menuIdTemp = this.menuIdTemp
           item.splice(index, index + 1, v)
         })

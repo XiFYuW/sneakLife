@@ -135,12 +135,11 @@ export const operaClick = {
     }
   },
   addTable: function (el, $, columns) {
+    debugger
     columns.forEach(item => {
       item.forEach((v, index) => {
         v.value = ''
-        // 子组件更新值
         item.splice(index, index + 1, v)
-        // this.(item, index, v)
       })
     })
     utils.modalFrame.show($)

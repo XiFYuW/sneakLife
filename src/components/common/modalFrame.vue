@@ -11,6 +11,7 @@
             <div class="row" v-for="(item, index) in funIn" v-bind:key="index">
               <div class="col-lg-6" v-for="(items, cindex) in item" v-bind:key="cindex">
                 <input-label v-bind:inputLable="items" v-bind:isSpan="false" v-if="items.htmlType === 'inputLable'"></input-label>
+                <common-select v-bind:dataSelect="items" v-bind:isSpan="false" v-else-if="items.htmlType === 'selects'"></common-select>
                 <select-tree-view v-bind:treeView="items" v-bind:isSpan="false" v-else></select-tree-view>
               </div>
             </div>
@@ -26,6 +27,7 @@
 </template>
 
 <script>
+import {selects} from '../../common/selects'
 export default {
   name: 'modal-frame',
   props: {
@@ -39,6 +41,7 @@ export default {
     }
   },
   components: {
+    'common-select': () => import('./commonSelect'),
     'date-time-picker': () => import('./dateTimePicker'),
     'select-tree-view': () => import('./selectTreeView'),
     'select-data-table': () => import('./selectDataTable'),
@@ -72,13 +75,15 @@ export default {
           }
         }
       }
+      debugger
       return data
     },
     getByHtmlType: function ($, item, data) {
       let v = null
+      let obj = $('#' + item.id)
       switch (item.htmlType) {
         case 'inputLable':
-          v = $('#' + item.id).val()
+          v = obj.val()
           break
         case 'treeView':
           let temp = this.$utils.selectTreeViewData
@@ -90,6 +95,9 @@ export default {
               data = this.$utils.toObj(data, 'tempMenuId', v)
             }
           }
+          break
+        case 'selects':
+          v = selects.getVal(obj)
           break
         default:
           break

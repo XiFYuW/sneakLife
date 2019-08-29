@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <select class="selectpicker" multiple data-max-options="1" data-width="fit">
-      <option v-for="item in dataSelect.data" :key="item.value" v-bind:data-content="item.dataContent" v-bind:value="item.value">
+  <div class="form-group">
+    <span class="input-group-addon" v-if="isSpan">{{dataSelect.textName}}</span>
+    <label class="control-label" v-else>{{dataSelect.textName}}</label>
+    <select v-bind:id="dataSelect.id" class="selectpicker form-control" multiple data-max-options="1" data-width="fit">
+      <option v-for="item in templateData" :key="item.value" v-bind:data-content="item.dataContent" v-bind:value="item.value">
         {{item.name}}
       </option>
     </select>
@@ -12,16 +14,27 @@
 import {selects} from '../../common/selects'
 export default {
   name: 'common-select',
-  mounted () {
-    selects.init(this.$jquery)
+  data () {
+    return {
+      templateData: []
+    }
+  },
+  updated () {
+    let obj = this.$jquery('#' + this.dataSelect.id)
+    obj.val('')
+    this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData'].data
+    selects.init(this.$jquery, this.dataSelect.id)
+    let parent = obj.parent()
+    parent.css({'display': 'inherit'})
   },
   props: {
-    /**
-     * 下拉列表数据
-     */
     dataSelect: {
       type: Object,
       required: true
+    },
+    isSpan: {
+      type: Boolean,
+      required: false
     }
   },
   watch: {
@@ -39,5 +52,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

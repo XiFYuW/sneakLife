@@ -6,7 +6,6 @@
     <div class="col-md-9 sidebar" v-if="is">
       <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"
                   v-bind:tableId="tableId" v-bind:toolbarId="toolbarId"></data-table>
-      <!--<tree-grid v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"></tree-grid>-->
     </div>
   </div>
 </template>
@@ -27,17 +26,8 @@ export default {
   },
   data () {
     return {
-      /**
-       * 操作按钮的动作
-       */
       operaClick: operaClickCopy,
-      /**
-       * 功能按钮
-       */
       opera: {},
-      /**
-       * 标题头
-       */
       head: this.item.tab,
       is: false,
       tableId: 'function-config-treeGrid',
@@ -97,12 +87,10 @@ export default {
     })
 
     this.operaClick.addTable = (el, $, columns) => {
-      // this.$utils.modalFrame.clearData($)
       let pageData = $('#function-config-treeGrid').bootstrapTable('getData')
       let data = this.buildTreeViewList(pageData)
       columns.forEach(item => {
         item.forEach((v, index) => {
-          // 对应key,增加value属性
           if (v.field === 'id') {
             this.$utils.vue.set(v, 'value', data)
           }
@@ -128,7 +116,6 @@ export default {
       let data = this.buildTreeViewList(pageData)
       columns.forEach(item => {
         item.forEach((v, index) => {
-          // 对应key,增加value属性
           if (v.field === 'id') {
             this.$utils.vue.set(v, 'value', data)
           }

@@ -12,7 +12,7 @@ export const selects = {
    */
   init: function ($, el) {
     this.setEl(el)
-    $('.' + this.el).selectpicker()
+    $('#' + this.el).selectpicker()
   },
   /**
    * 设置下拉列表的值
@@ -22,5 +22,9 @@ export const selects = {
   setVal: function (obj, val) {
     obj.selectpicker('val', val)
     obj.selectpicker('refresh')
+  },
+  getVal: function (obj) {
+    let data = obj.find('option:selected').selectpicker('val').get('0')
+    return data.value
   }
 }
