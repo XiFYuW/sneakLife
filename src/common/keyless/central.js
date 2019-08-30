@@ -53,6 +53,14 @@ export const central = {
       padding: CryptoJS.pad.Pkcs7
     }).toString()
   },
+  checkCode: function (resp) {
+    let ok = [2000, 5566, 7766, 4467, 4466]
+    if (ok.indexOf(resp.respCode) < 0) {
+      this.toastr.error(resp.respMsg)
+      return false
+    }
+    return true
+  },
   post: function (http, url, data) {
     return new Promise((resolve, reject) => {
       http({
@@ -72,11 +80,7 @@ export const central = {
           return ret
         }]
       }).then((res) => {
-        let respCode = res.data.respCode
-        let ok = [2000, 5566, 7766, 4467, 4466]
-        if (ok.indexOf(respCode) < 0) {
-          this.toastr.error(res.data.respMsg)
-        } else {
+        if (this.checkCode(res.data)) {
           resolve(res)
         }
       }).catch((err) => {

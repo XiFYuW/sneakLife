@@ -22,7 +22,7 @@ export default {
   updated () {
     let obj = this.$jquery('#' + this.dataSelect.id)
     obj.val('')
-    this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData'].data
+    this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData']
     selects.init(this.$jquery, this.dataSelect.id)
     let parent = obj.parent()
     parent.css({'display': 'inherit'})

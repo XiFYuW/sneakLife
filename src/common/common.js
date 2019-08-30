@@ -1,4 +1,3 @@
-
 /**
  * 中转站
  * @type {{parse: (function(*=): *), lazyLoadViews: (function(*=): Promise<{functional: boolean, render(*, {data?: *, children?: *}): *}>)}}
@@ -108,14 +107,18 @@ export const deepCopy = {
 }
 
 /**
- * 按钮相关操作
- * 可以动态的修改方法
+ * 功能操作按钮对象
  * @type {{popover: operaClick.popover, hint: operaClick.hint, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
  */
 export const operaClick = {
   /**
-   * add update delete统一入口
-   * */
+   * 功能操作按钮统一入口
+   * @param code
+   * @param table
+   * @param $
+   * @param pop
+   * @param columns
+   */
   selectClickMe: function (code, table, $, pop, columns) {
     utils.modalFrame.clearData($)
     utils.setCode(code)
@@ -134,6 +137,12 @@ export const operaClick = {
         alert('.....')
     }
   },
+  /**
+   * 基本添加操作
+   * @param el
+   * @param $
+   * @param columns
+   */
   addTable: function (el, $, columns) {
     debugger
     columns.forEach(item => {
@@ -144,6 +153,12 @@ export const operaClick = {
     })
     utils.modalFrame.show($)
   },
+  /**
+   * 基本修改操作
+   * @param el
+   * @param $
+   * @param columns
+   */
   updateTable: function (el, $, columns) {
     let data = $('#' + el).bootstrapTable('getAllSelections')
     if (this.hint(data)) {
@@ -166,6 +181,12 @@ export const operaClick = {
       utils.modalFrame.show($)
     }
   },
+  /**
+   * 基本删除操作
+   * @param el
+   * @param $
+   * @param columns
+   */
   deleteTable: function (el, $, columns) {
     let data = $('#' + el).bootstrapTable('getAllSelections')
     if (this.hint(data)) {
@@ -175,6 +196,13 @@ export const operaClick = {
       })
     }
   },
+  /**
+   * 基本消息提示
+   * @param data
+   * @param $
+   * @param el
+   * @returns {boolean}
+   */
   popover: (data, $, el) => {
     let o = $('.' + el)
     if (data.length === 0 || data.length > 1) {
@@ -191,6 +219,11 @@ export const operaClick = {
     }
     return false
   },
+  /**
+   * 基本消息提示
+   * @param data
+   * @returns {boolean}
+   */
   hint: function (data) {
     if (data.length === 0 || data.length > 1) {
       utils.toastr.warning('请选择一行')
@@ -202,16 +235,24 @@ export const operaClick = {
 
 /**
  * 挂载组件
- * @type {{mountSelect: mountComponent.mountSelect}}
+ * @type {{transitionalComponent: {}, mountSelect: mountComponent.mountSelect, setTransitionalComponent: mountComponent.setTransitionalComponent, getTransitionalComponent: (function(): (mountComponent.transitionalComponent|{}))}}
  */
 export const mountComponent = {
   /**
-   * 过渡组件
+   * 过渡组件对象
    */
   transitionalComponent: {},
+  /**
+   * 设置过渡组件
+   * @param mc
+   */
   setTransitionalComponent: function (mc) {
     this.transitionalComponent = mc
   },
+  /**
+   * 获取过渡组件
+   * @returns {mountComponent.transitionalComponent|{}}
+   */
   getTransitionalComponent: function () {
     return this.transitionalComponent
   },

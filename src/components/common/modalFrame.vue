@@ -75,7 +75,6 @@ export default {
           }
         }
       }
-      debugger
       return data
     },
     getByHtmlType: function ($, item, data) {

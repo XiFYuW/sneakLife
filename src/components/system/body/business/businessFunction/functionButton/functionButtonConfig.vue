@@ -74,6 +74,9 @@ export default {
             dataTableCopy.tl.url = this.$central.url
             dataTableCopy.tl.toolbar = '#' + this.toolbarId
             dataTableCopy.tl.responseHandler = resp => {
+              if (!this.$utils.central.checkCode(resp)) {
+                return
+              }
               return {
                 total: resp.respData.totalElements,
                 rows: resp.respData.content
@@ -90,22 +93,22 @@ export default {
       })
     })
 
-    this.operaClick.addTable = async (el, $, columns) => {
-      let iconSelectData = ''
-      await this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: 35}}).then(resp => {
-        iconSelectData = resp.respData
-      })
-      columns.forEach(item => {
-        item.forEach((v, index) => {
-          v.value = ''
-          if (v.field === 'icon') {
-            this.$utils.vue.set(v, v.field + 'SelectData', iconSelectData)
-          }
-          v.menuIdTemp = this.menuIdTemp
-          item.splice(index, index + 1, v)
+    this.operaClick.addTable = (el, $, columns) => {
+      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: '35,32,65'}}).then(resp => {
+        let selectData = resp.respData.data
+        columns.forEach(item => {
+          item.forEach((v, index) => {
+            v.value = ''
+            let data = selectData[v.field]
+            if (data) {
+              this.$utils.vue.set(v, v.field + 'SelectData', data)
+            }
+            v.menuIdTemp = this.menuIdTemp
+            item.splice(index, index + 1, v)
+          })
         })
+        this.$utils.modalFrame.show($)
       })
-      this.$utils.modalFrame.show($)
     }
   }
 }
