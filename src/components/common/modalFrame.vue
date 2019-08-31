@@ -11,7 +11,7 @@
             <div class="row" v-for="(item, index) in funIn" v-bind:key="index">
               <div class="col-lg-6" v-for="(items, cindex) in item" v-bind:key="cindex">
                 <input-label v-bind:inputLable="items" v-bind:isSpan="false" v-if="items.htmlType === 'inputLable'"></input-label>
-                <common-select v-bind:dataSelect="items" v-bind:isSpan="false" v-else-if="items.htmlType === 'selects'"></common-select>
+                <common-select v-bind:dataSelect="items" v-bind:isMnh="true" v-bind:isSpan="false" v-else-if="items.htmlType === 'selects'"></common-select>
                 <select-tree-view v-bind:treeView="items" v-bind:isSpan="false" v-else></select-tree-view>
               </div>
             </div>

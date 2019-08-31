@@ -2,7 +2,7 @@
   <div class="form-group">
     <span class="input-group-addon" v-if="isSpan">{{dataSelect.textName}}</span>
     <label class="control-label" v-else>{{dataSelect.textName}}</label>
-    <select v-bind:id="dataSelect.id" class="selectpicker form-control" multiple data-max-options="1" data-width="fit">
+    <select v-bind:id="dataSelect.id" class="selectpicker" multiple data-max-options="1" data-width="fit">
       <option v-for="item in templateData" :key="item.value" v-bind:data-content="item.dataContent" v-bind:value="item.value">
         {{item.name}}
       </option>
@@ -19,13 +19,22 @@ export default {
       templateData: []
     }
   },
+  created () {
+    if (!this.isMnh) {
+      debugger
+      this.templateData = this.dataSelect.data
+      selects.init(this.$jquery)
+    }
+  },
   updated () {
     let obj = this.$jquery('#' + this.dataSelect.id)
-    obj.val('')
-    this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData']
-    selects.init(this.$jquery, this.dataSelect.id)
-    let parent = obj.parent()
-    parent.css({'display': 'inherit'})
+    // obj.val('')
+    if (this.isMnh) {
+      this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData']
+      selects.init(this.$jquery, this.dataSelect.id)
+      let parent = obj.parent()
+      parent.css({'display': 'inherit'})
+    }
   },
   props: {
     dataSelect: {
@@ -33,6 +42,10 @@ export default {
       required: true
     },
     isSpan: {
+      type: Boolean,
+      required: false
+    },
+    isMnh: {
       type: Boolean,
       required: false
     }

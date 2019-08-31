@@ -14,6 +14,7 @@
 import {treeView} from '../../../../../../common/treeview'
 import {operaClick} from '../../../../../../common/common'
 import {dataTable} from '../../../../../../common/dataTable'
+import {selects} from '../../../../../../common/selects'
 const treeViewCopy = require('../../../../../../common/common').deepCopy.deepCopy(treeView)
 const operaClickCopy = require('../../../../../../common/common').deepCopy.deepCopy(operaClick)
 const dataTableCopy = require('../../../../../../common/common').deepCopy.deepCopy(dataTable)
@@ -50,15 +51,14 @@ export default {
     }
   },
   mounted () {
-    let $ = this.$jquery
-    let http = this.$utils.http
-    this.$central.send(http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+    this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+      let $ = this.$jquery
       treeViewCopy.options.data = resp.respData
       treeViewCopy.init($)
       treeViewCopy.nodeSelected($, (event, data) => {
         this.isShowData = true
         if (data.url !== '#') {
-          this.$central.send(http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {
+          this.$central.send(this.$utils.http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {
             const initDataTable = resp.respData
             this.head = this.item.tab + ' - ' + data.text
             this.opera = initDataTable.opera
@@ -98,16 +98,61 @@ export default {
         }
       })
     })
-
+  },
+  updated () {
     this.operaClick.addTable = (el, $, columns) => {
-      columns.forEach(item => {
-        item.forEach((v, index) => {
-          v.value = ''
-          v.menuIdTemp = this.menuIdTemp
-          item.splice(index, index + 1, v)
+      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: '78'}}).then(resp => {
+        let selectData = resp.respData.data
+        columns.forEach(item => {
+          item.forEach((v, index) => {
+            v.value = ''
+            let data = selectData[v.field]
+            if (data) {
+              this.$utils.vue.set(v, v.field + 'SelectData', data)
+            }
+            v.menuIdTemp = this.menuIdTemp
+            item.splice(index, index + 1, v)
+          })
         })
+        this.$utils.modalFrame.show($)
       })
-      this.$utils.modalFrame.show($)
+    }
+
+    this.operaClick.updateTable = (el, $, columns) => {
+      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: '78'}}).then(resp => {
+        let selectData = resp.respData.data
+        let data = $('#' + el).bootstrapTable('getAllSelections')
+        if (this.operaClick.hint(data)) {
+          this.$utils.setId(data[0].id)
+          // 传入子组件的值
+          columns.forEach(item => {
+            item.forEach((v, index) => {
+              let key = v.field
+              // 对应key,增加value属性
+              for (let i = 0; i < data.length; i++) {
+                let jsons = data[i]
+                for (let p in jsons) {
+                  if (key === p) {
+                    let td = selectData[key]
+                    if (td) {
+                      this.$utils.vue.set(v, key + 'SelectData', td)
+                      let obj = $('#' + v.id)
+                      for (let va in td) {
+                        if (td[va].name === jsons[p]) {
+                          selects.setVal(obj, td[va].value)
+                        }
+                      }
+                    } else {
+                      this.$utils.vue.set(v, 'value', jsons[p])
+                    }
+                  }
+                }
+              }
+            })
+          })
+          this.$utils.modalFrame.show($)
+        }
+      })
     }
   }
 }

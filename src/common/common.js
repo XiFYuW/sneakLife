@@ -144,7 +144,6 @@ export const operaClick = {
    * @param columns
    */
   addTable: function (el, $, columns) {
-    debugger
     columns.forEach(item => {
       item.forEach((v, index) => {
         v.value = ''
@@ -262,6 +261,13 @@ export const mountComponent = {
    */
   mountSelect: function (el) {
     let CommonSelect = this.transitionalComponent.vue.extend(this.transitionalComponent.componentTra)
-    new CommonSelect({propsData: {dataSelect: this.transitionalComponent.dataSelect}}).$mount('#' + el)
+    new CommonSelect(
+      {
+        propsData:
+          {
+            dataSelect: this.transitionalComponent.dataSelect
+          }
+      }
+    ).$mount('#' + el)
   }
 }
