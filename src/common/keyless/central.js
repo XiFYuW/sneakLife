@@ -39,7 +39,13 @@ export const central = {
       this.sendTimeOut()
     }, 900)
   },
+  /**
+   * 加密参数
+   * @param parameter
+   * @returns {*}
+   */
   enParameter: function (parameter) {
+    console.log(this.rsa)
     let ps = {
       data: this.aesEncrypts(JSON.stringify(parameter)),
       token: this.rsa.encryptLong(this.token)
@@ -47,12 +53,22 @@ export const central = {
     let str = JSON.stringify(ps)
     return this.rsa.encryptLong(str)
   },
+  /**
+   * AES加密
+   * @param word
+   * @returns {string}
+   */
   aesEncrypts: function (word) {
     return CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(word), CryptoJS.enc.Utf8.parse(this.token), {
       mode: CryptoJS.mode.ECB,
       padding: CryptoJS.pad.Pkcs7
     }).toString()
   },
+  /**
+   * 检测返回码
+   * @param resp
+   * @returns {boolean}
+   */
   checkCode: function (resp) {
     let ok = [2000, 5566, 7766, 4467, 4466]
     if (ok.indexOf(resp.respCode) < 0) {
@@ -61,6 +77,13 @@ export const central = {
     }
     return true
   },
+  /**
+   * post请求
+   * @param http
+   * @param url
+   * @param data
+   * @returns {Promise<any>}
+   */
   post: function (http, url, data) {
     return new Promise((resolve, reject) => {
       http({

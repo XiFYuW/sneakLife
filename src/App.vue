@@ -10,9 +10,6 @@
 
 <script>
 export default {
-  name: 'App',
-  mounted: function () {
-    this.$central.serverInit(this.$utils.http)
-  }
+  name: 'App'
 }
 </script>

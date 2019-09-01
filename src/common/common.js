@@ -175,6 +175,7 @@ export const operaClick = {
               }
             }
           }
+          // item.splice(index, index + 1, v)
         })
       })
       utils.modalFrame.show($)

@@ -84,10 +84,11 @@ export const dataTable = {
         }
         // 挂载组件
         mountComponent.mountSelect(idTemp)
-        debugger
         let obj = $('#' + id + ' select')
         // 初始化select值
         selects.setVal(obj, row.value)
+        $('#' + id + ' label').remove()
+        $('#' + id + ' .mba').css('margin-bottom', 'auto')
         // obj.find('option[value=' + row.value + ']').prop('selected', true)
         // 不可修改
         // obj.attr('disabled', disabled)

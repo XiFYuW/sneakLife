@@ -37,7 +37,8 @@ export default {
     'function-columns-config': () => import('../body/business/businessFunction/functionColumns/functionColumnsConfig'),
     'function-input-config': () => import('../body/business/businessFunction/functionInput/functionInputConfig')
   },
-  mounted: function () {
+  mounted: async function () {
+    await this.$central.serverInit(this.$utils.http)
     this.$utils.central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
       this.tabs = resp.respData
     })
