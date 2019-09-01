@@ -45,7 +45,6 @@ export const central = {
    * @returns {*}
    */
   enParameter: function (parameter) {
-    console.log(this.rsa)
     let ps = {
       data: this.aesEncrypts(JSON.stringify(parameter)),
       token: this.rsa.encryptLong(this.token)
