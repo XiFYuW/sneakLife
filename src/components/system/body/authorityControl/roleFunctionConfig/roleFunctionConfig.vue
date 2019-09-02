@@ -98,8 +98,8 @@ export default {
     this.operaClick.updateTable = (el, $, columns) => {
       let pageData = $('#role-function-config-table').bootstrapTable('getAllSelections')
       pageData.forEach(e => {
-        this.$utils.delObj(e, '_nodes')
-        this.$utils.delObj(e, '_parent')
+        this.$utils.delObjProperty(e, '_nodes')
+        this.$utils.delObjProperty(e, '_parent')
       })
       this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: pageData}}).then(resp => {
         this.$utils.central.toastr.success(resp.respMsg)

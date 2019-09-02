@@ -28,11 +28,20 @@ export const datetimepicker = {
     // 强制解析
     forceParse: true
   },
+  /**
+   * 设置元素位置
+   * @param el 元素位置
+   */
   setEl: function (el) {
     if (el) {
       this.el = el
     }
   },
+  /**
+   * 初始化日期控件
+   * @param $ jquery对象
+   * @param el 元素位置
+   */
   init: function ($, el) {
     this.setEl(el)
     $('.' + this.el).datetimepicker(this.tl)

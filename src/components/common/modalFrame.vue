@@ -71,7 +71,7 @@ export default {
           let obj = arr[j]
           data = this.getByHtmlType($, obj, data)
           if (obj.hasOwnProperty('menuIdTemp')) {
-            data = this.$utils.toObj(data, 'menuIdTemp', obj.menuIdTemp)
+            data = this.$utils.addObjProperty(data, 'menuIdTemp', obj.menuIdTemp)
           }
         }
       }
@@ -89,9 +89,9 @@ export default {
           if (temp !== null && temp !== undefined) {
             v = temp.value
             if (temp.hasOwnProperty('tempMenuId')) {
-              data = this.$utils.toObj(data, 'tempMenuId', temp.tempMenuId)
+              data = this.$utils.addObjProperty(data, 'tempMenuId', temp.tempMenuId)
             } else {
-              data = this.$utils.toObj(data, 'tempMenuId', v)
+              data = this.$utils.addObjProperty(data, 'tempMenuId', v)
             }
           }
           break
@@ -105,7 +105,7 @@ export default {
         this.$utils.toastr.warning(item.textName + '不能为空')
         return {}
       }
-      data = this.$utils.toObj(data, item.field, v)
+      data = this.$utils.addObjProperty(data, item.field, v)
       return data
     },
     toSend: function (data) {

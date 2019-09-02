@@ -44,6 +44,11 @@ export const treeGrid = {
       this.el = el
     }
   },
+  /**
+   * 初始化树形表格
+   * @param $ jquery对象
+   * @param el 树形表格位置
+   */
   init: function ($, el) {
     this.setEl(el)
     let treeGrid = $('#' + this.el)
@@ -57,9 +62,11 @@ export const treeGrid = {
         }
       })
     }
+    // 树形表格选中
     this.tl.onCheck = row => {
       this.toAction(treeGrid, row, $, true)
     }
+    // 树形表格取消选中
     this.tl.onUncheck = row => {
       this.toAction(treeGrid, row, $, false)
     }

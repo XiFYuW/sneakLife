@@ -27,7 +27,7 @@
       </div>
       <div class="btn-group" role="group" :id="toolbarId">
         <button class="btn btn-default" v-bind:class="item.text" v-bind:key="item.text" v-bind:type="item.type"
-                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.text, item.url)">
+                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url)">
           <span class="glyphicon" v-bind:class="item.icon" aria-hidden="true"></span> {{item.text}}
         </button>
       </div>
@@ -93,10 +93,10 @@ export default {
     }
   },
   methods: {
-    selectMe: function (code, text, url) {
+    selectMe: function (code, url) {
       this.btnUrl = url
       this.$utils.setUrl(url)
-      this.operaClick.selectClickMe(code, this.tableId, this.$jquery, text, this.opera.in)
+      this.operaClick.selectClickMe(code, this.tableId, this.$jquery, this.opera.in)
     }
   },
   watch: {

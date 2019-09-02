@@ -62,9 +62,9 @@ export const dataTable = {
   },
   /**
    * 渲染select列表
-   * @param $
-   * @param data
-   * @param disabled
+   * @param $ jquery对象
+   * @param data 下拉列表数据
+   * @param disabled 是否可以操作
    */
   applySelect: function ($, data, disabled) {
     if (mountComponent.getTransitionalComponent()) {
@@ -93,6 +93,45 @@ export const dataTable = {
         // 不可修改
         // obj.attr('disabled', disabled)
       })
+    }
+  },
+  /**
+   * 数据表格请求参数封装
+   * @param params 请求参数
+   * @param dataUrl 请求地址
+   * @param data 具体的请求参数
+   * @param central 服务连接对象
+   * @returns {{data: *}}
+   */
+  queryParams: function (params, dataUrl, data, central) {
+    let parameter = {
+      me: dataUrl,
+      pag: {
+        // 页面大小
+        rows: params.limit,
+        // 页码
+        page: params.offset / params.limit,
+        // 排序列名
+        sort: params.sort,
+        // 排序命令（desc，asc）
+        sortOrder: params.order
+      },
+      data: data
+    }
+    return {data: central.enParameter(parameter)}
+  },
+  /**
+   * 数据表格响应封装
+   * @param resp 响应数据
+   * @param central 服务连接对象
+   * @returns {{total: *, rows: *}}
+   */
+  responseHandler: function (resp, central) {
+    if (central.checkCode(resp)) {
+      return {
+        total: resp.respData.totalElements,
+        rows: resp.respData.content
+      }
     }
   }
 }

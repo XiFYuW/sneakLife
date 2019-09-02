@@ -14,7 +14,6 @@
 import {treeView} from '../../../../../../common/treeview'
 import {operaClick} from '../../../../../../common/common'
 import {dataTable} from '../../../../../../common/dataTable'
-import {selects} from '../../../../../../common/selects'
 const treeViewCopy = require('../../../../../../common/common').deepCopy.deepCopy(treeView)
 const operaClickCopy = require('../../../../../../common/common').deepCopy.deepCopy(operaClick)
 const dataTableCopy = require('../../../../../../common/common').deepCopy.deepCopy(dataTable)
@@ -56,32 +55,12 @@ export default {
             this.opera = initDataTable.opera
             this.menuIdTemp = data.id
             dataTableCopy.tl.queryParams = params => {
-              let parameter = {
-                me: this.item.dataUrl,
-                pag: {
-                  // 页面大小
-                  rows: params.limit,
-                  // 页码
-                  page: params.offset / params.limit,
-                  // 排序列名
-                  sort: params.sort,
-                  // 排序命令（desc，asc）
-                  sortOrder: params.order
-                },
-                data: {menuId: this.menuIdTemp, name: data.text}
-              }
-              return {data: this.$central.enParameter(parameter)}
+              return dataTableCopy.queryParams(params, this.item.dataUrl, {menuId: this.menuIdTemp, name: data.text}, this.$central)
             }
             dataTableCopy.tl.url = this.$central.url
             dataTableCopy.tl.toolbar = '#' + this.toolbarId
             dataTableCopy.tl.responseHandler = resp => {
-              if (!this.$utils.central.checkCode(resp)) {
-                return
-              }
-              return {
-                total: resp.respData.totalElements,
-                rows: resp.respData.content
-              }
+              return dataTableCopy.responseHandler(resp, this.$central)
             }
             dataTableCopy.tl.columns = initDataTable.table.columns
             dataTableCopy.tl.columns.splice(0, 0, {
@@ -90,22 +69,20 @@ export default {
             })
             dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
+            // 初始化下拉列表
             this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: '35,32,65'}}).then(resp => {
               let $ = this.$jquery
               this.selectData = resp.respData.data
-              console.log(this.opera.in)
               let columns = this.opera.in
-              columns.forEach(item => {
-                item.forEach((v, index) => {
-                  let obj = $('#' + v.id)
-                  selects.setVal(obj, '')
-                  // 下来列表赋值
-                  let data = this.selectData[v.field]
-                  if (data) {
-                    this.$utils.vue.set(v, v.field + 'SelectData', data)
-                  }
-                  // item.splice(index, index + 1, v)
-                })
+              this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
+                let obj = $('#' + v.id)
+                this.$utils.selects.setVal(obj, '')
+                // 下来列表赋值
+                let ds = this.selectData[v.field]
+                if (ds) {
+                  this.$utils.vue.set(v, v.field + 'SelectData', ds)
+                }
+                // item.splice(index, index + 1, v)
               })
             })
           })
@@ -115,19 +92,10 @@ export default {
   },
   updated () {
     this.operaClick.addTable = (el, $, columns) => {
-      columns.forEach(item => {
-        item.forEach((v, index) => {
-          v.value = ''
-          let obj = $('#' + v.id)
-          selects.setVal(obj, '')
-          // // 下来列表赋值
-          // let data = this.selectData[v.field]
-          // if (data) {
-          //   this.$utils.vue.set(v, v.field + 'SelectData', data)
-          // }
-          v.menuIdTemp = this.menuIdTemp
-          item.splice(index, index + 1, v)
-        })
+      this.operaClick.operaInEach(columns, null, (v, index, item, data) => {
+        this.$utils.clearAll($, v)
+        this.$utils.vue.set(v, 'menuIdTemp', this.menuIdTemp)
+        item.splice(index, index + 1, v)
       })
       this.$utils.modalFrame.show($)
     }
@@ -136,31 +104,8 @@ export default {
       let data = $('#' + el).bootstrapTable('getAllSelections')
       if (this.operaClick.hint(data)) {
         this.$utils.setId(data[0].id)
-        columns.forEach(item => {
-          item.forEach((v, index) => {
-            let key = v.field
-            for (let i = 0; i < data.length; i++) {
-              let jsons = data[i]
-              for (let p in jsons) {
-                if (key === p) {
-                  let td = this.selectData[key]
-                  if (td) {
-                    // this.$utils.vue.set(v, key + 'SelectData', td)
-                    let obj = $('#' + v.id)
-                    for (let va in td) {
-                      if (td[va].name === jsons[p]) {
-                        selects.setVal(obj, td[va].value)
-                      }
-                    }
-                  } else {
-                    // 对应key,增加value属性
-                    this.$utils.vue.set(v, 'value', jsons[p])
-                  }
-                  item.splice(index, index + 1, v)
-                }
-              }
-            }
-          })
+        this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
+          this.$utils.byPageData($, data, v, item, index, this.selectData)
         })
         this.$utils.modalFrame.show($)
       }

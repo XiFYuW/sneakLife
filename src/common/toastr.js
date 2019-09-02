@@ -34,27 +34,61 @@ export const myToastr = {
     // 关闭时的动画方法
     closeMethod: 'slideUp'
   },
+  /**
+   * 初始化消息提示对象
+   * @param toastr 消息提示对象
+   */
   init: function (toastr) {
     this.toastr = toastr
   },
+  /**
+   * 设置信息提示的option
+   * @param option 提示参数
+   */
   setOption: function (option) {
     this.option = option
   },
+  /**
+   * 提示成功的消息
+   * @param msg 消息
+   * @param title 消息标题
+   */
   success: function (msg, title) {
     this.toastr.success(msg, title, this.option)
   },
+  /**
+   * 提示信息的消息
+   * @param msg 消息
+   * @param title 消息标题
+   */
   info: function (msg, title) {
     this.toastr.info(msg, title, this.option)
   },
+  /**
+   * 提示警告的消息
+   * @param msg 消息
+   * @param title 消息标题
+   */
   warning: function (msg, title) {
     this.toastr.warning(msg, title, this.option)
   },
+  /**
+   * 提示错误的消息
+   * @param msg 消息
+   * @param title 消息标题
+   */
   error: function (msg, title) {
     this.toastr.error(msg, title, this.option)
   },
+  /**
+   * 删除消息提示
+   */
   remove: function () {
     this.toastr.remove()
   },
+  /**
+   * 清除消息提示
+   */
   clear: function () {
     this.toastr.clear()
   }
