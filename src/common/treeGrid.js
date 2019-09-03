@@ -39,6 +39,10 @@ export const treeGrid = {
     // 是否使用缓存
     cache: false
   },
+  checkbox: {
+    'field': 'check',
+    'checkbox': true
+  },
   setEl: function (el) {
     if (el) {
       this.el = el
@@ -209,6 +213,35 @@ export const treeGrid = {
     if (le.hasClass('treegrid-expander-collapsed') && ls.hasClass('treegrid-collapsed')) {
       le.removeClass('treegrid-expander-collapsed').addClass('treegrid-expander-expanded')
       ls.removeClass('treegrid-collapsed').addClass('treegrid-expanded')
+    }
+  },
+  /**
+   * 树形数据表格请求参数封装
+   * @param params 请求参数
+   * @param dataUrl 请求地址
+   * @param data 具体的请求参数
+   * @param central 服务连接对象
+   * @returns {{data: *}}
+   */
+  queryParams: function (params, dataUrl, data, central) {
+    let parameter = {
+      me: dataUrl,
+      data: data
+    }
+    return {data: central.enParameter(parameter)}
+  },
+  /**
+   * 树形数据表格响应封装
+   * @param resp 响应数据
+   * @param central 服务连接对象
+   * @returns {{total: *, rows: *}}
+   */
+  responseHandler: function (resp, central) {
+    if (!central.checkCode(resp)) {
+      return {}
+    }
+    return {
+      data: resp.respData
     }
   }
 }

@@ -41,34 +41,15 @@ export default {
       const data = resp.respData
       this.opera = data.opera
       dataTableCopy.tl.queryParams = params => {
-        let parameter = {
-          me: this.item.dataUrl,
-          pag: {
-            // 页面大小
-            rows: params.limit,
-            // 页码
-            page: params.offset / params.limit,
-            // 排序列名
-            sort: params.sort,
-            // 排序命令（desc，asc）
-            sortOrder: params.order
-          }
-        }
-        return {data: this.$central.enParameter(parameter)}
+        return dataTableCopy.queryParams(params, this.item.dataUrl, null, this.$central)
       }
       dataTableCopy.tl.url = this.$central.url
       dataTableCopy.tl.toolbar = '#' + this.toolbarId
       dataTableCopy.tl.responseHandler = resp => {
-        return {
-          total: resp.respData.totalElements,
-          rows: resp.respData.content
-        }
+        return dataTableCopy.responseHandler(resp, this.$central)
       }
       dataTableCopy.tl.columns = data.table.columns
-      dataTableCopy.tl.columns.splice(0, 0, {
-        'checkbox': true,
-        'data-halign': 'center'
-      })
+      dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
       dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
     })
   },

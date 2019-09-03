@@ -63,10 +63,7 @@ export default {
               return dataTableCopy.responseHandler(resp, this.$central)
             }
             dataTableCopy.tl.columns = initDataTable.table.columns
-            dataTableCopy.tl.columns.splice(0, 0, {
-              'checkbox': true,
-              'data-halign': 'center'
-            })
+            dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
             dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
             // 初始化下拉列表
@@ -82,7 +79,7 @@ export default {
                 if (ds) {
                   this.$utils.vue.set(v, v.field + 'SelectData', ds)
                 }
-                // item.splice(index, index + 1, v)
+                item.splice(index, index + 1, v)
               })
             })
           })

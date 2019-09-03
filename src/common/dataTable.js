@@ -41,6 +41,10 @@ export const dataTable = {
     columns: [],
     contentType: 'application/x-www-form-urlencoded'
   },
+  checkbox: {
+    'checkbox': true,
+    'data-halign': 'center'
+  },
   /**
    * 设置过渡组件
    * @param mc
@@ -127,11 +131,12 @@ export const dataTable = {
    * @returns {{total: *, rows: *}}
    */
   responseHandler: function (resp, central) {
-    if (central.checkCode(resp)) {
-      return {
-        total: resp.respData.totalElements,
-        rows: resp.respData.content
-      }
+    if (!central.checkCode(resp)) {
+      return {}
+    }
+    return {
+      total: resp.respData.totalElements,
+      rows: resp.respData.content
     }
   }
 }

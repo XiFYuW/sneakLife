@@ -36,13 +36,12 @@ export default {
         return
       }
       this.view = tab.type
+      // 传值给父组件
       this.$emit('introduce', {
         item: tab,
         view: this.view
       })
-      this.$jquery('li.dropdown').removeClass('open')
-      this.$jquery('li.dropdown').removeClass('open')
-      this.removeOpen(tab)
+      this.removeSelectCss()
     },
     getItem: function (item) {
       this.$emit('introduce', {
@@ -50,12 +49,14 @@ export default {
         view: item.view
       })
     },
-    removeOpen: function (tab) {
-      if (tab.pid !== '') {
-        let parent = this.$jquery('#' + tab.pid).parent()
-        parent.removeClass('open')
-      }
+    removeSelectCss: function () {
+      this.$jquery('li.dropdown').removeClass('open')
+      this.$jquery('li.active').removeClass('active')
     },
+    /**
+     * 添加选中标签open样式
+     * @param tab
+     */
     addOpen: function (tab) {
       let parent = this.$jquery('#' + tab.id).parent()
       if (!parent.hasClass('open')) {

@@ -62,10 +62,7 @@ export default {
             const initDataTable = resp.respData
             this.head = this.item.tab
             this.opera = initDataTable.opera
-            initDataTable.table.columns.splice(0, 0, {
-              'field': 'check',
-              'checkbox': true
-            })
+            initDataTable.table.columns.splice(0, 0, treeGridCopy.checkbox)
             if (initDataTable.table.columns[1].field !== 'name') {
               let temp = initDataTable.table.columns[1]
               let cons = this.$utils.findArray(initDataTable.table.columns, 'name')
@@ -78,16 +75,10 @@ export default {
             treeGridCopy.tl.toolbar = '#' + this.toolbarId
             treeGridCopy.tl.url = this.$central.url
             treeGridCopy.tl.queryParams = params => {
-              let parameter = {
-                me: this.item.dataUrl,
-                data: {treeViewId: this.item.id, menuId: data.id, name: data.text}
-              }
-              return {data: this.$central.enParameter(parameter)}
+              return treeGridCopy.queryParams(params, this.item.dataUrl, {treeViewId: this.item.id, menuId: data.id, name: data.text}, this.$central)
             }
             treeGridCopy.tl.responseHandler = resp => {
-              return {
-                data: resp.respData
-              }
+              return treeGridCopy.responseHandler(resp, this.$central)
             }
             treeGridCopy.init($, this.tableId)
           })
@@ -96,14 +87,15 @@ export default {
     })
 
     this.operaClick.updateTable = (el, $, columns) => {
-      let pageData = $('#role-function-config-table').bootstrapTable('getAllSelections')
+      let obj = $('#' + this.tableId)
+      let pageData = obj.bootstrapTable('getAllSelections')
       pageData.forEach(e => {
         this.$utils.delObjProperty(e, '_nodes')
         this.$utils.delObjProperty(e, '_parent')
       })
       this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: pageData}}).then(resp => {
         this.$utils.central.toastr.success(resp.respMsg)
-        $('#role-function-config-table').bootstrapTable('refresh')
+        obj.bootstrapTable('refresh')
       })
     }
   }
