@@ -198,7 +198,6 @@ export const utils = {
       let jsons = data[i]
       for (let p in jsons) {
         if (key === p) {
-          debugger
           let td = selectData[key]
           if (td) {
             this.selects.setSelectsVal($, v, p, td, jsons)
