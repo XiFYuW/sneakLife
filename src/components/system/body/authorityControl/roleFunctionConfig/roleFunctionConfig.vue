@@ -17,12 +17,13 @@ import {treeView} from '../../../../../common/treeview'
 const treeViewCopy = require('../../../../../common/common').deepCopy.deepCopy(treeView)
 const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
 const treeGridCopy = require('../../../../../common/common').deepCopy.deepCopy(treeGrid)
+const AsyncView = require('../../../../../common/common').AsyncView
 export default {
   name: 'role-function-config',
   components: {
-    'tree-view': () => import('../../../../common/treeView'),
-    'tree-grid': () => import('../../../../common/treeGrid'),
-    'data-table': () => import('../../../../common/dataTable')
+    'tree-view': () => AsyncView.lazyLoadViews(import('../../../../common/treeView')),
+    'tree-grid': () => AsyncView.lazyLoadViews(import('../../../../common/treeGrid')),
+    'data-table': () => AsyncView.lazyLoadViews(import('../../../../common/dataTable'))
   },
   data () {
     return {

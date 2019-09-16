@@ -8,6 +8,7 @@ import {operaClick} from '../../../../../common/common'
 import {dataTable} from '../../../../../common/dataTable'
 const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
 const dataTableCopy = require('../../../../../common/common').deepCopy.deepCopy(dataTable)
+const AsyncView = require('../../../../../common/common').AsyncView
 export default {
   name: 'role-config',
   data () {
@@ -29,7 +30,7 @@ export default {
     }
   },
   components: {
-    'data-table': () => import('../../../../common/dataTable')
+    'data-table': () => AsyncView.lazyLoadViews(import('../../../../common/dataTable'))
   },
   mounted () {
     this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {

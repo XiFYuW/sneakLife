@@ -119,26 +119,6 @@ export const utils = {
     return JSON.parse(JSON.stringify(obj))
   },
   /**
-   * 加载视图
-   * @param AsyncView
-   * @returns {*}
-   */
-  lazyLoadViews: AsyncView => {
-    const AsyncHandler = () => ({
-      component: AsyncView,
-      loading: require('@/components/load/load').default,
-      error: require('@/components/load/load').default,
-      delay: 200,
-      timeout: 2000
-    })
-    return Promise.resolve({
-      functional: true,
-      render (h, {data, children}) {
-        return h(AsyncHandler, data, children)
-      }
-    })
-  },
-  /**
    * 添对象属性
    * @param data 对象
    * @param name 键名
@@ -422,5 +402,27 @@ export const mountComponent = {
           }
       }
     ).$mount('#' + el)
+  }
+}
+/**
+ * 加载视图
+ * @param AsyncView
+ * @returns {*}
+ */
+export const AsyncView = {
+  lazyLoadViews: function (AsyncView) {
+    const AsyncHandler = () => ({
+      component: AsyncView,
+      loading: require('../components/load/load').default,
+      error: require('../components/load/loadErr').default,
+      delay: 200,
+      timeout: 3000
+    })
+    return Promise.resolve({
+      functional: true,
+      render (h, {data, children}) {
+        return h(AsyncHandler, data, children)
+      }
+    })
   }
 }

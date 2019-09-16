@@ -17,12 +17,13 @@ import {operaClick} from '../../../../../common/common'
 const treeViewCopy = require('../../../../../common/common').deepCopy.deepCopy(treeView)
 const treeGridCopy = require('../../../../../common/common').deepCopy.deepCopy(treeGrid)
 const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
+const AsyncView = require('../../../../../common/common').AsyncView
 export default {
   name: 'function-config',
   components: {
-    'tree-view': () => import('../../../../common/treeView'),
-    'tree-grid': () => import('../../../../common/treeGrid'),
-    'data-table': () => import('../../../../common/dataTable')
+    'tree-view': () => AsyncView.lazyLoadViews(import('../../../../common/treeView')),
+    'tree-grid': () => AsyncView.lazyLoadViews(import('../../../../common/treeGrid')),
+    'data-table': () => AsyncView.lazyLoadViews(import('../../../../common/dataTable'))
   },
   data () {
     return {
@@ -80,12 +81,10 @@ export default {
     this.operaClick.addTable = (el, $, columns) => {
       let pageData = $('#function-config-treeGrid').bootstrapTable('getData')
       let data = this.buildTreeViewList(pageData)
-      columns.forEach(item => {
-        item.forEach((v, index) => {
-          if (v.field === 'id') {
-            this.$utils.vue.set(v, 'value', data)
-          }
-        })
+      this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
+        if (v.field === 'id') {
+          this.$utils.vue.set(v, 'value', data)
+        }
       })
       this.$utils.modalFrame.show($)
     }
@@ -105,12 +104,10 @@ export default {
     this.operaClick.deleteTable = (el, $, columns) => {
       let pageData = $('#function-config-treeGrid').bootstrapTable('getData')
       let data = this.buildTreeViewList(pageData)
-      columns.forEach(item => {
-        item.forEach((v, index) => {
-          if (v.field === 'id') {
-            this.$utils.vue.set(v, 'value', data)
-          }
-        })
+      this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
+        if (v.field === 'id') {
+          this.$utils.vue.set(v, 'value', data)
+        }
       })
       this.$utils.modalFrame.show($)
     }

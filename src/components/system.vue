@@ -5,10 +5,11 @@
 </template>
 
 <script>
+const AsyncView = require('../common/common').AsyncView
 export default {
   name: 'system',
   components: {
-    'system-menu': () => import('./system/menu/menu')
+    'system-menu': () => AsyncView.lazyLoadViews(import('./system/menu/menu'))
   }
 }
 </script>

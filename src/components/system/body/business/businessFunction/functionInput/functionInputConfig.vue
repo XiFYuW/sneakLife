@@ -17,11 +17,12 @@ import {dataTable} from '../../../../../../common/dataTable'
 const treeViewCopy = require('../../../../../../common/common').deepCopy.deepCopy(treeView)
 const operaClickCopy = require('../../../../../../common/common').deepCopy.deepCopy(operaClick)
 const dataTableCopy = require('../../../../../../common/common').deepCopy.deepCopy(dataTable)
+const AsyncView = require('../../../../../../common/common').AsyncView
 export default {
   name: 'function-input-config',
   components: {
-    'tree-view': () => import('../../../../../common/treeView'),
-    'data-table': () => import('../../../../../common/dataTable')
+    'tree-view': () => AsyncView.lazyLoadViews(import('../../../../../common/treeView')),
+    'data-table': () => AsyncView.lazyLoadViews(import('../../../../../common/dataTable'))
   },
   data () {
     return {

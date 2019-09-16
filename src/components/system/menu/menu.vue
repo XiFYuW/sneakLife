@@ -16,6 +16,7 @@
 </template>
 
 <script>
+const AsyncView = require('../../../common/common').AsyncView
 export default {
   name: 'system-menu',
   data () {
@@ -26,16 +27,16 @@ export default {
     }
   },
   components: {
-    'menu-child': () => import('./menuChild'),
-    'data-dictionary': () => import('../body/dataDictionary/dataDictionary'),
-    'system-monitoring': () => import('../body/systemMonitoring/systemMonitoring'),
-    'function-config': () => import('../body/authorityControl/functionConfig/functionConfig'),
-    'role-config': () => import('../body/authorityControl/roleConfig/roleConfig'),
-    'user-role-config': () => import('../body/authorityControl/userRoleConfig/userRoleConfig'),
-    'role-function-config': () => import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig'),
-    'function-button-config': () => import('../body/business/businessFunction/functionButton/functionButtonConfig'),
-    'function-columns-config': () => import('../body/business/businessFunction/functionColumns/functionColumnsConfig'),
-    'function-input-config': () => import('../body/business/businessFunction/functionInput/functionInputConfig')
+    'menu-child': () => AsyncView.lazyLoadViews(import('./menuChild')),
+    'data-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/dataDictionary')),
+    'system-monitoring': () => AsyncView.lazyLoadViews(import('../body/systemMonitoring/systemMonitoring')),
+    'function-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionConfig/functionConfig')),
+    'role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleConfig/roleConfig')),
+    'user-role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/userRoleConfig/userRoleConfig')),
+    'role-function-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig')),
+    'function-button-config': () => AsyncView.lazyLoadViews(import('../body/business/businessFunction/functionButton/functionButtonConfig')),
+    'function-columns-config': () => AsyncView.lazyLoadViews(import('../body/business/businessFunction/functionColumns/functionColumnsConfig')),
+    'function-input-config': () => AsyncView.lazyLoadViews(import('../body/business/businessFunction/functionInput/functionInputConfig'))
   },
   mounted: async function () {
     await this.$central.serverInit(this.$utils.http)
