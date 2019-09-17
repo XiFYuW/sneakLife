@@ -1,11 +1,12 @@
-import {operaClick} from 'common'
-import {dataTable} from 'dataTable'
-import {treeView} from 'treeview'
-import {treeGrid} from 'treeGrid'
+const operaClick = require('common').operaClick
+const dataTable = require('dataTable').dataTable
+const treeView = require('treeView').treeView
+const treeGrid = require('treeGrid').treeGrid
 const deepCopy = require('common').deepCopy
-const operaClickCopy = deepCopy.deepCopy(operaClick)
-const dataTableCopy = deepCopy.deepCopy(dataTable)
-const treeViewCopy = deepCopy.deepCopy(treeView)
-const treeGridCopy = deepCopy.deepCopy(treeGrid)
-const AsyncView = require('common').AsyncView
-const CommonSelect = require('src/components/common/commonSelect')
+export const imports = {
+  operaClickCopy: deepCopy.deepCopy(operaClick),
+  dataTableCopy: deepCopy.deepCopy(dataTable),
+  treeViewCopy: deepCopy.deepCopy(treeView),
+  treeGridCopy: deepCopy.deepCopy(treeGrid),
+  AsyncView: require('common').AsyncView
+}
