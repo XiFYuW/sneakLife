@@ -1,7 +1,10 @@
-# sneak-life
+# sneak-life（能记录一个人一生的系统）
 
-> 一个权限管理组件
-> [后台地址](https://github.com/XiFYuW/sneakLife-admin)  
+## [后台地址](https://github.com/XiFYuW/sneakLife-admin)
+
+## 功能
+
+### 权限管理
 
 ## Build Setup
 
