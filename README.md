@@ -1,6 +1,7 @@
 # sneak-life
 
-> admin
+> 一个权限管理组件
+> [后台地址](https://github.com/XiFYuW/sneakLife-admin)  
 
 ## Build Setup
 
