@@ -4,9 +4,9 @@
 
 ## 功能
 
-### 权限管理
+> 权限管理
 
-## Build Setup
+## 运行方式
 
 ``` bash
 # install dependencies
