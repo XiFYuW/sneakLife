@@ -3,7 +3,7 @@ const Base64 = require('js-base64').Base64
 const CryptoJS = require('crypto-js')
 // 服务初始化地址消息
 // export const initUrl = 'http://192.168.6.134:9090/sneakLife-admin/common'
-export const initUrl = 'http://127.0.0.1:8080/sneakLife_admin/common'
+export const initUrl = 'http://127.0.0.1:8080/sneakLife-admin/heartBeat'
 /**
  * 加解密，服务连接
  * @type {{rsa: null, setToastr: central.setToastr, publicKey: string, url: string, token: string, checkCode: central.checkCode, ajaxSetup: central.ajaxSetup, aesEncrypts: (function(*=): string), post: (function(*, *=, *=): Promise<any>), serverInit: central.serverInit, toastr: null, enParameter: (function(*=): *), send: (function(*=, *=): *)}}

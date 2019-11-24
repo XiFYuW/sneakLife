@@ -105,6 +105,7 @@ export default {
         this.$utils.toastr.warning(item.textName + '不能为空')
         return {}
       }
+      // 添加请求参数
       data = this.$utils.addObjProperty(data, item.field, v)
       return data
     },

@@ -42,7 +42,7 @@ export const selects = {
   setSelectsVal: function ($, v, p, td, jsons) {
     let obj = $('#' + v.id)
     for (let va in td) {
-      if (td[va].name === jsons[p]) {
+      if (td[va].value === jsons[p]) {
         this.setVal(obj, td[va].value)
       }
     }

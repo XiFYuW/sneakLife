@@ -25,7 +25,9 @@ export default {
        */
       head: this.item.tab,
       tableId: 'data-dictionary-table',
-      toolbarId: 'data-dictionary-toolbar'
+      toolbarId: 'data-dictionary-toolbar',
+      selectData: {},
+      menuIdTemp: ''
     }
   },
   components: {
@@ -52,7 +54,45 @@ export default {
       dataTableCopy.tl.columns = data.table.columns
       dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
       dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+
+      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: '16f8029c956911e9914980fa5b3a283a:*', menuId: this.item.id}}).then(resp => {
+        let $ = this.$jquery
+        this.selectData = resp.respData.data
+        let ini = this.opera.in
+        this.operaClick.operaInEach(ini, data, (v, index, item, data) => {
+          let obj = $('#' + v.id)
+          this.$utils.selects.setVal(obj, '')
+          // 下来列表赋值
+          let ds = this.selectData[v.field]
+          if (ds) {
+            // 添加新属性
+            this.$utils.vue.set(v, v.field + 'SelectData', ds)
+          }
+          item.splice(index, index + 1, v)
+        })
+      })
     })
+  },
+  updated () {
+    this.operaClick.addTable = (el, $, columns) => {
+      this.operaClick.operaInEach(columns, null, (v, index, item, data) => {
+        this.$utils.clearAll($, v)
+        this.$utils.vue.set(v, 'menuIdTemp', this.menuIdTemp)
+        item.splice(index, index + 1, v)
+      })
+      this.$utils.modalFrame.show($)
+    }
+
+    this.operaClick.updateTable = (el, $, columns) => {
+      let data = $('#' + el).bootstrapTable('getAllSelections')
+      if (this.operaClick.hint(data)) {
+        this.$utils.setId(data[0].id)
+        this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
+          this.$utils.byPageData($, data, v, item, index, this.selectData)
+        })
+        this.$utils.modalFrame.show($)
+      }
+    }
   },
   watch: {
     opera: {

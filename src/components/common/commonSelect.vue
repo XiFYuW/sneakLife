@@ -19,13 +19,16 @@ export default {
       templateData: []
     }
   },
-  created () {
+  mounted () {
     if (!this.isMnh) {
       this.templateData = this.dataSelect.data
       selects.init(this.$jquery)
     } else {
+      let obj = this.$jquery('#' + this.dataSelect.id)
       this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData']
       selects.init(this.$jquery, this.dataSelect.id)
+      let parent = obj.parent()
+      parent.css({'display': 'inherit'})
     }
   },
   updated () {
