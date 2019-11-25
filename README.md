@@ -1,8 +1,12 @@
-# sneak-life
+# sneak-life（能记录一个人一生的系统）
 
-> admin
+## [后台地址](https://github.com/XiFYuW/sneakLife-admin)
 
-## Build Setup
+## 功能
+
+> 权限管理
+
+## 运行方式
 
 ``` bash
 # install dependencies
