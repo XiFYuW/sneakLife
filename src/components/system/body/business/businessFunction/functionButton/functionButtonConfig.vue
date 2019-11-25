@@ -68,7 +68,8 @@ export default {
             dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
             // 初始化下拉列表
-            this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: '35,32,65'}}).then(resp => {
+            let express = '178b8e17c57911e9bd4f80fa5b3a283a:6,179c7a6fc57911e9bd4f80fa5b3a283a:2,17a428fec57911e9bd4f80fa5b3a283a:1'
+            this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
               let $ = this.$jquery
               this.selectData = resp.respData.data
               let columns = this.opera.in

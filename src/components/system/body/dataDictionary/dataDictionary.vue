@@ -77,8 +77,6 @@ export default {
     this.operaClick.addTable = (el, $, columns) => {
       this.operaClick.operaInEach(columns, null, (v, index, item, data) => {
         this.$utils.clearAll($, v)
-        this.$utils.vue.set(v, 'menuIdTemp', this.menuIdTemp)
-        item.splice(index, index + 1, v)
       })
       this.$utils.modalFrame.show($)
     }
