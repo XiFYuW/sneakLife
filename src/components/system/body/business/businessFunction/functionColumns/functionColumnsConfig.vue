@@ -76,7 +76,8 @@ export default {
             dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
             dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
-            this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {type: '78'}}).then(resp => {
+            let express = 'edca09efc62111e9bd4f80fa5b3a283a:4'
+            this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
               let $ = this.$jquery
               this.selectData = resp.respData.data
               let columns = this.opera.in

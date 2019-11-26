@@ -27,7 +27,7 @@
       </div>
       <div class="btn-group" role="group" :id="toolbarId">
         <button class="btn btn-default" v-bind:class="item.codeName" v-bind:key="item.codeName" v-bind:type="item.typeName"
-                v-for="item in opera.sb" v-on:click="selectMe(item.code+'', item.url)">
+                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url)">
           <span class="glyphicon" v-bind:class="item.iconName" aria-hidden="true"></span> {{item.codeName}}
         </button>
       </div>
