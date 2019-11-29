@@ -76,7 +76,7 @@ export default {
               this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
                 let obj = $('#' + v.id)
                 this.$utils.selects.setVal(obj, '')
-                // 下来列表赋值
+                // 给v增加v.field + 'SelectData'属性，修改数据操作可以匹配去取值
                 let ds = this.selectData[v.field]
                 if (ds) {
                   this.$utils.vue.set(v, v.field + 'SelectData', ds)

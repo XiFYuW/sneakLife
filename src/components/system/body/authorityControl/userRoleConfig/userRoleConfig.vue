@@ -35,16 +35,21 @@ export default {
          */
         transitionalComponent: {
           componentTra: {
-            template: '<common-select v-bind:dataSelect="dataSelect"></common-select>',
+            template: '<common-select v-bind:dataSelect="dataSelect" v-bind:isMnh="isMnh"></common-select>',
             props: {
               dataSelect: {
                 type: Object,
                 required: true
+              },
+              isMnh: {
+                type: Boolean,
+                required: false
               }
             }
           },
           vue: this.$vue,
-          dataSelect: {}
+          dataSelect: {},
+          isMnh: false
         }
       },
       /**
@@ -102,17 +107,23 @@ export default {
       dataTableCopy.setTraCom(this.handle.transitionalComponent)
       dataTableCopy.init(this.tableId, $, dataTableCopy.tl)
     })
+  },
+  updated () {
+    let $ = this.$jquery
     this.operaClick.updateTable = (el, $, columns) => {
       let data = $('#' + el).bootstrapTable('getAllSelections')
-      for (let v in data) {
-        let obj = $('#row' + data[v].userId + ' select').find('option:selected').selectpicker('val').get('0')
-        data[v].value = obj.value
-        data[v].text = obj.text
+      if (this.operaClick.hint(data)) {
+        debugger
+        for (let v in data) {
+          let obj = $('#row' + data[v].userId + ' select').find('option:selected').selectpicker('val').get('0')
+          data[v].value = obj.value
+          data[v].text = obj.text
+        }
+        this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: data}}).then(resp => {
+          this.$utils.toastr.success(resp.respMsg)
+          $('#user-role-config').bootstrapTable('refresh')
+        })
       }
-      this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: data}}).then(resp => {
-        this.$utils.toastr.success(resp.respMsg)
-        $('#user-role-config').bootstrapTable('refresh')
-      })
     }
   },
   watch: {

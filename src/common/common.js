@@ -392,13 +392,15 @@ export const mountComponent = {
    * 挂载下拉列表组件
    * @param el 挂载位置
    */
-  mountSelect: function (el) {
+  mountSelect: function (el, es) {
     let CommonSelect = this.transitionalComponent.vue.extend(this.transitionalComponent.componentTra)
+    utils.vue.set(this.transitionalComponent.dataSelect, 'id', es)
     new CommonSelect(
       {
         propsData:
           {
-            dataSelect: this.transitionalComponent.dataSelect
+            dataSelect: this.transitionalComponent.dataSelect,
+            isMnh: this.transitionalComponent.isMnh
           }
       }
     ).$mount('#' + el)

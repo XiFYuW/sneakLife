@@ -20,7 +20,7 @@ export const selects = {
   setVal: function (obj, val) {
     obj.selectpicker('val', val)
     obj.selectpicker('refresh')
-    // obj.selectpicker('render')
+    obj.selectpicker('render')
   },
   /**
    * 获取下拉列表的值
