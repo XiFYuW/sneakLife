@@ -1,7 +1,7 @@
 <template>
   <ul v-bind:class="cla">
     <li v-for="tab in tabs" v-bind:key="tab.tab" @click.stop="onTabs(tab)"
-        v-bind:class="{ 'active': tab.type !== '' && tab.type === view,'dropdown': tab.son.length > 0 }">
+        v-bind:class="{ 'active': tab.name !== '' && tab.name === view,'dropdown': tab.son.length > 0 }">
       <a v-bind:id="tab.id" v-bind:class="{'dropdown-toggle': tab.son.length > 0}" v-bind:data-toggle="tab.son.length > 0 ? 'dropdown' : ''"
          href="javascript:void(0)">
         {{ tab.tab }} <span class="caret" v-if="tab.son.length > 0"></span>
@@ -31,11 +31,11 @@ export default {
   },
   methods: {
     onTabs: function (tab) {
-      if (!tab.type) {
+      if (!tab.name) {
         this.addOpen(tab)
         return
       }
-      this.view = tab.type
+      this.view = tab.name
       // 传值给父组件
       this.$emit('introduce', {
         item: tab,

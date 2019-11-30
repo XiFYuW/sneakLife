@@ -34,9 +34,10 @@ export default {
     'role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleConfig/roleConfig')),
     'user-role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/userRoleConfig/userRoleConfig')),
     'role-function-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig')),
-    'function-button-config': () => AsyncView.lazyLoadViews(import('../body/business/businessFunction/functionButton/functionButtonConfig')),
-    'function-columns-config': () => AsyncView.lazyLoadViews(import('../body/business/businessFunction/functionColumns/functionColumnsConfig')),
-    'function-input-config': () => AsyncView.lazyLoadViews(import('../body/business/businessFunction/functionInput/functionInputConfig'))
+    'function-button-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionButton/functionButtonConfig')),
+    'function-columns-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionColumns/functionColumnsConfig')),
+    'function-input-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionInput/functionInputConfig')),
+    'system-function': () => AsyncView.lazyLoadViews(import('../body/systemFunction/systemFunction.vue'))
   },
   mounted: async function () {
     await this.$central.serverInit(this.$utils.http)
@@ -63,15 +64,5 @@ export default {
   }
   .navbar-static-top {
     margin-bottom: 10px;
-  }
-  .div-button{
-    background-color: #0000;
-  }
-  .component-fade-enter-active, .component-fade-leave-active {
-    transition: opacity .3s ease;
-  }
-  .component-fade-enter, .component-fade-leave-to
-    /* .component-fade-leave-active for below version 2.1.8 */ {
-    opacity: 0;
   }
 </style>

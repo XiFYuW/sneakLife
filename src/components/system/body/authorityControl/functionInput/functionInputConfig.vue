@@ -11,29 +11,37 @@
 </template>
 
 <script>
-import {treeView} from '../../../../../../common/treeview'
-import {operaClick} from '../../../../../../common/common'
-import {dataTable} from '../../../../../../common/dataTable'
-const treeViewCopy = require('../../../../../../common/common').deepCopy.deepCopy(treeView)
-const operaClickCopy = require('../../../../../../common/common').deepCopy.deepCopy(operaClick)
-const dataTableCopy = require('../../../../../../common/common').deepCopy.deepCopy(dataTable)
-const AsyncView = require('../../../../../../common/common').AsyncView
+import {treeView} from '../../../../../common/treeview'
+import {operaClick} from '../../../../../common/common'
+import {dataTable} from '../../../../../common/dataTable'
+const treeViewCopy = require('../../../../../common/common').deepCopy.deepCopy(treeView)
+const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
+const dataTableCopy = require('../../../../../common/common').deepCopy.deepCopy(dataTable)
+const AsyncView = require('../../../../../common/common').AsyncView
 export default {
-  name: 'function-button-config',
+  name: 'function-input-config',
   components: {
-    'tree-view': () => AsyncView.lazyLoadViews(import('../../../../../common/treeView')),
-    'data-table': () => AsyncView.lazyLoadViews(import('../../../../../common/dataTable'))
+    'tree-view': () => AsyncView.lazyLoadViews(import('../../../../common/treeView')),
+    'data-table': () => AsyncView.lazyLoadViews(import('../../../../common/dataTable'))
   },
   data () {
     return {
+      /**
+       * 操作按钮的动作
+       */
       operaClick: operaClickCopy,
+      /**
+       * 功能按钮
+       */
       opera: {},
+      /**
+       * 标题头
+       */
       head: this.item.tab,
       isShowData: false,
-      tableId: 'function-button-config',
-      toolbarId: 'function-button-config-toolbar',
-      menuIdTemp: '',
-      selectData: {}
+      tableId: 'function-input-config',
+      toolbarId: 'function-input-config-toolbar',
+      menuIdTemp: ''
     }
   },
   props: {
@@ -42,7 +50,7 @@ export default {
       required: true
     }
   },
-  created () {
+  mounted () {
     this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       let $ = this.$jquery
       treeViewCopy.options.data = resp.respData
@@ -67,8 +75,7 @@ export default {
             dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
             dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
-            // 初始化下拉列表
-            let express = '178b8e17c57911e9bd4f80fa5b3a283a:6,179c7a6fc57911e9bd4f80fa5b3a283a:2,17a428fec57911e9bd4f80fa5b3a283a:1'
+            let express = '9029ac4bc62111e9bd4f80fa5b3a283a:5'
             this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
               let $ = this.$jquery
               this.selectData = resp.respData.data
@@ -76,7 +83,7 @@ export default {
               this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
                 let obj = $('#' + v.id)
                 this.$utils.selects.setVal(obj, '')
-                // 给v增加v.field + 'SelectData'属性，修改数据操作可以匹配去取值
+                // 下来列表赋值
                 let ds = this.selectData[v.field]
                 if (ds) {
                   this.$utils.vue.set(v, v.field + 'SelectData', ds)

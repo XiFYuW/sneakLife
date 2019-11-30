@@ -198,6 +198,7 @@ export const utils = {
   clearAll: function ($, v) {
     this.vue.set(v, 'value', '')
     let obj = $('#' + v.id)
+    obj.val('')
     this.selects.setVal(obj, '')
   }
 }
