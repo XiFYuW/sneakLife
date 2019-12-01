@@ -58,6 +58,7 @@ import {central} from './common/keyless/central'
 import {modalFrame} from './common/modalFrame'
 import {myToastr} from './common/toastr'
 import {selects} from './common/selects'
+import {treeView} from './common/treeview'
 
 /**
  * 初始化相关组件对象
@@ -70,6 +71,7 @@ utils.setCentral(central)
 utils.setHttp(axios)
 utils.setVue(Vue)
 utils.setSelects(selects)
+utils.setSelectsTree(treeView)
 
 /**
  * 设置jquery与axios异步

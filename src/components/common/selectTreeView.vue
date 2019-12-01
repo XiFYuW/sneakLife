@@ -35,19 +35,19 @@ export default {
   },
   updated () {
     this.$jquery('#' + this.treeView.id.substr(0, 30)).val('')
-    treeViewCopy.options.data = this.treeView.value
-    treeViewCopy.init(this.$jquery, this.treeView.id)
+    this.$utils.selectsTree.options.data = this.treeView[this.treeView.field + 'SelectTreeData']
+    this.$utils.selectsTree.init(this.$jquery, this.treeView.id)
   },
   methods: {
     showTreeView: function () {
       const $ = this.$jquery
       let obj = $('#' + this.treeView.id)
       obj.show()
-      treeViewCopy.nodeSelected($, (event, data) => {
+      this.$utils.selectsTree.nodeSelected($, (event, data) => {
         $('#' + this.treeView.id.substr(0, 30)).val(data.text)
         this.$utils.setSelectTreeViewData(data)
         obj.hide()
-        treeViewCopy.selectNode($, data.nodeId)
+        this.$utils.selectsTree.selectNode(obj, data.nodeId)
       })
     }
   },

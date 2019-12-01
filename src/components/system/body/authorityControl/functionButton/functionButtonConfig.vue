@@ -45,9 +45,9 @@ export default {
   created () {
     this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       let $ = this.$jquery
-      treeViewCopy.options.data = resp.respData
-      treeViewCopy.init($)
-      treeViewCopy.nodeSelected($, (event, data) => {
+      this.$utils.selectsTree.options.data = resp.respData
+      this.$utils.selectsTree.init($)
+      this.$utils.selectsTree.nodeSelected($, (event, data) => {
         this.isShowData = true
         if (data.url !== '#') {
           this.$central.send(this.$utils.http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {

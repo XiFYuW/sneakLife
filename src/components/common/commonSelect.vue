@@ -23,7 +23,7 @@ export default {
     // 页面渲染下拉列表
     if (!this.isMnh) {
       this.templateData = this.dataSelect.data
-      selects.init(this.$jquery, this.dataSelect.id)
+      this.$utils.selects.init(this.$jquery, this.dataSelect.id)
     }
   },
   updated () {
@@ -31,7 +31,7 @@ export default {
     if (this.isMnh) {
       let obj = this.$jquery('#' + this.dataSelect.id)
       this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData']
-      selects.init(this.$jquery, this.dataSelect.id)
+      this.$utils.selects.init(this.$jquery, this.dataSelect.id)
       let parent = obj.parent()
       parent.css({'display': 'inherit'})
     }

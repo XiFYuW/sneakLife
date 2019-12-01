@@ -84,7 +84,7 @@ export default {
         case 'inputLable':
           v = obj.val()
           break
-        case 'treeView':
+        case 'selectsTree':
           let temp = this.$utils.selectTreeViewData
           if (temp !== null && temp !== undefined) {
             v = temp.value

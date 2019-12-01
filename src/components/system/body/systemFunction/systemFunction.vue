@@ -26,7 +26,7 @@ export default {
       head: this.item.tab,
       tableId: 'system-function-table',
       toolbarId: 'system-function-toolbar',
-      selectData: {},
+      selectTreeData: {},
       menuIdTemp: ''
     }
   },
@@ -55,18 +55,15 @@ export default {
       dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
       dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
-      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: '16f8029c956911e9914980fa5b3a283a:*', menuId: this.item.id}}).then(resp => {
-        let $ = this.$jquery
-        this.selectData = resp.respData.data
-        let ini = this.opera.in
-        this.operaClick.operaInEach(ini, data, (v, index, item, data) => {
-          let obj = $('#' + v.id)
-          this.$utils.selects.setVal(obj, '')
-          // 下来列表赋值
-          let ds = this.selectData[v.field]
+      let express = '0a933692133d11eaa3ed80fa5b3a283a:*'
+      this.$utils.central.send(this.$utils.http, {me: 'selectTreeView', data: {express: express, menuId: this.item.id}}).then(resp => {
+        this.selectTreeData = resp.respData
+        let columns = this.opera.in
+        this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
+          let ds = this.selectTreeData[v.field]
           if (ds) {
-            // 添加新属性
-            this.$utils.vue.set(v, v.field + 'SelectData', ds)
+            // 给v增加v.field + 'selectTreeData'属性，修改数据操作可以匹配去取值
+            this.$utils.vue.set(v, v.field + 'SelectTreeData', ds)
           }
           item.splice(index, index + 1, v)
         })
@@ -86,7 +83,22 @@ export default {
       if (this.operaClick.hint(data)) {
         this.$utils.setId(data[0].id)
         this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
-          this.$utils.byPageData($, data, v, item, index, this.selectData)
+          let key = v.field
+          for (let i = 0; i < data.length; i++) {
+            let jsons = data[i]
+            for (let p in jsons) {
+              if (key === p) {
+                let td = this.selectTreeData[key]
+                if (td) {
+                  this.$utils.selectsTree.setSelectTreeVal($, p, v, jsons)
+                } else {
+                  // 对应key,增加value属性
+                  this.$utils.vue.set(v, 'value', jsons[p])
+                }
+                item.splice(index, index + 1, v)
+              }
+            }
+          }
         })
         this.$utils.modalFrame.show($)
       }

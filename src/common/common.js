@@ -23,11 +23,20 @@ export const utils = {
   table: '',
   // 下拉列表树所选临时数据
   selectTreeViewData: null,
-  // 下拉列表对象
+  // 下拉列表操作对象
   selects: null,
+  // 下拉列表树操作对象
+  selectsTree: null,
   /**
-   * 设置下拉列表对象
-   * @param selects 下拉列表对象
+   * 设置下拉列表树操作对象
+   * @param selectsTree 下拉列表树操作对象
+   */
+  setSelectsTree: function (selectsTree) {
+    this.selectsTree = selectsTree
+  },
+  /**
+   * 下拉列表操作对象
+   * @param selects 下拉列表操作对象
    */
   setSelects: function (selects) {
     this.selects = selects

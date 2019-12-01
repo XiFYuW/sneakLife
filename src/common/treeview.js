@@ -38,19 +38,48 @@ export const treeView = {
   },
   /**
    * 选中树形视图的节点
-   * @param $ jquery对象
+   * @param obj jquery对象
    * @param nodeId 树形视图id
    */
-  selectNode: function ($, nodeId) {
-    $('#' + this.el).treeview('selectNode', [nodeId, {silent: true}])
+  selectNode: function (obj, nodeId) {
+    obj.treeview('selectNode', [nodeId, {silent: true}])
   },
   /**
-   * 获取树形视图的Options
-   * @param el 元素位置
+   * 返回可用节点的数组
+   * @param obj jquery对象
    * @returns {*}
    */
-  getOptions: function (el) {
-    this.setEl(el)
-    return this.el.data().treeview.options
+  getEnabled: function (obj) {
+    return obj.treeview('getEnabled')
+  },
+  /**
+   * 获取nodeId
+   * @param obj 元素对象
+   * @param p 填充数据字段属性
+   * @param jsons 填充数据项
+   */
+  getNode: function (obj, p, jsons) {
+    let array = this.getEnabled(obj)
+    for (let va in array) {
+      if (array[va].value === jsons[p]) {
+        return array[va]
+      }
+    }
+  },
+  /**
+   * 设置下拉列表树的值
+   * @param $ jquery对象
+   * @param p 填充数据字段属性
+   * @param v 功能输入字段属性
+   * @param jsons 填充数据项
+   */
+  setSelectTreeVal: function ($, p, v, jsons) {
+    let obj = $('#' + v.id)
+    let node = this.getNode(obj, p, jsons)
+    let obj1 = $('#' + v.id.substr(0, 30))
+    if (node) {
+      obj1.val(node.text)
+      this.selectNode(obj, node.nodeId)
+    }
   }
 }
