@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import {selects} from '../../common/selects'
 export default {
   name: 'common-select',
   data () {

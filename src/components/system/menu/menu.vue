@@ -29,8 +29,8 @@ export default {
   components: {
     'menu-child': () => AsyncView.lazyLoadViews(import('./menuChild')),
     'data-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/dataDictionary')),
+    'type-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/typeDictionary')),
     'system-monitoring': () => AsyncView.lazyLoadViews(import('../body/systemMonitoring/systemMonitoring')),
-    'function-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionConfig/functionConfig')),
     'role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleConfig/roleConfig')),
     'user-role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/userRoleConfig/userRoleConfig')),
     'role-function-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig')),

@@ -26,8 +26,7 @@ export default {
       head: this.item.tab,
       tableId: 'system-function-table',
       toolbarId: 'system-function-toolbar',
-      selectTreeData: {},
-      menuIdTemp: ''
+      selectTreeData: {}
     }
   },
   components: {
@@ -60,12 +59,7 @@ export default {
         this.selectTreeData = resp.respData
         let columns = this.opera.in
         this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
-          let ds = this.selectTreeData[v.field]
-          if (ds) {
-            // 给v增加v.field + 'selectTreeData'属性，修改数据操作可以匹配去取值
-            this.$utils.vue.set(v, v.field + 'SelectTreeData', ds)
-          }
-          item.splice(index, index + 1, v)
+          this.operaClick.initSelectTree(v, index, item, data, this.selectTreeData)
         })
       })
     })
@@ -83,22 +77,9 @@ export default {
       if (this.operaClick.hint(data)) {
         this.$utils.setId(data[0].id)
         this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
-          let key = v.field
-          for (let i = 0; i < data.length; i++) {
-            let jsons = data[i]
-            for (let p in jsons) {
-              if (key === p) {
-                let td = this.selectTreeData[key]
-                if (td) {
-                  this.$utils.selectsTree.setSelectTreeVal($, p, v, jsons)
-                } else {
-                  // 对应key,增加value属性
-                  this.$utils.vue.set(v, 'value', jsons[p])
-                }
-                item.splice(index, index + 1, v)
-              }
-            }
-          }
+          this.$utils.setInputValue($, v, index, item, data, ($, key, v, p, row, item, index) => {
+            this.$utils.setValueBySelectTree($, key, v, p, row, item, index, this.selectTreeData)
+          })
         })
         this.$utils.modalFrame.show($)
       }

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-sm-2 col-md-2 sidebar treeViewMa">
-      <tree-view></tree-view>
+      <tree-view v-bind:id="treeViewId"></tree-view>
     </div>
     <div class="col-md-9 sidebar" v-if="is">
       <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"
@@ -13,8 +13,6 @@
 <script>
 import {operaClick} from '../../../../../common/common'
 import {treeGrid} from '../../../../../common/treeGrid'
-import {treeView} from '../../../../../common/treeview'
-const treeViewCopy = require('../../../../../common/common').deepCopy.deepCopy(treeView)
 const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
 const treeGridCopy = require('../../../../../common/common').deepCopy.deepCopy(treeGrid)
 const AsyncView = require('../../../../../common/common').AsyncView
@@ -41,7 +39,8 @@ export default {
       is: false,
       head: this.item.tab,
       tableId: 'role-function-config-table',
-      toolbarId: 'role-function-config-toolbar'
+      toolbarId: 'role-function-config-toolbar',
+      treeViewId: 'treeViewId' + this.item.id
     }
   },
   props: {
@@ -54,9 +53,9 @@ export default {
     let $ = this.$jquery
     let http = this.$utils.http
     this.$central.send(http, {me: this.item.pageUrl, data: {}}).then(resp => {
-      treeViewCopy.options.data = resp.respData
-      treeViewCopy.init(this.$jquery)
-      treeViewCopy.nodeSelected(this.$jquery, (event, data) => {
+      this.$utils.selectsTree.options.data = resp.respData
+      this.$utils.selectsTree.init(this.$jquery, this.treeViewId)
+      this.$utils.selectsTree.nodeSelected(this.$jquery, (event, data) => {
         this.is = true
         if (data.url !== '#') {
           this.$central.send(http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {

@@ -21,8 +21,6 @@ export const utils = {
   http: null,
   // 数据表格id
   table: '',
-  // 下拉列表树所选临时数据
-  selectTreeViewData: null,
   // 下拉列表操作对象
   selects: null,
   // 下拉列表树操作对象
@@ -40,13 +38,6 @@ export const utils = {
    */
   setSelects: function (selects) {
     this.selects = selects
-  },
-  /**
-   * 设置下拉列表树所选临时数据
-   * @param item 下拉列表树所选临时数据
-   */
-  setSelectTreeViewData: function (item) {
-    this.selectTreeViewData = item
   },
   /**
    * 设置vue对象
@@ -173,33 +164,6 @@ export const utils = {
     }
   },
   /**
-   * 根据填充数据属性生成相应的输入项
-   * @param $ jquery对象
-   * @param data 填充数据
-   * @param v 功能输入字段属性
-   * @param item 功能输入字段索项
-   * @param index 功能输入字段索引
-   * @param selectData 下拉列表数据
-   */
-  byPageData: function ($, data, v, item, index, selectData) {
-    let key = v.field
-    for (let i = 0; i < data.length; i++) {
-      let jsons = data[i]
-      for (let p in jsons) {
-        if (key === p) {
-          let td = selectData[key]
-          if (td) {
-            this.selects.setSelectsVal($, v, p, td, jsons)
-          } else {
-            // 对应key,增加value属性
-            this.vue.set(v, 'value', jsons[p])
-          }
-          item.splice(index, index + 1, v)
-        }
-      }
-    }
-  },
-  /**
    * 清除输入的值
    * @param $ jquery对象
    * @param v 功能输入字段属性
@@ -209,6 +173,66 @@ export const utils = {
     let obj = $('#' + v.id)
     obj.val('')
     this.selects.setVal(obj, '')
+  },
+  /**
+   * 设置输入选项的值
+   * @param $ jquery对象
+   * @param v 功能输入字段属性集合
+   * @param index 功能输入字段索引
+   * @param item 功能输入字段项
+   * @param data 填充数据
+   * @param callback 回调函数
+   */
+  setInputValue: function ($, v, index, item, data, callback) {
+    let key = v.field
+    for (let i = 0; i < data.length; i++) {
+      let row = data[i]
+      for (let p in row) {
+        if (key === p) {
+          callback($, key, v, p, row, item, index)
+        }
+      }
+    }
+  },
+  /**
+   * 设置输入字段的值，只有inputLable 和 selects两种类型
+   * @param $ jquery对象
+   * @param key
+   * @param v 功能输入字段属性集合
+   * @param p 选中一行的数据属性
+   * @param row 选中一行的数据集合
+   * @param item 功能输入字段项
+   * @param index 功能输入字段索引
+   * @param selectData 下拉列表数据集合
+   */
+  setValueBySelects: function ($, key, v, p, row, item, index, selectData) {
+    let td = selectData[key]
+    if (td) {
+      utils.selects.setSelectsVal($, v, p, td, row)
+    } else {
+      utils.vue.set(v, 'value', row[p])
+    }
+    item.splice(index, index + 1, v)
+  },
+  /**
+   * 设置输入字段的值，只有inputLable 和 selectsTree两种类型
+   * @param $ jquery对象
+   * @param key
+   * @param v 功能输入字段属性集合
+   * @param p 选中一行的数据属性
+   * @param row 选中一行的数据集合
+   * @param item 功能输入字段项
+   * @param index 功能输入字段索引
+   * @param selectTreeData 下拉列表树数据集合
+   */
+  setValueBySelectTree: function ($, key, v, p, row, item, index, selectTreeData) {
+    let td = selectTreeData[key]
+    if (td) {
+      utils.selectsTree.setSelectTreeVal($, p, v, row)
+    } else {
+      utils.vue.set(v, 'value', row[p])
+    }
+    item.splice(index, index + 1, v)
   }
 }
 
@@ -268,7 +292,7 @@ export const operaClick = {
    */
   addTable: function (el, $, columns) {
     this.operaInEach(columns, null, (v, index, item, data) => {
-      v.value = ''
+      utils.vue.set(v, 'value', '')
       item.splice(index, index + 1, v)
     })
     utils.modalFrame.show($)
@@ -284,19 +308,27 @@ export const operaClick = {
     if (this.hint(data)) {
       utils.setId(data[0].id)
       this.operaInEach(columns, data, (v, index, item, data) => {
-        let key = v.field
-        // 对应key,增加value属性
-        for (let i = 0; i < data.length; i++) {
-          let jsons = data[i]
-          for (let p in jsons) {
-            if (key === p) {
-              utils.vue.set(v, 'value', jsons[p])
-            }
-          }
-        }
-        item.splice(index, index + 1, v)
+        utils.setInputValue($, v, index, item, data, ($, key, v, p, row, item, index) => {
+          utils.vue.set(v, 'value', row[p])
+          item.splice(index, index + 1, v)
+        })
       })
       utils.modalFrame.show($)
+    }
+  },
+  /**
+   * 基本删除操作，默认实现
+   * @param el 元素位置
+   * @param $ jquery对象
+   * @param columns 功能输入字段
+   */
+  deleteTable: function (el, $, columns) {
+    let data = $('#' + el).bootstrapTable('getAllSelections')
+    if (this.hint(data)) {
+      utils.central.send(utils.http, {me: utils.url, data: {id: data[0].id}}).then(resp => {
+        utils.central.toastr.success(resp.respMsg)
+        $('#' + el).bootstrapTable('refresh')
+      })
     }
   },
   /**
@@ -315,7 +347,7 @@ export const operaClick = {
   /**
    * 功能输入字段具体处理
    * @param callback 回调函数
-   * @param v 功能输入字段属性
+   * @param v 功能输入字段属性集合
    * @param index 功能输入字段索引
    * @param item 功能输入字段项
    * @param data 填充数据
@@ -324,19 +356,39 @@ export const operaClick = {
     callback(v, index, item, data)
   },
   /**
-   * 基本删除操作，默认实现
-   * @param el 元素位置
-   * @param $ jquery对象
-   * @param columns 功能输入字段
+   * 初始化数据字段类型为下拉列表树
+   * @param v 功能输入字段属性集合
+   * @param index 功能输入字段索引
+   * @param item 功能输入字段项
+   * @param data 填充数据
+   * @param selectTreeData 下拉列表树数据
    */
-  deleteTable: function (el, $, columns) {
-    let data = $('#' + el).bootstrapTable('getAllSelections')
-    if (this.hint(data)) {
-      utils.central.send(utils.http, {me: utils.url, data: {id: data[0].id}}).then(resp => {
-        utils.central.toastr.success(resp.respMsg)
-        $('#' + el).bootstrapTable('refresh')
-      })
+  initSelectTree: function (v, index, item, data, selectTreeData) {
+    let ds = selectTreeData[v.field]
+    if (ds) {
+      // 给v增加v.field + 'selectTreeData'属性，修改数据操作可以匹配去取值
+      utils.vue.set(v, v.field + 'SelectTreeData', ds)
     }
+    item.splice(index, index + 1, v)
+  },
+  /**
+   * 初始化数据字段类型为下拉列表
+   * @param v 功能输入字段属性集合
+   * @param index 功能输入字段索引
+   * @param item 功能输入字段项
+   * @param data 填充数据
+   * @param selectData 下拉列表数据
+   */
+  initSelects: function (v, index, item, data, selectData) {
+    // let obj = $('#' + v.id)
+    // this.$utils.selects.setVal(obj, '')
+    // 下来列表初始化
+    let ds = selectData[v.field]
+    if (ds) {
+      // 添加新属性
+      utils.vue.set(v, v.field + 'SelectData', ds)
+    }
+    item.splice(index, index + 1, v)
   },
   /**
    * 基本消息提示

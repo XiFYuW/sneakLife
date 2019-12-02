@@ -109,7 +109,6 @@ export default {
     })
   },
   updated () {
-    let $ = this.$jquery
     this.operaClick.updateTable = (el, $, columns) => {
       let data = $('#' + el).bootstrapTable('getAllSelections')
       let con = []

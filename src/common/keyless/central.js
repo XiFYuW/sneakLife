@@ -79,7 +79,7 @@ export const central = {
    * @returns {boolean}
    */
   checkCode: function (resp) {
-    let ok = [2000, 5566, 7766, 4467, 4466]
+    let ok = [2000, 5566, 7766, 4467, 4466, 2038]
     if (ok.indexOf(resp.respCode) < 0) {
       this.toastr.error(resp.respMsg)
       return false

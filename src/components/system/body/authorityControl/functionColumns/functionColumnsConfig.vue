@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-sm-2 col-md-2 sidebar treeViewMa">
-      <tree-view></tree-view>
+      <tree-view v-bind:id="treeViewId"></tree-view>
     </div>
     <div class="col-md-9 sidebar" v-if="isShowData">
       <data-table v-bind:opera="opera" v-bind:head="head" v-bind:operaClick="operaClick"
@@ -11,10 +11,8 @@
 </template>
 
 <script>
-import {treeView} from '../../../../../common/treeview'
 import {operaClick} from '../../../../../common/common'
 import {dataTable} from '../../../../../common/dataTable'
-const treeViewCopy = require('../../../../../common/common').deepCopy.deepCopy(treeView)
 const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
 const dataTableCopy = require('../../../../../common/common').deepCopy.deepCopy(dataTable)
 const AsyncView = require('../../../../../common/common').AsyncView
@@ -41,6 +39,7 @@ export default {
       isShowData: false,
       tableId: 'function-columns-config',
       toolbarId: 'function-columns-config-toolbar',
+      treeViewId: 'treeViewId' + this.item.id,
       menuIdTemp: '',
       selectData: {}
     }
@@ -55,7 +54,7 @@ export default {
     this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       let $ = this.$jquery
       this.$utils.selectsTree.options.data = resp.respData
-      this.$utils.selectsTree.init($)
+      this.$utils.selectsTree.init($, this.treeViewId)
       this.$utils.selectsTree.nodeSelected($, (event, data) => {
         this.isShowData = true
         if (data.url !== '#') {
@@ -78,18 +77,10 @@ export default {
 
             let express = 'edca09efc62111e9bd4f80fa5b3a283a:4'
             this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
-              let $ = this.$jquery
               this.selectData = resp.respData.data
               let columns = this.opera.in
               this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
-                let obj = $('#' + v.id)
-                this.$utils.selects.setVal(obj, '')
-                // 下来列表赋值
-                let ds = this.selectData[v.field]
-                if (ds) {
-                  this.$utils.vue.set(v, v.field + 'SelectData', ds)
-                }
-                item.splice(index, index + 1, v)
+                this.operaClick.initSelects(v, index, item, data, this.selectData)
               })
             })
           })
@@ -112,7 +103,9 @@ export default {
       if (this.operaClick.hint(data)) {
         this.$utils.setId(data[0].id)
         this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
-          this.$utils.byPageData($, data, v, item, index, this.selectData)
+          this.$utils.setInputValue($, v, index, item, data, ($, key, v, p, row, item, index) => {
+            this.$utils.setValueBySelects($, key, v, p, row, item, index, this.selectData)
+          })
         })
         this.$utils.modalFrame.show($)
       }

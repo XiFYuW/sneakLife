@@ -27,8 +27,7 @@ export default {
       head: this.item.tab,
       tableId: 'role-config-table',
       toolbarId: 'role-config-toolbar',
-      selectData: {},
-      menuIdTemp: ''
+      selectData: {}
     }
   },
   components: {
@@ -51,19 +50,10 @@ export default {
       dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
       this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: '58837670b66111e985a680fa5b3a283a:7', menuId: this.item.id}}).then(resp => {
-        let $ = this.$jquery
         this.selectData = resp.respData.data
         let ini = this.opera.in
         this.operaClick.operaInEach(ini, data, (v, index, item, data) => {
-          let obj = $('#' + v.id)
-          this.$utils.selects.setVal(obj, '')
-          // 下来列表赋值
-          let ds = this.selectData[v.field]
-          if (ds) {
-            // 添加新属性
-            this.$utils.vue.set(v, v.field + 'SelectData', ds)
-          }
-          item.splice(index, index + 1, v)
+          this.operaClick.initSelects(v, index, item, data, this.selectData)
         })
       })
     })
@@ -81,7 +71,9 @@ export default {
       if (this.operaClick.hint(data)) {
         this.$utils.setId(data[0].id)
         this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
-          this.$utils.byPageData($, data, v, item, index, this.selectData)
+          this.$utils.setInputValue($, v, index, item, data, ($, key, v, p, row, item, index) => {
+            this.$utils.setValueBySelects($, key, v, p, row, item, index, this.selectData)
+          })
         })
         this.$utils.modalFrame.show($)
       }

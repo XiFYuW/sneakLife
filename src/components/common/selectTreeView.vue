@@ -45,7 +45,6 @@ export default {
       obj.show()
       this.$utils.selectsTree.nodeSelected($, (event, data) => {
         $('#' + this.treeView.id.substr(0, 30)).val(data.text)
-        this.$utils.setSelectTreeViewData(data)
         obj.hide()
         this.$utils.selectsTree.selectNode(obj, data.nodeId)
       })

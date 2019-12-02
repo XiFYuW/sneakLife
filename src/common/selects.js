@@ -29,7 +29,10 @@ export const selects = {
    */
   getVal: function (obj) {
     let data = obj.find('option:selected').selectpicker('val').get('0')
-    return data.value
+    if (data) {
+      return data.value
+    }
+    return null
   },
   /**
    * 初始化下拉列表的值
@@ -37,12 +40,12 @@ export const selects = {
    * @param v 功能输入字段属性
    * @param p 填充数据字段属性
    * @param td 下拉列表数据项
-   * @param jsons 填充数据项
+   * @param row 填充数据项
    */
-  setSelectsVal: function ($, v, p, td, jsons) {
+  setSelectsVal: function ($, v, p, td, row) {
     let obj = $('#' + v.id)
     for (let va in td) {
-      if (td[va].value === jsons[p]) {
+      if (td[va].value === row[p]) {
         this.setVal(obj, td[va].value)
       }
     }

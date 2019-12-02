@@ -9,7 +9,7 @@ const operaClickCopy = require('../../../../common/common').deepCopy.deepCopy(op
 const dataTableCopy = require('../../../../common/common').deepCopy.deepCopy(dataTable)
 const AsyncView = require('../../../../common/common').AsyncView
 export default {
-  name: 'data-dictionary',
+  name: 'type-dictionary',
   data () {
     return {
       /**
@@ -24,10 +24,8 @@ export default {
        * 标题头
        */
       head: this.item.tab,
-      tableId: 'data-dictionary-table',
-      toolbarId: 'data-dictionary-toolbar',
-      selectData: {},
-      menuIdTemp: ''
+      tableId: 'type-dictionary-table',
+      toolbarId: 'type-dictionary-toolbar'
     }
   },
   components: {
@@ -54,36 +52,7 @@ export default {
       dataTableCopy.tl.columns = data.table.columns
       dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
       dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
-
-      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: '16f8029c956911e9914980fa5b3a283a:*', menuId: this.item.id}}).then(resp => {
-        this.selectData = resp.respData.data
-        let ini = this.opera.in
-        this.operaClick.operaInEach(ini, data, (v, index, item, data) => {
-          this.operaClick.initSelects(v, index, item, data, this.selectData)
-        })
-      })
     })
-  },
-  updated () {
-    this.operaClick.addTable = (el, $, columns) => {
-      this.operaClick.operaInEach(columns, null, (v, index, item, data) => {
-        this.$utils.clearAll($, v)
-      })
-      this.$utils.modalFrame.show($)
-    }
-
-    this.operaClick.updateTable = (el, $, columns) => {
-      let data = $('#' + el).bootstrapTable('getAllSelections')
-      if (this.operaClick.hint(data)) {
-        this.$utils.setId(data[0].id)
-        this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
-          this.$utils.setInputValue($, v, index, item, data, ($, key, v, p, row, item, index) => {
-            this.$utils.setValueBySelects($, key, v, p, row, item, index, this.selectData)
-          })
-        })
-        this.$utils.modalFrame.show($)
-      }
-    }
   },
   watch: {
     opera: {

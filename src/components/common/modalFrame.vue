@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
+          <h4 class="modal-title" id="gridSystemModalLabel">{{modalFrameTitle}}</h4>
         </div>
         <div class="modal-body">
           <form>
@@ -18,8 +18,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" v-on:click="send()">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" v-on:click="send()">确认</button>
         </div>
       </div>
     </div>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import {selects} from '../../common/selects'
 export default {
   name: 'modal-frame',
   props: {
@@ -38,6 +37,10 @@ export default {
     btnUrl: {
       type: String,
       redirect: true
+    },
+    modalFrameTitle: {
+      type: String,
+      redirect: false
     }
   },
   components: {
@@ -53,16 +56,16 @@ export default {
     send: function () {
       let code = this.$utils.code
       if (code === '0' || code === '1') {
-        let data = this.dispColumnsNull()
-        if (code === '1') {
-          data.id = this.$utils.id
-        }
+        let data = this.disColumnsNull()
         if (this.$utils.getObjLength(data) > 0) {
+          if (code === '1') {
+            data.id = this.$utils.id
+          }
           this.toSend(data)
         }
       }
     },
-    dispColumnsNull: function () {
+    disColumnsNull: function () {
       let $ = this.$jquery
       let data = {}
       for (let i = 0; i < this.funIn.length; i++) {
@@ -70,6 +73,9 @@ export default {
         for (let j = 0; j < arr.length; j++) {
           let obj = arr[j]
           data = this.getByHtmlType($, obj, data)
+          if (!data) {
+            return {}
+          }
           if (obj.hasOwnProperty('menuIdTemp')) {
             data = this.$utils.addObjProperty(data, 'menuIdTemp', obj.menuIdTemp)
           }
@@ -85,25 +91,18 @@ export default {
           v = obj.val()
           break
         case 'selectsTree':
-          let temp = this.$utils.selectTreeViewData
-          if (temp !== null && temp !== undefined) {
-            v = temp.value
-            if (temp.hasOwnProperty('tempMenuId')) {
-              data = this.$utils.addObjProperty(data, 'tempMenuId', temp.tempMenuId)
-            } else {
-              data = this.$utils.addObjProperty(data, 'tempMenuId', v)
-            }
-          }
+          let selectTree = this.$utils.selectsTree.getSelected(obj)
+          v = selectTree[0].value
           break
         case 'selects':
-          v = selects.getVal(obj)
+          v = this.$utils.selects.getVal(obj)
           break
         default:
           break
       }
       if (v === '' || undefined === v) {
         this.$utils.toastr.warning(item.textName + '不能为空')
-        return {}
+        return null
       }
       // 添加请求参数
       data = this.$utils.addObjProperty(data, item.field, v)

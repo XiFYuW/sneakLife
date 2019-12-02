@@ -26,15 +26,15 @@
         <!--</div>-->
       </div>
       <div class="btn-group" role="group" :id="toolbarId">
-        <button class="btn btn-default" v-bind:class="item.codeName" v-bind:key="item.codeName" v-bind:type="item.typeName"
-                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url)">
+        <button class="btn btn-default" v-bind:class="item.code" v-bind:key="item.code" v-bind:type="item.typeName"
+                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url, item.codeName)">
           <span class="glyphicon" v-bind:class="item.iconName" aria-hidden="true"></span> {{item.codeName}}
         </button>
       </div>
       <table class="table" :id="tableId"></table>
     </div>
     <div>
-      <modal-frame v-bind:funIn="opera.in" v-bind:btnUrl="btnUrl"></modal-frame>
+      <modal-frame v-bind:funIn="opera.in" v-bind:btnUrl="btnUrl" v-bind:modalFrameTitle="modalFrameTitle"></modal-frame>
     </div>
   </div>
 </template>
@@ -90,10 +90,18 @@ export default {
     operaClick: {
       type: Object,
       required: false
+    },
+    /**
+     * 弹出层标题
+     */
+    modalFrameTitle: {
+      type: String,
+      required: false
     }
   },
   methods: {
-    selectMe: function (code, url) {
+    selectMe: function (code, url, name) {
+      this.modalFrameTitle = this.head + '-' + name
       this.btnUrl = url
       this.$utils.setUrl(url)
       this.operaClick.selectClickMe(code, this.tableId, this.$jquery, this.opera.in)
