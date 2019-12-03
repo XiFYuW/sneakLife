@@ -33,11 +33,14 @@ export const central = {
    */
   serverInit: async function (http) {
     let resp = await this.post(http, initUrl, {})
-    this.url = Base64.decode(resp.data.respData.link)
+    this.init(resp.data.respData)
+  },
+  init: function (data) {
+    this.url = Base64.decode(data.link)
     this.rsa = new JSEncrypt()
-    this.publicKey = resp.data.respData.puk
+    this.publicKey = data.puk
     this.rsa.setPublicKey(this.publicKey)
-    this.token = Base64.decode(resp.data.respData.ptk).substring(0, 16)
+    this.token = Base64.decode(data.ptk).substring(0, 16)
   },
   /**
    * 发送服务请求
@@ -46,7 +49,7 @@ export const central = {
    * @returns {Promise<*>}
    */
   send: async function (http, parameter) {
-    let resp = await this.post(http, this.url, {data: this.enParameter(parameter)})
+    let resp = await this.post(http, this.url, {data: this.enParameter(parameter)}, parameter)
     return resp.data
   },
   /**
@@ -90,10 +93,11 @@ export const central = {
    * post请求
    * @param http axios对象
    * @param url 请求地址
-   * @param data 请求数据
+   * @param data 加密之后的请求数据
+   * @param parameter 加密之前的请求数据
    * @returns {Promise<any>}
    */
-  post: function (http, url, data) {
+  post: function (http, url, data, parameter) {
     return new Promise((resolve, reject) => {
       http({
         method: 'post',
@@ -113,6 +117,10 @@ export const central = {
         }]
       }).then((res) => {
         if (this.checkCode(res.data)) {
+          if (res.data.respCode === 2038) {
+            this.init(res.data.respData)
+            res = this.post(http, url, {data: this.enParameter(parameter)})
+          }
           resolve(res)
         }
       }).catch((err) => {
