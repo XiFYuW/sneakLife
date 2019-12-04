@@ -1,8 +1,8 @@
 <template>
   <div class="form-group mba">
-    <span class="input-group-addon" v-if="isSpan">{{dataSelect.textName}}</span>
-    <label class="control-label" v-else>{{dataSelect.textName}}</label>
-    <select v-bind:id="dataSelect.id" class="selectpicker" multiple data-max-options="1" data-width="fit">
+    <span class="input-group-addon" v-if="isSpan">{{selectCol.textName}}</span>
+    <label class="control-label" v-else>{{selectCol.textName}}</label>
+    <select v-bind:id="selectCol.id" class="selectpicker" multiple data-max-options="1" data-width="fit">
       <option v-for="item in templateData" :key="item.value" v-bind:data-content="item.dataContent" v-bind:value="item.value">
         {{item.name}}
       </option>
@@ -21,22 +21,31 @@ export default {
   created () {
     // 页面渲染下拉列表
     if (!this.isMnh) {
-      this.templateData = this.dataSelect.data
-      this.$utils.selects.init(this.$jquery, this.dataSelect.id)
+      this.templateData = this.selectCol.data
+      this.$utils.selects.init(this.$jquery, this.selectCol.id)
     }
   },
+  mounted () {
+    // 第一次
+    this.initSelects()
+  },
   updated () {
-    // 弹出层渲染下拉列表
-    if (this.isMnh) {
-      let obj = this.$jquery('#' + this.dataSelect.id)
-      this.templateData = this.dataSelect[this.dataSelect.field + 'SelectData']
-      this.$utils.selects.init(this.$jquery, this.dataSelect.id)
-      let parent = obj.parent()
-      parent.css({'display': 'inherit'})
+    // 第二次
+    this.initSelects()
+  },
+  methods: {
+    initSelects: function () {
+      if (this.isMnh) {
+        let obj = this.$jquery('#' + this.selectCol.id)
+        this.templateData = this.selectCol[this.selectCol.field + 'SelectData']
+        this.$utils.selects.init(this.$jquery, this.selectCol.id)
+        let parent = obj.parent()
+        parent.css({'display': 'inherit'})
+      }
     }
   },
   props: {
-    dataSelect: {
+    selectCol: {
       type: Object,
       required: true
     },
@@ -50,10 +59,10 @@ export default {
     }
   },
   watch: {
-    dataSelect: {
+    selectCol: {
       handler (newVal, oldVal) {
         if (newVal !== oldVal) {
-          this.dataSelect = newVal
+          this.selectCol = newVal
         }
       }
     },

@@ -43,7 +43,8 @@ export default {
   name: 'data-table',
   data () {
     return {
-      btnUrl: ''
+      btnUrl: '',
+      modalFrameTitle: ''
     }
   },
   components: {
@@ -89,13 +90,6 @@ export default {
      */
     operaClick: {
       type: Object,
-      required: false
-    },
-    /**
-     * 弹出层标题
-     */
-    modalFrameTitle: {
-      type: String,
       required: false
     }
   },

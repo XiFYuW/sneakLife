@@ -35,9 +35,9 @@ export default {
          */
         transitionalComponent: {
           componentTra: {
-            template: '<common-select v-bind:dataSelect="dataSelect" v-bind:isMnh="isMnh"></common-select>',
+            template: '<common-select v-bind:selectCol="selectCol" v-bind:isMnh="isMnh"></common-select>',
             props: {
-              dataSelect: {
+              selectCol: {
                 type: Object,
                 required: true
               },
@@ -48,7 +48,7 @@ export default {
             }
           },
           vue: this.$vue,
-          dataSelect: {},
+          selectCol: {},
           isMnh: false
         }
       },
@@ -79,7 +79,7 @@ export default {
   },
   mounted () {
     this.$utils.central.send(this.$utils.http, {me: 'selectsList', data: {}}).then(resp => {
-      this.handle.transitionalComponent.dataSelect = resp.respData
+      this.handle.transitionalComponent.selectCol = resp.respData
       this.handle.transitionalComponent.isMnh = false
       // 全局初始化CommonSelect
       this.$vue.component('common-select', CommonSelect)

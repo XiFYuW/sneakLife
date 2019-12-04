@@ -132,6 +132,9 @@ export const dataTable = {
     if (!central.checkCode(resp)) {
       return {}
     }
+    if (resp.respCode === 2038) {
+      central.init(resp.respData)
+    }
     return {
       total: resp.respData.totalElements,
       rows: resp.respData.content

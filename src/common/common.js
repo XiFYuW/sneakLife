@@ -380,8 +380,8 @@ export const operaClick = {
    * @param selectData 下拉列表数据
    */
   initSelects: function (v, index, item, data, selectData) {
-    // let obj = $('#' + v.id)
-    // this.$utils.selects.setVal(obj, '')
+    // let obj = utils.vue.$jquery('#' + v.id)
+    // utils.selects.setVal(obj, '')
     // 下来列表初始化
     let ds = selectData[v.field]
     if (ds) {
@@ -456,12 +456,12 @@ export const mountComponent = {
    */
   mountSelect: function (el, es) {
     let CommonSelect = this.transitionalComponent.vue.extend(this.transitionalComponent.componentTra)
-    utils.vue.set(this.transitionalComponent.dataSelect, 'id', es)
+    utils.vue.set(this.transitionalComponent.selectCol, 'id', es)
     new CommonSelect(
       {
         propsData:
           {
-            dataSelect: this.transitionalComponent.dataSelect,
+            selectCol: this.transitionalComponent.selectCol,
             isMnh: this.transitionalComponent.isMnh
           }
       }

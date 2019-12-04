@@ -240,6 +240,9 @@ export const treeGrid = {
     if (!central.checkCode(resp)) {
       return {}
     }
+    if (resp.respCode === 2038) {
+      central.init(resp.respData)
+    }
     return {
       data: resp.respData
     }
