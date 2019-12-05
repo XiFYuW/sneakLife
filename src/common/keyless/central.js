@@ -40,7 +40,7 @@ export const central = {
     this.rsa = new JSEncrypt()
     this.publicKey = data.puk
     this.rsa.setPublicKey(this.publicKey)
-    this.token = Base64.decode(data.ptk).substring(0, 16)
+    this.token = Base64.decode(data.ptk)
   },
   /**
    * 发送服务请求
@@ -63,7 +63,14 @@ export const central = {
       token: this.rsa.encryptLong(this.token)
     }
     let str = JSON.stringify(ps)
-    return this.rsa.encryptLong(str)
+    let r = this.rsa.encryptLong(str)
+    console.log(str)
+    console.log(this.token)
+    console.log(ps.token)
+    console.log(ps.token.length)
+    console.log(r)
+    console.log(r.length)
+    return r
   },
   /**
    * AES加密
@@ -108,13 +115,21 @@ export const central = {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         withCredentials: true,
+        // 只适用于 POST,PUT,PATCH，允许在向服务器发送前，修改请求数据。后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
         transformRequest: [function (data) {
+          console.log(data)
           let ret = ''
           for (let it in data) {
+            console.log('data[it]' + data[it])
             ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
           }
+          console.log('ret' + ret)
           return ret
         }]
+        // 在传递给 then/catch 前，允许修改响应数据
+        // transformResponse: [function (data) {
+        //   return data
+        // }]
       }).then((res) => {
         if (this.checkCode(res.data)) {
           if (res.data.respCode === 2038) {
