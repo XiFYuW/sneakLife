@@ -293,6 +293,7 @@ export const operaClick = {
   addTable: function (el, $, columns) {
     this.operaInEach(columns, null, (v, index, item, data) => {
       utils.vue.set(v, 'value', '')
+      $('#' + v.id).val('')
       item.splice(index, index + 1, v)
     })
     utils.modalFrame.show($)

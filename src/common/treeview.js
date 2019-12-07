@@ -95,7 +95,11 @@ export const treeView = {
    * @returns {jQuery|*}
    */
   getSelected: function (obj) {
-    return obj.treeview('getSelected')
+    let selectTree = obj.treeview('getSelected')
+    if (selectTree.length > 0) {
+      return selectTree[0].value
+    }
+    return null
   },
   /**
    * 取消选择的节点

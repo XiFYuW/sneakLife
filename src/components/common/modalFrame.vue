@@ -73,9 +73,9 @@ export default {
         for (let j = 0; j < arr.length; j++) {
           let obj = arr[j]
           data = this.getByHtmlType($, obj, data)
-          if (!data) {
-            return {}
-          }
+          // if (!data) {
+          //   return {}
+          // }
           if (obj.hasOwnProperty('menuIdTemp')) {
             data = this.$utils.addObjProperty(data, 'menuIdTemp', obj.menuIdTemp)
           }
@@ -92,7 +92,7 @@ export default {
           break
         case 'selectsTree':
           let selectTree = this.$utils.selectsTree.getSelected(obj)
-          v = selectTree[0].value
+
           break
         case 'selects':
           v = this.$utils.selects.getVal(obj)
@@ -100,16 +100,16 @@ export default {
         default:
           break
       }
-      if (v === '' || undefined === v) {
-        this.$utils.toastr.warning(item.textName + '不能为空')
-        return null
-      }
+      // if (v === '' || undefined === v) {
+      //   this.$utils.toastr.warning(item.textName + '不能为空')
+      //   return null
+      // }
       // 添加请求参数
       data = this.$utils.addObjProperty(data, item.field, v)
       return data
     },
     toSend: function (data) {
-      this.$utils.central.send(this.$utils.http, {me: this.btnUrl, data: data}).then(resp => {
+      this.$utils.central.send(this.$utils.http, {checkInId: this.funIn[0][0].menuId, me: this.btnUrl, data: data}).then(resp => {
         this.$utils.modalFrame.hide(this.$jquery)
         this.$jquery('#' + this.$utils.table).bootstrapTable('refresh')
         this.$utils.central.toastr.success(resp.respMsg)
