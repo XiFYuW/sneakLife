@@ -82,9 +82,14 @@ export const central = {
    * @returns {boolean}
    */
   checkCode: function (resp) {
-    let ok = [2000, 5566, 7766, 4467, 4466, 2038]
-    if (ok.indexOf(resp.respCode) < 0) {
-      this.toastr.error(resp.respMsg)
+    let success = [2000, 5566, 7766, 4467, 4466, 2038]
+    let waiting = [3879]
+    if (success.indexOf(resp.respCode) < 0) {
+      if (waiting.indexOf(resp.respCode) >= 0) {
+        this.toastr.warning(resp.respMsg)
+      } else {
+        this.toastr.error(resp.respMsg)
+      }
       return false
     }
     return true
@@ -124,7 +129,7 @@ export const central = {
         if (this.checkCode(res.data)) {
           if (res.data.respCode === 2038) {
             this.init(res.data.respData)
-            res = this.post(http, url, {data: this.enParameter(parameter)})
+            res = this.post(http, url, {data: this.enParameter(parameter)}, parameter)
           }
           resolve(res)
         }

@@ -325,12 +325,31 @@ export const operaClick = {
    */
   deleteTable: function (el, $, columns) {
     let data = $('#' + el).bootstrapTable('getAllSelections')
-    if (this.hint(data)) {
-      utils.central.send(utils.http, {me: utils.url, data: {id: data[0].id}}).then(resp => {
+    if (this.hints(data)) {
+      let ids = this.getIds(data, ',')
+      utils.central.send(utils.http, {me: utils.url, data: {ids: ids}}).then(resp => {
         utils.central.toastr.success(resp.respMsg)
         $('#' + el).bootstrapTable('refresh')
       })
     }
+  },
+  /**
+   * 获取以逗号隔开的id
+   * @param data 选择的数据
+   * @param pa 隔开字符
+   * @returns {string}
+   */
+  getIds: function (data, pa) {
+    let ids = ''
+    let end = data.length - 1 + ''
+    for (let i in data) {
+      if (i === end) {
+        ids += data[i].id
+      } else {
+        ids += data[i].id + pa
+      }
+    }
+    return ids
   },
   /**
    * 功能输入字段处理
@@ -422,6 +441,18 @@ export const operaClick = {
   hint: function (data) {
     if (data.length === 0 || data.length > 1) {
       utils.toastr.warning('请选择一行')
+      return false
+    }
+    return true
+  },
+  /**
+   * 基本消息提示
+   * @param data 填充数据
+   * @returns {boolean}
+   */
+  hints: function (data) {
+    if (data.length === 0) {
+      utils.toastr.warning('请至少选择一行')
       return false
     }
     return true
