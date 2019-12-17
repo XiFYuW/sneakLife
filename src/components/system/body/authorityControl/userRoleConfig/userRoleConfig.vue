@@ -77,14 +77,15 @@ export default {
       required: true
     }
   },
-  mounted () {
+  created () {
     this.$utils.central.send(this.$utils.http, {me: 'selectsList', data: {}}).then(resp => {
       this.handle.transitionalComponent.selectCol = resp.respData
       this.handle.transitionalComponent.isMnh = false
       // 全局初始化CommonSelect
       this.$vue.component('common-select', CommonSelect)
     })
-    let $ = this.$jquery
+  },
+  mounted () {
     this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
       this.opera = data.opera
@@ -101,11 +102,11 @@ export default {
       dataTableCopy.tl.columns.push(this.handle.operate)
       let disabled = !this.opera.sb
       dataTableCopy.tl.clickToSelect = false
-      dataTableCopy.tl.onLoadSuccess = function (data) {
-        dataTableCopy.applySelect($, data, disabled)
+      dataTableCopy.tl.onLoadSuccess = (data) => {
+        dataTableCopy.applySelect(this.$jquery, data, disabled)
       }
       dataTableCopy.setTraCom(this.handle.transitionalComponent)
-      dataTableCopy.init(this.tableId, $, dataTableCopy.tl)
+      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
     })
   },
   updated () {

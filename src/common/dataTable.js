@@ -71,12 +71,15 @@ export const dataTable = {
    * @param disabled 是否可以操作
    */
   applySelect: function ($, data, disabled) {
+    let zIndex = 999999999
     if (mountComponent.getTransitionalComponent()) {
       let rows = data.rows
       $('.rowOperator').each(function () {
         let idTemp = $(this).attr('id')
         let co = $('#' + idTemp)
-        co.parent().parent().css({'padding': 0})
+        co.parent().parent().css({
+          'padding': 0
+        })
         let id = co.parent().attr('id')
         let rowId = id.substr(3, 32)
         let row = {}
@@ -93,7 +96,16 @@ export const dataTable = {
         // 初始化select值
         selects.setVal(obj, row.value)
         $('#' + id + ' label').remove()
-        $('#' + id + ' .mba').css('margin-bottom', 'auto')
+        $('#' + id + ' .mba').css({
+          'margin-bottom': 'auto',
+          'display': 'table',
+          'margin-left': '11%'
+        })
+        $('#' + id + ' button').css('width', '200px')
+        $('#' + id + ' .bootstrap-select').css({
+          'position': 'absolute',
+          'z-index': zIndex--
+        })
       })
     }
   },
