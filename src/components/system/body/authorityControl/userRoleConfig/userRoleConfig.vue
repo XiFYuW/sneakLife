@@ -112,20 +112,22 @@ export default {
   updated () {
     this.operaClick.updateTable = (el, $, columns) => {
       let data = $('#' + el).bootstrapTable('getAllSelections')
-      let con = []
-      for (let v in data) {
-        let userId = data[v].userId
-        let obj = $('#row' + userId + ' select').find('option:selected').selectpicker('val').get('0')
-        let je = {}
-        je.value = obj.value
-        je.id = data[v].id
-        je.userId = userId
-        con.push(je)
+      if (operaClickCopy.hint(data)) {
+        let con = []
+        for (let v in data) {
+          let userId = data[v].userId
+          let obj = $('#row' + userId + ' select').find('option:selected').selectpicker('val').get('0')
+          let je = {}
+          je.value = obj.value
+          je.id = data[v].id
+          je.userId = userId
+          con.push(je)
+        }
+        this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: con}}).then(resp => {
+          this.$utils.toastr.success(resp.respMsg)
+          $('#user-role-config').bootstrapTable('refresh')
+        })
       }
-      this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: con}}).then(resp => {
-        this.$utils.toastr.success(resp.respMsg)
-        $('#user-role-config').bootstrapTable('refresh')
-      })
     }
   },
   watch: {
