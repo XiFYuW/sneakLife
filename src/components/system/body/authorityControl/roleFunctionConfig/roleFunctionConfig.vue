@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row suitable">
     <div class="col-sm-2 col-md-2 sidebar treeViewMa">
       <tree-view v-bind:id="treeViewId"></tree-view>
     </div>
@@ -105,5 +105,6 @@ export default {
 <style scoped>
   .treeViewMa{
     margin-left: 60px;
+    width: max-content;
   }
 </style>

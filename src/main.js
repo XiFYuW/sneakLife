@@ -4,6 +4,8 @@ import router from './router'
 import axios from 'axios'
 import $ from 'jquery'
 
+import './../static/css/system/system.css'
+
 /**
  * bootstrap
  */

@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div class="panel-heading" v-if="head">{{head}}</div>
       <div class="panel-body operaBod">
-        <!--<div>-->
+        <div>
           <!--<div class="row rowPadd">-->
             <!--<div class="col-md-4">-->
               <!--<input-text></input-text>-->
@@ -23,13 +23,19 @@
               <!--<select-tree-grid></select-tree-grid>-->
             <!--</div>-->
           <!--</div>-->
-        <!--</div>-->
+        </div>
       </div>
       <div class="btn-group" role="group" :id="toolbarId">
-        <button class="btn btn-default" v-bind:class="item.code" v-bind:key="item.code" v-bind:type="item.typeName"
-                v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url, item.codeName)">
-          <span class="glyphicon" v-bind:class="item.iconName" aria-hidden="true"></span> {{item.codeName}}
-        </button>
+        <!--<div class="btn-a" >-->
+          <!--<button class="btn btn-default" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询</button>-->
+          <!--<button class="btn btn-default" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 重置</button>-->
+        <!--</div>-->
+        <div class="btn-b">
+          <button class="btn btn-default" v-bind:class="item.code" v-bind:key="item.code" v-bind:type="item.typeName"
+                  v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url, item.codeName)">
+            <span class="glyphicon" v-bind:class="item.iconName" aria-hidden="true"></span> {{item.codeName}}
+          </button>
+        </div>
       </div>
       <table class="table" :id="tableId"></table>
     </div>
