@@ -68,6 +68,7 @@ export default {
     this.operaClick.addTable = (el, $, columns) => {
       this.operaClick.operaInEach(columns, null, (v, index, item, data) => {
         this.$utils.clearAll($, v)
+        item.splice(index, index + 1, v)
       })
       this.$utils.modalFrame.show($)
     }

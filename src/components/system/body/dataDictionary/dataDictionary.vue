@@ -84,6 +84,14 @@ export default {
         this.$utils.modalFrame.show($)
       }
     }
+
+    this.operaClick.search = function () {
+      alert('search1')
+    }
+
+    this.operaClick.remove = function () {
+      alert('remove1')
+    }
   },
   watch: {
     opera: {

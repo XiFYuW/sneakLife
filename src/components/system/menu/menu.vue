@@ -37,6 +37,7 @@ export default {
     'function-button-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionButton/functionButtonConfig')),
     'function-columns-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionColumns/functionColumnsConfig')),
     'function-input-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionInput/functionInputConfig')),
+    'function-bo-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionBo/functionBoConfig')),
     'system-function': () => AsyncView.lazyLoadViews(import('../body/systemFunction/systemFunction.vue'))
   },
   mounted: async function () {

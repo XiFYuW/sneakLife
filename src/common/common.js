@@ -173,6 +173,9 @@ export const utils = {
     let obj = $('#' + v.id)
     obj.val('')
     this.selects.setVal(obj, '')
+    if (v.field === 'selectsTree') {
+      this.selectsTree.removeSelectNode(obj, $('#' + v.id.substr(0, 30)))
+    }
   },
   /**
    * 设置输入选项的值
@@ -258,6 +261,12 @@ export const deepCopy = {
  * @type {{popover: operaClick.popover, hint: operaClick.hint, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
  */
 export const operaClick = {
+  search: function () {
+
+  },
+  remove: function () {
+
+  },
   /**
    * 功能操作按钮统一入口
    * @param code 功能操作值

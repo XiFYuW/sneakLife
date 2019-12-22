@@ -2,7 +2,7 @@
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-heading" v-if="head">{{head}}</div>
-      <div class="panel-body operaBod">
+      <div class="panel-body operaBo">
         <div>
           <!--<div class="row rowPadd">-->
             <!--<div class="col-md-4">-->
@@ -26,10 +26,14 @@
         </div>
       </div>
       <div class="btn-group" role="group" :id="toolbarId">
-        <!--<div class="btn-a" >-->
-          <!--<button class="btn btn-default" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询</button>-->
-          <!--<button class="btn btn-default" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 重置</button>-->
-        <!--</div>-->
+        <div class="btn-a">
+          <button class="btn btn-default" v-on:click="search()">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
+          </button>
+          <button class="btn btn-default" v-on:click="remove()">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 重置
+          </button>
+        </div>
         <div class="btn-b">
           <button class="btn btn-default" v-bind:class="item.code" v-bind:key="item.code" v-bind:type="item.typeName"
                   v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url, item.codeName)">
@@ -105,6 +109,12 @@ export default {
       this.btnUrl = url
       this.$utils.setUrl(url)
       this.operaClick.selectClickMe(code, this.tableId, this.$jquery, this.opera.in)
+    },
+    search: function () {
+      this.operaClick.search()
+    },
+    remove: function () {
+      this.operaClick.remove()
     }
   },
   watch: {
@@ -122,7 +132,7 @@ export default {
 </script>
 
 <style scoped>
-  .operaBod{
+  .operaBo{
     padding: unset;
   }
   .rowPadd{

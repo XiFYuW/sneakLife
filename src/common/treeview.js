@@ -74,6 +74,7 @@ export const treeView = {
    * @param row 填充数据项
    */
   setSelectTreeVal: function ($, p, v, row) {
+    debugger
     let obj = $('#' + v.id)
     let node = this.getNode(obj, p, row)
     let obj1 = $('#' + v.id.substr(0, 30))
@@ -81,12 +82,20 @@ export const treeView = {
       obj1.val(node.text)
       this.selectNode(obj, node.nodeId)
     } else {
-      obj1.val('')
-      let se = this.getSelected(obj)
-      for (let i in se) {
-        let item = se[i]
-        this.toggleNodeSelected(obj, item.nodeId)
-      }
+      this.removeSelectNode(obj, obj1)
+    }
+  },
+  /**
+   * 移除下拉列表树的选择状态
+   * @param obj 下拉列表树jquery对象
+   * @param obj1 输入框jquery对象
+   */
+  removeSelectNode: function (obj, obj1) {
+    obj1.val('')
+    let se = this.getSelected(obj)
+    for (let i in se) {
+      let item = se[i]
+      this.toggleNodeSelected(obj, item.nodeId)
     }
   },
   /**
@@ -95,11 +104,19 @@ export const treeView = {
    * @returns {jQuery|*}
    */
   getSelected: function (obj) {
-    let selectTree = obj.treeview('getSelected')
+    return obj.treeview('getSelected')
+  },
+  /**
+   * 获取选择的value
+   * @param obj jquery对象
+   * @returns {*}
+   */
+  getSelectedValue: function (obj) {
+    let selectTree = this.getSelected(obj)
     if (selectTree.length > 0) {
       return selectTree[0].value
     }
-    return null
+    return ''
   },
   /**
    * 取消选择的节点
