@@ -47,12 +47,29 @@ export default {
       dataTableCopy.tl.url = this.$central.url
       dataTableCopy.tl.toolbar = '#' + this.toolbarId
       dataTableCopy.tl.responseHandler = resp => {
-        return dataTableCopy.responseHandler(resp, this.$central)
+        return dataTableCopy.responseHandler(resp, this.$central, () => {
+          dataTableCopy.refresh(this.tableId, this.$jquery, dataTableCopy.tl)
+        })
       }
       dataTableCopy.tl.columns = data.table.columns
       dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
       dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
     })
+  },
+  updated () {
+    this.operaClick.search = () => {
+      let searchData = this.$utils.searchData(this.$jquery, this.opera.bo)
+      dataTableCopy.tl.queryParams = params => {
+        return dataTableCopy.queryParams(params, this.item.dataUrl, searchData, this.$central)
+      }
+      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+    }
+
+    this.operaClick.remove = () => {
+      this.operaClick.operaInEach(this.opera.bo, null, (v, index, item, data) => {
+        this.$utils.clearAll(this.$jquery, v)
+      })
+    }
   },
   watch: {
     opera: {

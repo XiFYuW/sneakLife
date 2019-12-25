@@ -25,6 +25,15 @@ export const utils = {
   selects: null,
   // 下拉列表树操作对象
   selectsTree: null,
+  // 功能操作对象
+  operaClick: null,
+  /**
+   * 设置功能操作对象
+   * @param operaClick 功能操作对象
+   */
+  setOperaClick: function (operaClick) {
+    this.operaClick = operaClick
+  },
   /**
    * 设置下拉列表树操作对象
    * @param selectsTree 下拉列表树操作对象
@@ -173,7 +182,7 @@ export const utils = {
     let obj = $('#' + v.id)
     obj.val('')
     this.selects.setVal(obj, '')
-    if (v.field === 'selectsTree') {
+    if (v.htmlType === 'selectsTree') {
       this.selectsTree.removeSelectNode(obj, $('#' + v.id.substr(0, 30)))
     }
   },
@@ -215,7 +224,7 @@ export const utils = {
     } else {
       utils.vue.set(v, 'value', row[p])
     }
-    item.splice(index, index + 1, v)
+    // item.splice(index, index + 1, v)
   },
   /**
    * 设置输入字段的值，只有inputLable 和 selectsTree两种类型
@@ -236,6 +245,46 @@ export const utils = {
       utils.vue.set(v, 'value', row[p])
     }
     item.splice(index, index + 1, v)
+  },
+  /**
+   * 根据元素类型获取值
+   * @param obj 元素对象
+   * @param htmlType 元素类型
+   * @returns {*}
+   */
+  switchTtmlTypeValue: function (obj, htmlType) {
+    let v = null
+    switch (htmlType) {
+      case 'inputLable':
+        v = obj.val()
+        break
+      case 'inputText':
+        v = obj.val()
+        break
+      case 'selectsTree':
+        v = utils.selectsTree.getSelectedValue(obj)
+        break
+      case 'selects':
+        v = utils.selects.getVal(obj)
+        break
+      default:
+        break
+    }
+    return v
+  },
+  /**
+   * 获取查询数据
+   * @param $ jquery对象
+   * @param bo 查询配置数据
+   */
+  searchData: function ($, bo) {
+    let searchData = {}
+    operaClick.operaInEach(bo, null, (v, index, item, data) => {
+      let obj = $('#' + v.id)
+      let s = this.switchTtmlTypeValue(obj, v.htmlType)
+      searchData = this.addObjProperty(searchData, v.field, s)
+    })
+    return searchData
   }
 }
 
@@ -303,7 +352,6 @@ export const operaClick = {
     this.operaInEach(columns, null, (v, index, item, data) => {
       utils.vue.set(v, 'value', '')
       $('#' + v.id).val('')
-      item.splice(index, index + 1, v)
     })
     utils.modalFrame.show($)
   },
@@ -320,7 +368,6 @@ export const operaClick = {
       this.operaInEach(columns, data, (v, index, item, data) => {
         utils.setInputValue($, v, index, item, data, ($, key, v, p, row, item, index) => {
           utils.vue.set(v, 'value', row[p])
-          item.splice(index, index + 1, v)
         })
       })
       utils.modalFrame.show($)
@@ -398,7 +445,7 @@ export const operaClick = {
       // 给v增加v.field + 'selectTreeData'属性，修改数据操作可以匹配去取值
       utils.vue.set(v, v.field + 'SelectTreeData', ds)
     }
-    item.splice(index, index + 1, v)
+    // item.splice(index, index + 1, v)
   },
   /**
    * 初始化数据字段类型为下拉列表
@@ -409,15 +456,14 @@ export const operaClick = {
    * @param selectData 下拉列表数据
    */
   initSelects: function (v, index, item, data, selectData) {
-    // let obj = utils.vue.$jquery('#' + v.id)
-    // utils.selects.setVal(obj, '')
     // 下来列表初始化
     let ds = selectData[v.field]
     if (ds) {
       // 添加新属性
       utils.vue.set(v, v.field + 'SelectData', ds)
     }
-    item.splice(index, index + 1, v)
+    // 加上会意外的删除功能元素
+    // item.splice(index, index + 1, v)
   },
   /**
    * 基本消息提示

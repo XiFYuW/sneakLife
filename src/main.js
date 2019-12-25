@@ -55,7 +55,7 @@ import toastr from 'toastr/build/toastr.min'
 /**
  * 共有属性
  */
-import {utils} from './common/common'
+import {utils, operaClick} from './common/common'
 import {central} from './common/keyless/central'
 import {modalFrame} from './common/modalFrame'
 import {myToastr} from './common/toastr'
@@ -74,6 +74,7 @@ utils.setHttp(axios)
 utils.setVue(Vue)
 utils.setSelects(selects)
 utils.setSelectsTree(treeView)
+utils.setOperaClick(operaClick)
 
 /**
  * 设置jquery与axios异步

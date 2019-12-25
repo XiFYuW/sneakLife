@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import {treeView} from '../../common/treeview'
-const treeViewCopy = require('../../common/common').deepCopy.deepCopy(treeView)
 export default {
   name: 'select-tree-view',
   components: {

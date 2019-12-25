@@ -10,7 +10,7 @@
           <form>
             <div class="row" v-for="(item, index) in funIn" v-bind:key="index">
               <div class="col-lg-6" v-for="(items, cindex) in item" v-bind:key="cindex">
-                <input-label v-bind:inputLable="items" v-bind:isSpan="false" v-if="items.htmlType === 'inputLable'"></input-label>
+                <input-label v-bind:inputLable="items" v-if="items.htmlType === 'inputLable'"></input-label>
                 <common-select v-bind:selectCol="items" v-bind:isMnh="true" v-bind:isSpan="false" v-else-if="items.htmlType === 'selects'"></common-select>
                 <select-tree-view v-bind:treeView="items" v-bind:isSpan="false" v-else></select-tree-view>
               </div>
@@ -67,35 +67,18 @@ export default {
     },
     disColumnsNull: function () {
       let $ = this.$jquery
-      let data = {}
-      for (let i = 0; i < this.funIn.length; i++) {
-        let arr = this.funIn[i]
-        for (let j = 0; j < arr.length; j++) {
-          let obj = arr[j]
-          data = this.getByHtmlType($, obj, data)
-          if (obj.hasOwnProperty('menuIdTemp')) {
-            data = this.$utils.addObjProperty(data, 'menuIdTemp', obj.menuIdTemp)
-          }
+      let obj = {}
+      this.$utils.operaClick.operaInEach(this.funIn, null, (v, index, item, data) => {
+        obj = this.getByHtmlType($, v, obj)
+        if (v.hasOwnProperty('menuIdTemp')) {
+          obj = this.$utils.addObjProperty(obj, 'menuIdTemp', v.menuIdTemp)
         }
-      }
-      return data
+      })
+      return obj
     },
     getByHtmlType: function ($, item, data) {
-      let v = null
       let obj = $('#' + item.id)
-      switch (item.htmlType) {
-        case 'inputLable':
-          v = obj.val()
-          break
-        case 'selectsTree':
-          v = this.$utils.selectsTree.getSelectedValue(obj)
-          break
-        case 'selects':
-          v = this.$utils.selects.getVal(obj)
-          break
-        default:
-          break
-      }
+      let v = this.$utils.switchTtmlTypeValue(obj, item.htmlType)
       // 添加请求参数
       data = this.$utils.addObjProperty(data, item.field, v)
       return data

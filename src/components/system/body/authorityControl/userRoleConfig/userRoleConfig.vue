@@ -93,7 +93,9 @@ export default {
         return dataTableCopy.queryParams(params, this.item.dataUrl, null, this.$central)
       }
       dataTableCopy.tl.responseHandler = resp => {
-        return dataTableCopy.responseHandler(resp, this.$central)
+        return dataTableCopy.responseHandler(resp, this.$central, () => {
+          dataTableCopy.refresh(this.tableId, this.$jquery, dataTableCopy.tl)
+        })
       }
       dataTableCopy.tl.url = this.$central.url
       dataTableCopy.tl.toolbar = '#' + this.toolbarId
@@ -129,6 +131,20 @@ export default {
         })
       }
     }
+
+    this.operaClick.search = () => {
+      let searchData = this.$utils.searchData(this.$jquery, this.opera.bo)
+      dataTableCopy.tl.queryParams = params => {
+        return dataTableCopy.queryParams(params, this.item.dataUrl, searchData, this.$central)
+      }
+      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+    }
+
+    this.operaClick.remove = () => {
+      this.operaClick.operaInEach(this.opera.bo, null, (v, index, item, data) => {
+        this.$utils.clearAll(this.$jquery, v)
+      })
+    }
   },
   watch: {
     opera: {
@@ -144,8 +160,5 @@ export default {
 }
 </script>
 
-<style>
-  .select-padd{
-    padding: 0;
-  }
+<style scoped>
 </style>

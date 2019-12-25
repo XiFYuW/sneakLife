@@ -14,11 +14,18 @@ export const selects = {
   },
   /**
    * 设置下拉列表的值
-   * @param obj
-   * @param val
+   * @param obj 拉列表元素对象
+   * @param val 值
    */
   setVal: function (obj, val) {
     obj.selectpicker('val', val)
+    this.refreshRender(obj)
+  },
+  /**
+   * 强制刷新
+   * @param obj 拉列表元素对象
+   */
+  refreshRender: function (obj) {
     obj.selectpicker('refresh')
     obj.selectpicker('render')
   },

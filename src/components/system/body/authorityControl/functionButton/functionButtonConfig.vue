@@ -60,18 +60,23 @@ export default {
             dataTableCopy.tl.url = this.$central.url
             dataTableCopy.tl.toolbar = '#' + this.toolbarId
             dataTableCopy.tl.responseHandler = resp => {
-              return dataTableCopy.responseHandler(resp, this.$central)
+              return dataTableCopy.responseHandler(resp, this.$central, () => {
+                dataTableCopy.refresh(this.tableId, this.$jquery, dataTableCopy.tl)
+              })
             }
             dataTableCopy.tl.columns = initDataTable.table.columns
             dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
             dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
 
             // 初始化下拉列表
-            let express = '178b8e17c57911e9bd4f80fa5b3a283a:6,179c7a6fc57911e9bd4f80fa5b3a283a:2,17a428fec57911e9bd4f80fa5b3a283a:1'
+            let express = '178b8e17c57911e9bd4f80fa5b3a283a:9,179c7a6fc57911e9bd4f80fa5b3a283a:2,17a428fec57911e9bd4f80fa5b3a283a:1'
             this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
               this.selectData = resp.respData.data
               let columns = this.opera.in
               this.operaClick.operaInEach(columns, data, (v, index, item, data) => {
+                this.operaClick.initSelects(v, index, item, data, this.selectData)
+              })
+              this.operaClick.operaInEach(this.opera.bo, data, (v, index, item, data) => {
                 this.operaClick.initSelects(v, index, item, data, this.selectData)
               })
             })
@@ -85,7 +90,6 @@ export default {
       this.operaClick.operaInEach(columns, null, (v, index, item, data) => {
         this.$utils.clearAll($, v)
         this.$utils.vue.set(v, 'menuIdTemp', this.menuIdTemp)
-        item.splice(index, index + 1, v)
       })
       this.$utils.modalFrame.show($)
     }
@@ -101,6 +105,21 @@ export default {
         })
         this.$utils.modalFrame.show($)
       }
+    }
+
+    this.operaClick.search = () => {
+      let searchData = this.$utils.searchData(this.$jquery, this.opera.bo)
+      this.$utils.addObjProperty(searchData, 'menuId', this.menuIdTemp)
+      dataTableCopy.tl.queryParams = params => {
+        return dataTableCopy.queryParams(params, this.item.dataUrl, searchData, this.$central)
+      }
+      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+    }
+
+    this.operaClick.remove = () => {
+      this.operaClick.operaInEach(this.opera.bo, null, (v, index, item, data) => {
+        this.$utils.clearAll(this.$jquery, v)
+      })
     }
   }
 }

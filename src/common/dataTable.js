@@ -5,6 +5,7 @@ export const dataTable = {
   tl: {
     url: '',
     method: 'post',
+    height: 411,
     // 工具栏
     toolbar: '#toolbar',
     // 是否显示导出按钮
@@ -63,6 +64,10 @@ export const dataTable = {
     let table = $('#' + el)
     table.bootstrapTable('destroy')
     table.bootstrapTable(tls)
+  },
+  refresh: function (el, $, tls) {
+    let table = $('#' + el)
+    table.bootstrapTable('refresh', tls)
   },
   /**
    * 渲染select列表
@@ -124,13 +129,16 @@ export const dataTable = {
         // 页面大小
         rows: params.limit,
         // 页码
-        page: params.offset / params.limit,
+        page: (params.offset / params.limit) + 1,
         // 排序列名
-        sort: params.sort,
+        sort: params.sort === undefined ? 'id' : params.sort,
         // 排序命令（desc，asc）
         sortOrder: params.order
       },
       data: data
+    }
+    if (!parameter.pag.rows && !parameter.pag.page) {
+      return false
     }
     return {data: central.enParameter(parameter)}
   },
@@ -138,18 +146,31 @@ export const dataTable = {
    * 数据表格响应封装
    * @param resp 响应数据
    * @param central 服务连接对象
+   * @param callback 回调刷新
    * @returns {{total: *, rows: *}}
    */
-  responseHandler: function (resp, central) {
+  responseHandler: function (resp, central, callback) {
     if (!central.checkCode(resp)) {
       return {}
     }
     if (resp.respCode === 2038) {
       central.init(resp.respData)
+      callback()
+      return false
+    } else {
+      return this.getResponse(resp)
     }
+  },
+  getResponse: function (resp) {
     return {
       total: resp.respData.totalElements,
       rows: resp.respData.content
     }
+  },
+  getTwoResponse: async function (resp, http, params, central) {
+    central.init(resp.respData)
+    await central.send(http, params).then(resps => {
+      return this.getResponse(resps)
+    })
   }
 }

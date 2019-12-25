@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group mba">
+  <div v-bind:class="{ 'isSpan': isSpan, 'form-group mba': !isSpan }">
     <span class="input-group-addon" v-if="isSpan">{{selectCol.textName}}</span>
     <label class="control-label" v-else>{{selectCol.textName}}</label>
     <select v-bind:id="selectCol.id" class="selectpicker" multiple data-max-options="1" data-width="fit">
@@ -27,20 +27,25 @@ export default {
   },
   mounted () {
     // 第一次
-    this.initSelects()
+    this.initSelectsPr()
   },
   updated () {
     // 第二次
-    this.initSelects()
+    this.initSelectsPr()
   },
   methods: {
-    initSelects: function () {
+    initSelectsPr: function () {
       if (this.isMnh) {
         let obj = this.$jquery('#' + this.selectCol.id)
         this.templateData = this.selectCol[this.selectCol.field + 'SelectData']
         this.$utils.selects.init(this.$jquery, this.selectCol.id)
         let parent = obj.parent()
-        parent.css({'display': 'inherit'})
+        if (this.isSpan) {
+          this.$utils.selects.refreshRender(obj)
+          parent.css({'display': 'table-cell'})
+        } else {
+          parent.css({'display': 'inherit'})
+        }
       }
     }
   },
@@ -73,4 +78,9 @@ export default {
 </script>
 
 <style scoped>
+  .isSpan{
+    display: table;
+    /*position: relative;*/
+    /*border-collapse: separate*/
+  }
 </style>

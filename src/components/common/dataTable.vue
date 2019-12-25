@@ -2,17 +2,23 @@
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-heading" v-if="head">{{head}}</div>
-      <div class="panel-body operaBo">
-        <div>
+      <div class="panel-body operaBo" v-if="opera.bo !== undefined && opera.bo.length > 0">
+          <div class="row rowPadd" v-for="(item, index) in opera.bo" v-bind:key="index">
+            <div class="col-md-4" v-for="(items, cindex) in item" v-bind:key="cindex">
+              <input-text v-bind:inputText="items" v-if="items.htmlType === 'inputText'"></input-text>
+              <common-select v-bind:selectCol="items" v-bind:isMnh="true" v-bind:isSpan="true" v-else-if="items.htmlType === 'selects'"></common-select>
+              <select-tree-view v-bind:treeView="items" v-bind:isSpan="true" v-else></select-tree-view>
+            </div>
+          </div>
           <!--<div class="row rowPadd">-->
             <!--<div class="col-md-4">-->
-              <!--<input-text></input-text>-->
+              <!--<date-time-picker></date-time-picker>-->
             <!--</div>-->
             <!--<div class="col-md-4">-->
               <!--<date-time-picker></date-time-picker>-->
             <!--</div>-->
             <!--<div class="col-md-4">-->
-              <!--<select-tree-view></select-tree-view>-->
+              <!--<date-time-picker></date-time-picker>-->
             <!--</div>-->
           <!--</div>-->
           <!--<div class="row rowPadd">-->
@@ -23,10 +29,10 @@
               <!--<select-tree-grid></select-tree-grid>-->
             <!--</div>-->
           <!--</div>-->
-        </div>
+        <!--</div>-->
       </div>
       <div class="btn-group" role="group" :id="toolbarId">
-        <div class="btn-a">
+        <div class="btn-a" v-if="opera.bo !== undefined && opera.bo.length > 0">
           <button class="btn btn-default" v-on:click="search()">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
           </button>
@@ -35,7 +41,7 @@
           </button>
         </div>
         <div class="btn-b">
-          <button class="btn btn-default" v-bind:class="item.code" v-bind:key="item.code" v-bind:type="item.typeName"
+          <button class="btn btn-default" v-bind:class="item.code" v-bind:key="item.code" v-bind:type="item.type"
                   v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url, item.codeName)">
             <span class="glyphicon" v-bind:class="item.iconName" aria-hidden="true"></span> {{item.codeName}}
           </button>
@@ -59,6 +65,7 @@ export default {
   },
   components: {
     'modal-frame': () => import('./modalFrame'),
+    'common-select': () => import('./commonSelect'),
     'date-time-picker': () => import('./dateTimePicker'),
     'select-tree-view': () => import('./selectTreeView'),
     'select-data-table': () => import('./selectDataTable'),

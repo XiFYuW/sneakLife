@@ -1,8 +1,7 @@
 <template>
   <div class="form-group">
-    <span class="input-group-addon" v-if="isSpan">{{inputLable.textName}}</span>
-    <label class="control-label" v-else>{{inputLable.textName}}</label>
-    <input :type="inputLable.type" class="form-control" :id="inputLable.id" :value="inputLable.value !== '' ? inputLable.value : ''">
+    <label class="control-label">{{inputLable.textName}}</label>
+    <input type="text" class="form-control" :id="inputLable.id" :value="inputLable.value !== '' ? inputLable.value : ''">
   </div>
 </template>
 
@@ -12,10 +11,6 @@ export default {
   props: {
     inputLable: {
       type: Object,
-      required: false
-    },
-    isSpan: {
-      type: Boolean,
       required: false
     }
   },
