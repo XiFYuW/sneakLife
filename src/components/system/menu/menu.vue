@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top" v-if="tabs !== undefined && tabs.length > 0">
       <div class="container">
         <div class="navbar-collapse collapse">
           <menu-child v-bind:tabs="tabs" v-bind:cla="'nav navbar-nav'" @introduce="getItem"></menu-child>
@@ -40,8 +40,8 @@ export default {
     'function-bo-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionBo/functionBoConfig')),
     'system-function': () => AsyncView.lazyLoadViews(import('../body/systemFunction/systemFunction.vue'))
   },
-  mounted: async function () {
-    await this.$central.serverInit(this.$utils.http)
+  mounted: function () {
+    // await this.$central.serverInit(this.$utils.http)
     this.$utils.central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
       this.tabs = resp.respData
     })

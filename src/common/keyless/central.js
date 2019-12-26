@@ -29,10 +29,11 @@ export const central = {
   /**
    * 初始化服务
    * @param http axios对象
+   * @param parameter 请求参数
    * @returns {Promise<void>}
    */
-  serverInit: async function (http) {
-    let resp = await this.post(http, initUrl, {})
+  serverInit: async function (http, parameter) {
+    let resp = await this.post(http, initUrl, {data: JSON.stringify(parameter)})
     this.init(resp.data.respData)
   },
   init: function (data) {
@@ -82,7 +83,7 @@ export const central = {
    * @returns {boolean}
    */
   checkCode: function (resp) {
-    let success = [2000, 5566, 7766, 4467, 4466, 2038]
+    let success = [2000, 5566, 7766, 4467, 4466, 2038, 3346]
     let waiting = [3879]
     if (success.indexOf(resp.respCode) < 0) {
       if (waiting.indexOf(resp.respCode) >= 0) {
