@@ -19,6 +19,10 @@ export const central = {
   rsa: null,
   // toastr对象
   toastr: null,
+  vue: null,
+  setVue: function (vue) {
+    this.vue = vue
+  },
   /**
    * 消息提示
    * @param toastr toastr对象
@@ -84,13 +88,19 @@ export const central = {
    */
   checkCode: function (resp) {
     let success = [2000, 5566, 7766, 4467, 4466, 2038, 3346]
-    let waiting = [3879]
+    let waiting = [3879, 1893, 1894, 3347]
+    let login = [3345]
+    if (login.indexOf(resp.respCode) >= 0) {
+      this.vue.$emit('changeIsLogin')
+      this.toastr.warning(resp.respMsg)
+      return false
+    }
+    if (waiting.indexOf(resp.respCode) >= 0) {
+      this.toastr.warning(resp.respMsg)
+      return false
+    }
     if (success.indexOf(resp.respCode) < 0) {
-      if (waiting.indexOf(resp.respCode) >= 0) {
-        this.toastr.warning(resp.respMsg)
-      } else {
-        this.toastr.error(resp.respMsg)
-      }
+      this.toastr.error(resp.respMsg)
       return false
     }
     return true

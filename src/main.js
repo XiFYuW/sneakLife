@@ -67,6 +67,7 @@ import {treeView} from './common/treeview'
  */
 myToastr.init(toastr)
 central.setToastr(myToastr)
+central.setVue(new Vue())
 utils.setToastr(myToastr)
 utils.setModalFrame(modalFrame)
 utils.setCentral(central)

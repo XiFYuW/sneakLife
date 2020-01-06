@@ -1,6 +1,5 @@
 /**
  * 中转站，该对象用作数据转换
- * @type {{parse: (function(*=): *), lazyLoadViews: (function(*=): Promise<{functional: boolean, render(*, {data?: *, children?: *}): *}>)}}
  */
 export const utils = {
   // vue对象

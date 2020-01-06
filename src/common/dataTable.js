@@ -157,9 +157,8 @@ export const dataTable = {
       central.init(resp.respData)
       callback()
       return false
-    } else {
-      return this.getResponse(resp)
     }
+    return this.getResponse(resp)
   },
   getResponse: function (resp) {
     return {

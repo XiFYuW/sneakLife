@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-on:keyup.enter="onLogin()">
     <form class="form-login" autocomplete="off">
-      <h3 class="form-login-heading">Sneak Life 登录</h3>
+      <h3 class="form-login-heading">Sneak Life 验证</h3>
       <label for="em" class="sr-only">User name</label>
       <div id="em">
         <div class="has-feedback">
@@ -12,18 +12,17 @@
       <label for="pass" class="sr-only">Password</label>
       <div id="pass">
         <div class="has-feedback">
-          <input :type="passType" id="pw" class="form-control form-input" placeholder="密码" required="" >
+          <input :type="passType" id="pw" class="form-control form-input" placeholder="密码"  required="" >
           <span class="form-control-feedback form-left-span glyphicon glyphicon-lock" ></span>
           <span class="form-control-feedback form-right-span glyphicon" :class="classPass" v-on:click="isPassShow()"></span>
         </div>
       </div>
-      <!--<div class="checkbox">-->
+      <!--<div class="checkbox"> v-on:keyup.enter.native="onLogin()" -->
         <!--<label>-->
           <!--<input type="checkbox" value="remember-me"> Remember me-->
         <!--</label>-->
       <!--</div>-->
-      <button class="btn btn-lg btn-primary btn-block" type="button" v-on:click="onLogin()"
-              v-on:keyup.enter="onLogin()">登录</button>
+      <button class="btn btn-lg btn-primary btn-block" type="button" v-on:click="onLogin()">登录</button>
     </form>
   </div>
 </template>

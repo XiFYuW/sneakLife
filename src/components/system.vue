@@ -18,6 +18,11 @@ export default {
     'system-login': () => AsyncView.lazyLoadViews(import('./system/menu/systemLogin')),
     'system-menu': () => AsyncView.lazyLoadViews(import('./system/menu/menu'))
   },
+  mounted () {
+    this.$central.vue.$on('changeIsLogin', () => {
+      this.isLogin = false
+    })
+  },
   methods: {
     getItem: function (item) {
       this.isLogin = item.isLogin
