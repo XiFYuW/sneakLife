@@ -47,7 +47,7 @@ export default {
               }
             }
           },
-          vue: this.$vue,
+          vue: this.$utils.vue,
           selectCol: {},
           isMnh: false
         }
@@ -82,7 +82,7 @@ export default {
       this.handle.transitionalComponent.selectCol = resp.respData
       this.handle.transitionalComponent.isMnh = false
       // 全局初始化CommonSelect
-      this.$vue.component('common-select', CommonSelect)
+      this.$utils.vue.component('common-select', CommonSelect)
     })
   },
   mounted () {

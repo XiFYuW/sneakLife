@@ -76,7 +76,7 @@ export const dataTable = {
    * @param disabled 是否可以操作
    */
   applySelect: function ($, data, disabled) {
-    let zIndex = 999999999
+    let zIndex = 1258
     if (mountComponent.getTransitionalComponent()) {
       let rows = data.rows
       $('.rowOperator').each(function () {
