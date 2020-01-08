@@ -4,10 +4,7 @@
 </template>
 
 <script>
-import {operaClick} from '../../../../../common/common'
 import {dataTable} from '../../../../../common/dataTable'
-const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
-const dataTableCopy = require('../../../../../common/common').deepCopy.deepCopy(dataTable)
 const AsyncView = require('../../../../../common/common').AsyncView
 export default {
   name: 'role-config',
@@ -16,7 +13,7 @@ export default {
       /**
        * 操作按钮的动作
        */
-      operaClick: operaClickCopy,
+      operaClick: this.$utils.operaClick,
       /**
        * 功能按钮
        */
@@ -37,19 +34,19 @@ export default {
     this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
       this.opera = data.opera
-      dataTableCopy.tl.queryParams = params => {
-        return dataTableCopy.queryParams(params, this.item.dataUrl, null, this.$central)
+      dataTable.tl.queryParams = params => {
+        return dataTable.queryParams(params, this.item.dataUrl, null, this.$central)
       }
-      dataTableCopy.tl.url = this.$central.url
-      dataTableCopy.tl.toolbar = '#' + this.toolbarId
-      dataTableCopy.tl.responseHandler = resp => {
-        return dataTableCopy.responseHandler(resp, this.$central, () => {
-          dataTableCopy.refresh(this.tableId, this.$jquery, dataTableCopy.tl)
+      dataTable.tl.url = this.$central.url
+      dataTable.tl.toolbar = '#' + this.toolbarId
+      dataTable.tl.responseHandler = resp => {
+        return dataTable.responseHandler(resp, this.$central, () => {
+          dataTable.refresh(this.tableId, this.$jquery, dataTable.tl)
         })
       }
-      dataTableCopy.tl.columns = data.table.columns
-      dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
-      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+      dataTable.tl.columns = data.table.columns
+      dataTable.tl.columns.splice(0, 0, dataTable.checkbox)
+      dataTable.init(this.tableId, this.$jquery, dataTable.tl)
 
       this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: '58837670b66111e985a680fa5b3a283a:7', menuId: this.item.id}}).then(resp => {
         this.selectData = resp.respData.data
@@ -86,10 +83,10 @@ export default {
 
     this.operaClick.search = () => {
       let searchData = this.$utils.searchData(this.$jquery, this.opera.bo)
-      dataTableCopy.tl.queryParams = params => {
-        return dataTableCopy.queryParams(params, this.item.dataUrl, searchData, this.$central)
+      dataTable.tl.queryParams = params => {
+        return dataTable.queryParams(params, this.item.dataUrl, searchData, this.$central)
       }
-      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+      dataTable.init(this.tableId, this.$jquery, dataTable.tl)
     }
 
     this.operaClick.remove = () => {

@@ -11,10 +11,7 @@
 </template>
 
 <script>
-import {operaClick} from '../../../../../common/common'
 import {treeGrid} from '../../../../../common/treeGrid'
-const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
-const treeGridCopy = require('../../../../../common/common').deepCopy.deepCopy(treeGrid)
 const AsyncView = require('../../../../../common/common').AsyncView
 export default {
   name: 'role-function-config',
@@ -28,7 +25,7 @@ export default {
       /**
        * 操作按钮的动作
        */
-      operaClick: operaClickCopy,
+      operaClick: this.$utils.operaClick,
       /**
        * 功能按钮
        */
@@ -62,25 +59,25 @@ export default {
             const initDataTable = resp.respData
             this.head = this.item.tab
             this.opera = initDataTable.opera
-            initDataTable.table.columns.splice(0, 0, treeGridCopy.checkbox)
+            initDataTable.table.columns.splice(0, 0, treeGrid.checkbox)
             if (initDataTable.table.columns[1].field !== 'name') {
               let temp = initDataTable.table.columns[1]
               let cons = this.$utils.findArray(initDataTable.table.columns, 'name')
               initDataTable.table.columns[1] = cons[0]
               initDataTable.table.columns[cons[1]] = temp
             }
-            initDataTable.table.columns[0].formatter = treeGridCopy.defalut.checkFormatter
-            initDataTable.table.columns[2].formatter = treeGridCopy.defalut.statusFormatter
-            treeGridCopy.tl.columns = initDataTable.table.columns
-            treeGridCopy.tl.toolbar = '#' + this.toolbarId
-            treeGridCopy.tl.url = this.$central.url
-            treeGridCopy.tl.queryParams = params => {
-              return treeGridCopy.queryParams(params, this.item.dataUrl, {treeViewId: this.item.id, menuId: data.id, name: data.text}, this.$central)
+            initDataTable.table.columns[0].formatter = treeGrid.defalut.checkFormatter
+            initDataTable.table.columns[2].formatter = treeGrid.defalut.statusFormatter
+            treeGrid.tl.columns = initDataTable.table.columns
+            treeGrid.tl.toolbar = '#' + this.toolbarId
+            treeGrid.tl.url = this.$central.url
+            treeGrid.tl.queryParams = params => {
+              return treeGrid.queryParams(params, this.item.dataUrl, {treeViewId: this.item.id, menuId: data.id, name: data.text}, this.$central)
             }
-            treeGridCopy.tl.responseHandler = resp => {
-              return treeGridCopy.responseHandler(resp, this.$central)
+            treeGrid.tl.responseHandler = resp => {
+              return treeGrid.responseHandler(resp, this.$central)
             }
-            treeGridCopy.init($, this.tableId)
+            treeGrid.init($, this.tableId)
           })
         }
       })

@@ -251,7 +251,7 @@ export const utils = {
    * @param htmlType 元素类型
    * @returns {*}
    */
-  switchTtmlTypeValue: function (obj, htmlType) {
+  switchHtmlTypeValue: function (obj, htmlType) {
     let v = null
     switch (htmlType) {
       case 'inputLable':
@@ -280,7 +280,7 @@ export const utils = {
     let searchData = {}
     operaClick.operaInEach(bo, null, (v, index, item, data) => {
       let obj = $('#' + v.id)
-      let s = this.switchTtmlTypeValue(obj, v.htmlType)
+      let s = this.switchHtmlTypeValue(obj, v.htmlType)
       searchData = this.addObjProperty(searchData, v.field, s)
     })
     return searchData
@@ -306,7 +306,6 @@ export const deepCopy = {
 
 /**
  * 功能操作按钮对象
- * @type {{popover: operaClick.popover, hint: operaClick.hint, updateTable: operaClick.updateTable, selectClickMe: operaClick.selectClickMe, deleteTable: operaClick.deleteTable, addTable: operaClick.addTable}}
  */
 export const operaClick = {
   search: function () {

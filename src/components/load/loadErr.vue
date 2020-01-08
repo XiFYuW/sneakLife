@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="loading">加载失败，请重试。</div>
+    <div class="loading">组件加载失败，请重试。</div>
   </div>
 </template>
 
@@ -12,16 +12,16 @@ export default {
 
 <style scoped>
   .loading {
-    width: 200px;
+    width: 230px;
     height: 56px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 43%;
     line-height: 56px;
     color: #fff;
     padding-left: 60px;
     font-size: 15px;
-    background: #342020 url(/static/images/loading.gif) no-repeat 10px 50%;
+    background: #b10505 url(/static/images/loading.gif) no-repeat 10px 50%;
     opacity: 0.7;
     z-index: 9999;
     -moz-border-radius: 20px;

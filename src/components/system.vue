@@ -18,6 +18,7 @@ export default {
   },
   components: {
     'resp-load': () => AsyncView.lazyLoadViews(import('./load/respLoad')),
+    'load': () => AsyncView.lazyLoadViews(import('./load/load')),
     'system-login': () => AsyncView.lazyLoadViews(import('./system/menu/systemLogin')),
     'system-menu': () => AsyncView.lazyLoadViews(import('./system/menu/menu'))
   },

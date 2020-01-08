@@ -11,10 +11,7 @@
 </template>
 
 <script>
-import {operaClick} from '../../../../../common/common'
 import {dataTable} from '../../../../../common/dataTable'
-const operaClickCopy = require('../../../../../common/common').deepCopy.deepCopy(operaClick)
-const dataTableCopy = require('../../../../../common/common').deepCopy.deepCopy(dataTable)
 const AsyncView = require('../../../../../common/common').AsyncView
 export default {
   name: 'function-button-config',
@@ -24,7 +21,7 @@ export default {
   },
   data () {
     return {
-      operaClick: operaClickCopy,
+      operaClick: this.$utils.operaClick,
       opera: {},
       head: this.item.tab,
       isShowData: false,
@@ -54,19 +51,19 @@ export default {
             this.head = this.item.tab + ' - ' + data.text
             this.opera = initDataTable.opera
             this.menuIdTemp = data.id
-            dataTableCopy.tl.queryParams = params => {
-              return dataTableCopy.queryParams(params, this.item.dataUrl, {menuId: this.menuIdTemp, name: data.text}, this.$central)
+            dataTable.tl.queryParams = params => {
+              return dataTable.queryParams(params, this.item.dataUrl, {menuId: this.menuIdTemp, name: data.text}, this.$central)
             }
-            dataTableCopy.tl.url = this.$central.url
-            dataTableCopy.tl.toolbar = '#' + this.toolbarId
-            dataTableCopy.tl.responseHandler = resp => {
-              return dataTableCopy.responseHandler(resp, this.$central, () => {
-                dataTableCopy.refresh(this.tableId, this.$jquery, dataTableCopy.tl)
+            dataTable.tl.url = this.$central.url
+            dataTable.tl.toolbar = '#' + this.toolbarId
+            dataTable.tl.responseHandler = resp => {
+              return dataTable.responseHandler(resp, this.$central, () => {
+                dataTable.refresh(this.tableId, this.$jquery, dataTable.tl)
               })
             }
-            dataTableCopy.tl.columns = initDataTable.table.columns
-            dataTableCopy.tl.columns.splice(0, 0, dataTableCopy.checkbox)
-            dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+            dataTable.tl.columns = initDataTable.table.columns
+            dataTable.tl.columns.splice(0, 0, dataTable.checkbox)
+            dataTable.init(this.tableId, this.$jquery, dataTable.tl)
 
             // 初始化下拉列表
             let express = '178b8e17c57911e9bd4f80fa5b3a283a:9,179c7a6fc57911e9bd4f80fa5b3a283a:2,17a428fec57911e9bd4f80fa5b3a283a:1'
@@ -110,10 +107,10 @@ export default {
     this.operaClick.search = () => {
       let searchData = this.$utils.searchData(this.$jquery, this.opera.bo)
       this.$utils.addObjProperty(searchData, 'menuId', this.menuIdTemp)
-      dataTableCopy.tl.queryParams = params => {
-        return dataTableCopy.queryParams(params, this.item.dataUrl, searchData, this.$central)
+      dataTable.tl.queryParams = params => {
+        return dataTable.queryParams(params, this.item.dataUrl, searchData, this.$central)
       }
-      dataTableCopy.init(this.tableId, this.$jquery, dataTableCopy.tl)
+      dataTable.init(this.tableId, this.$jquery, dataTable.tl)
     }
 
     this.operaClick.remove = () => {

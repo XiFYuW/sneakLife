@@ -63,6 +63,7 @@ import {selects} from './common/selects'
 import {treeView} from './common/treeview'
 
 const v = new Vue()
+myToastr.init(toastr)
 /**
  * 设置jquery与axios异步
  */
@@ -86,7 +87,6 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((response) => {
   response.config.date.endTime = new Date()
   response.duration = response.config.date.endTime - response.config.date.startTime
-  console.log(response.duration)
   if (response.duration > 200) {
     v.$emit('isRespLoad', false)
   } else {
@@ -98,17 +98,14 @@ axios.interceptors.response.use((response) => {
 }, function (err) {
   const { config, code, message } = err
   if (code === 'ECONNABORTED' || message === 'Network Error') { // 请求超时
-    alert('请求超时')
+    myToastr.error('请求超时')
   }
   return Promise.reject(err)
 })
 
-/**
- * 初始化相关组件对象
- */
-myToastr.init(toastr)
 central.setToastr(myToastr)
 central.setVue(v)
+
 utils.setToastr(myToastr)
 utils.setModalFrame(modalFrame)
 utils.setCentral(central)
@@ -118,15 +115,11 @@ utils.setSelects(selects)
 utils.setSelectsTree(treeView)
 utils.setOperaClick(operaClick)
 
-/**
- * 初始化vue相关属性
- */
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$jquery = $
 Vue.prototype.$utils = utils
 Vue.prototype.$central = central
-Vue.prototype.$myToastr = myToastr
 
 /* eslint-disable no-new */
 new Vue({
