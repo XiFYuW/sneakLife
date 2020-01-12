@@ -66,7 +66,7 @@ export default {
             dataTable.init(this.tableId, this.$jquery, dataTable.tl)
 
             let express = '1eac1f75231211ea919980fa5b3a283a:5'
-            this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
+            this.$central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
               this.selectData = resp.respData.data
               this.operaClick.operaInEach(this.opera.in, data, (v, index, item, data) => {
                 this.operaClick.initSelects(v, index, item, data, this.selectData)

@@ -31,7 +31,7 @@ export default {
     'data-table': () => AsyncView.lazyLoadViews(import('../../../../common/dataTable'))
   },
   mounted () {
-    this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+    this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
       this.opera = data.opera
       dataTable.tl.queryParams = params => {
@@ -48,7 +48,7 @@ export default {
       dataTable.tl.columns.splice(0, 0, dataTable.checkbox)
       dataTable.init(this.tableId, this.$jquery, dataTable.tl)
 
-      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: '58837670b66111e985a680fa5b3a283a:7', menuId: this.item.id}}).then(resp => {
+      this.$central.send(this.$utils.http, {me: 'getByType', data: {express: '58837670b66111e985a680fa5b3a283a:7', menuId: this.item.id}}).then(resp => {
         this.selectData = resp.respData.data
         let ini = this.opera.in
         this.operaClick.operaInEach(ini, data, (v, index, item, data) => {

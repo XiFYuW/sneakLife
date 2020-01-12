@@ -75,7 +75,7 @@ export default {
     }
   },
   created () {
-    this.$utils.central.send(this.$utils.http, {me: 'selectsList', data: {}}).then(resp => {
+    this.$central.send(this.$utils.http, {me: 'selectsList', data: {}}).then(resp => {
       this.handle.transitionalComponent.selectCol = resp.respData
       this.handle.transitionalComponent.isMnh = false
       // 全局初始化CommonSelect
@@ -83,7 +83,7 @@ export default {
     })
   },
   mounted () {
-    this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+    this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
       this.opera = data.opera
       dataTable.tl.queryParams = params => {
@@ -122,7 +122,7 @@ export default {
           je.userId = userId
           con.push(je)
         }
-        this.$utils.central.send(this.$utils.http, {me: this.$utils.url, data: {up: con}}).then(resp => {
+        this.$central.send(this.$utils.http, {me: this.$utils.url, data: {up: con}}).then(resp => {
           this.$utils.toastr.success(resp.respMsg)
           $('#user-role-config').bootstrapTable('refresh')
         })

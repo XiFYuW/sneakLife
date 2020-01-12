@@ -67,7 +67,7 @@ export default {
 
             // 初始化下拉列表
             let express = '178b8e17c57911e9bd4f80fa5b3a283a:9,179c7a6fc57911e9bd4f80fa5b3a283a:2,17a428fec57911e9bd4f80fa5b3a283a:1'
-            this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
+            this.$central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
               this.selectData = resp.respData.data
               let columns = this.opera.in
               this.operaClick.operaInEach(columns, data, (v, index, item, data) => {

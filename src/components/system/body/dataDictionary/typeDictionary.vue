@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted () {
-    this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+    this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
       this.opera = data.opera
       dataTable.tl.queryParams = params => {

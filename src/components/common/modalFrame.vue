@@ -84,10 +84,10 @@ export default {
       return data
     },
     toSend: function (data) {
-      this.$utils.central.send(this.$utils.http, {checkInId: this.funIn[0][0].menuId, me: this.btnUrl, data: data}).then(resp => {
+      this.$central.send(this.$utils.http, {checkInId: this.funIn[0][0].menuId, me: this.btnUrl, data: data}).then(resp => {
         this.$utils.modalFrame.hide(this.$jquery)
         this.$jquery('#' + this.$utils.table).bootstrapTable('refresh')
-        this.$utils.central.toastr.success(resp.respMsg)
+        this.$central.toastr.success(resp.respMsg)
       })
     }
   },

@@ -22,6 +22,18 @@ export default {
     'system-login': () => AsyncView.lazyLoadViews(import('./system/menu/systemLogin')),
     'system-menu': () => AsyncView.lazyLoadViews(import('./system/menu/menu'))
   },
+  created () {
+    let sk = sessionStorage.getItem('sk')
+    let to = sessionStorage.getItem('to')
+    if (sk !== null && to !== null) {
+      let skAes = this.$central.aesDecrypt(sk, to)
+      let skJson = JSON.parse(skAes)
+      if (skJson !== undefined || skJson !== null) {
+        this.isLogin = true
+        this.$central.init(skJson)
+      }
+    }
+  },
   mounted () {
     this.$central.vue.$on('changeIsLogin', () => {
       this.isLogin = false

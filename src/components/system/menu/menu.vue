@@ -42,7 +42,7 @@ export default {
   },
   mounted: function () {
     // await this.$central.serverInit(this.$utils.http)
-    this.$utils.central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
+    this.$central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
       this.tabs = resp.respData
     })
   },

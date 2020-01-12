@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueCookies from 'vue-cookies'
 import App from './App'
 import router from './router'
 import axios from 'axios'
@@ -120,7 +121,6 @@ Vue.prototype.$http = axios
 Vue.prototype.$jquery = $
 Vue.prototype.$utils = utils
 Vue.prototype.$central = central
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

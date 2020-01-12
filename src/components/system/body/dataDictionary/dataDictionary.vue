@@ -28,7 +28,7 @@ export default {
     }
   },
   mounted () {
-    this.$utils.central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
+    this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       const data = resp.respData
       this.opera = data.opera
       dataTable.tl.queryParams = params => {
@@ -46,7 +46,7 @@ export default {
       dataTable.init(this.tableId, this.$jquery, dataTable.tl)
 
       let express = '16f8029c956911e9914980fa5b3a283a:*'
-      this.$utils.central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
+      this.$central.send(this.$utils.http, {me: 'getByType', data: {express: express, menuId: this.item.id}}).then(resp => {
         this.selectData = resp.respData.data
         this.operaClick.operaInEach(this.opera.in, data, (v, index, item, data) => {
           this.operaClick.initSelects(v, index, item, data, this.selectData)

@@ -55,7 +55,7 @@ export default {
         modal = this.$utils.parse(modal)
         const timer = setInterval(() => {
           setTimeout(() => {
-            this.$utils.central.send(this.$utils.http, {me: 'cpuListen', data: {}}).then(resp => {
+            this.$central.send(this.$utils.http, {me: 'cpuListen', data: {}}).then(resp => {
               this.body = resp.respData
               modal.option.series = []
               modal.option.xAxis = []

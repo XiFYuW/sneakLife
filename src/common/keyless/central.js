@@ -6,15 +6,12 @@ const CryptoJS = require('crypto-js')
 export const initUrl = 'http://127.0.0.1:8080/sneakLife-admin/heartBeat'
 /**
  * 加解密，服务连接
- * @type {{rsa: null, setToastr: central.setToastr, publicKey: string, url: string, token: string, checkCode: central.checkCode, ajaxSetup: central.ajaxSetup, aesEncrypts: (function(*=): string), post: (function(*, *=, *=): Promise<any>), serverInit: central.serverInit, toastr: null, enParameter: (function(*=): *), send: (function(*=, *=): *)}}
  */
 export const central = {
   // 服务请求地址
   url: '',
   // AES秘钥
   token: '',
-  // 公钥
-  publicKey: '',
   // RSA加密算法对象
   rsa: null,
   // toastr对象
@@ -43,9 +40,14 @@ export const central = {
   init: function (data) {
     this.url = Base64.decode(data.link)
     this.rsa = new JSEncrypt()
-    this.publicKey = data.puk
-    this.rsa.setPublicKey(this.publicKey)
+    this.rsa.setPublicKey(data.puk)
     this.token = Base64.decode(data.ptk)
+    this.localStorageSave(data)
+  },
+  localStorageSave: function (data) {
+    let j = this.aesEncrypts(JSON.stringify(data))
+    sessionStorage.setItem('sk', j)
+    sessionStorage.setItem('to', data.ptk)
   },
   /**
    * 发送服务请求
@@ -80,6 +82,12 @@ export const central = {
       mode: CryptoJS.mode.ECB,
       padding: CryptoJS.pad.Pkcs7
     }).toString()
+  },
+  aesDecrypt: function (word, token) {
+    let decrypt = CryptoJS.AES.decrypt(word, CryptoJS.enc.Utf8.parse(Base64.decode(token)), {
+      mode: CryptoJS.mode.ECB, // CBC
+      padding: CryptoJS.pad.Pkcs7 })
+    return decrypt.toString(CryptoJS.enc.Utf8)
   },
   /**
    * 检测返回码
