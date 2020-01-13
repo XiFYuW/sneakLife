@@ -14,11 +14,16 @@ export const central = {
   token: '',
   // RSA加密算法对象
   rsa: null,
+  time: null,
   // toastr对象
   toastr: null,
   vue: null,
+  cookie: null,
   setVue: function (vue) {
     this.vue = vue
+  },
+  setCookie: function (cookie) {
+    this.cookie = cookie
   },
   /**
    * 消息提示
@@ -38,16 +43,52 @@ export const central = {
     this.init(resp.data.respData)
   },
   init: function (data) {
+    this.setParameter(data)
+    this.localStorageSave(data)
+  },
+  setParameter: function (data) {
     this.url = Base64.decode(data.link)
     this.rsa = new JSEncrypt()
     this.rsa.setPublicKey(data.puk)
     this.token = Base64.decode(data.ptk)
-    this.localStorageSave(data)
+    this.time = data.time
   },
   localStorageSave: function (data) {
     let j = this.aesEncrypts(JSON.stringify(data))
     sessionStorage.setItem('sk', j)
     sessionStorage.setItem('to', data.ptk)
+    this.cookie.set('sk', j)
+    this.cookie.set('to', data.ptk)
+  },
+  /**
+   * 保证每一次打开新的标签页都需要记录
+   * @param callback 不为空的回调方法
+   * @param callback1 为空的回调方法
+   */
+  getLocalStorageItem: function (callback, callback1) {
+    let sk = sessionStorage.getItem('sk')
+    let to = sessionStorage.getItem('to')
+    if (sk !== null && to !== null) {
+      callback()
+    } else {
+      callback1()
+    }
+  },
+  /**
+   * 保证每一次重新加载标签页不都需要记录
+   * @param callback 不为空的回调方法
+   * @param callback1 为空的回调方法
+   */
+  getCookieStorageItem: function (callback, callback1) {
+    let sk = this.cookie.get('sk')
+    let to = this.cookie.get('to')
+    if (sk !== null && to !== null) {
+      let skAes = this.aesDecrypt(sk, to)
+      let skJson = JSON.parse(skAes)
+      callback(skJson)
+    } else {
+      callback1()
+    }
   },
   /**
    * 发送服务请求
@@ -65,6 +106,13 @@ export const central = {
    * @returns {*}
    */
   enParameter: function (parameter) {
+    let now = new Date().getTime() / 1000
+    // 适用多开标签页
+    if (this.time !== null && this.time < now) {
+      this.getCookieStorageItem((skJson) => {
+        this.init(skJson)
+      })
+    }
     let ps = {
       data: this.aesEncrypts(JSON.stringify(parameter)),
       token: this.rsa.encryptLong(this.token)

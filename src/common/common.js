@@ -414,7 +414,8 @@ export const operaClick = {
   operaInEach: function (columns, data, callback) {
     columns.forEach(item => {
       item.forEach((v, index) => {
-        this.operaInEachCallback(callback, v, index, item, data)
+        callback(v, index, item, data)
+        // this.operaInEachCallback(callback, v, index, item, data)
       })
     })
   },

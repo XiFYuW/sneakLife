@@ -106,6 +106,7 @@ axios.interceptors.response.use((response) => {
 
 central.setToastr(myToastr)
 central.setVue(v)
+central.setCookie(VueCookies)
 
 utils.setToastr(myToastr)
 utils.setModalFrame(modalFrame)
