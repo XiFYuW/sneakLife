@@ -30,6 +30,7 @@ export default {
     'menu-child': () => AsyncView.lazyLoadViews(import('./menuChild')),
     'data-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/dataDictionary')),
     'type-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/typeDictionary')),
+    'logical-log': () => AsyncView.lazyLoadViews(import('../body/log/logicalLog')),
     'system-monitoring': () => AsyncView.lazyLoadViews(import('../body/systemMonitoring/systemMonitoring')),
     'role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleConfig/roleConfig')),
     'user-role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/userRoleConfig/userRoleConfig')),

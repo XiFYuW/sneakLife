@@ -284,6 +284,32 @@ export const utils = {
       searchData = this.addObjProperty(searchData, v.field, s)
     })
     return searchData
+  },
+  endWith: function (str, str1) {
+    let d = str.length - str1.length
+    return (d >= 0 && str.lastIndexOf(str1) === d)
+  },
+  formatTime: function (number, format) {
+    let formateArr = ['Y', 'M', 'D', 'h', 'm', 's']
+    let returnArr = []
+
+    let date = new Date(number)
+    returnArr.push(date.getFullYear())
+    returnArr.push(this.formatNumber(date.getMonth() + 1))
+    returnArr.push(this.formatNumber(date.getDate()))
+
+    returnArr.push(this.formatNumber(date.getHours()))
+    returnArr.push(this.formatNumber(date.getMinutes()))
+    returnArr.push(this.formatNumber(date.getSeconds()))
+
+    for (let i in returnArr) {
+      format = format.replace(formateArr[i], returnArr[i])
+    }
+    return format
+  },
+  formatNumber: function (t) {
+    t = t.toString()
+    return t[1] ? t : '0' + t
   }
 }
 

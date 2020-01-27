@@ -76,7 +76,9 @@ export default {
     z-index:1010;
     background-color:white;
     margin-top:34px;
-    width: 250px
+    width: 250px;
+    overflow-y: auto;
+    height: 300px;
   }
   .selectTreeView-input{
     width: 250px;

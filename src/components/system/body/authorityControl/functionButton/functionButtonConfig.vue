@@ -126,5 +126,7 @@ export default {
   .treeViewMa{
     margin-left: 60px;
     width: max-content;
+    height: 639px;
+    overflow-y: auto;
   }
 </style>
