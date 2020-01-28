@@ -6,14 +6,14 @@
 const dataTable = require('../../../../common/common').deepCopy.deepCopy(require('../../../../common/dataTable').dataTable)
 const AsyncView = require('../../../../common/common').AsyncView
 export default {
-  name: 'logical-log',
+  name: 'access-log',
   data () {
     return {
       operaClick: this.$utils.operaClick,
       opera: {},
       head: this.item.tab,
-      tableId: 'logical-log-table',
-      toolbarId: 'logical-log-toolbar'
+      tableId: 'access-log-table',
+      toolbarId: 'access-log-toolbar'
     }
   },
   components: {
@@ -48,15 +48,16 @@ export default {
           col.formatter = (value) => {
             return this.$utils.formatTime(value, 'Y/M/D h:m:s')
           }
-        } else {
+        }
+        if (col.field === 'logEx') {
           col.formatter = function (value) {
             let span = document.createElement('span')
             span.setAttribute('title', value)
             span.innerHTML = value
             return span.outerHTML
           }
+          col.cellStyle = this.$utils.cellStyle
         }
-        col.cellStyle = this.$utils.cellStyle
       }
       dataTable.tl.columns.splice(0, 0, dataTable.checkbox)
       dataTable.init(this.tableId, this.$jquery, dataTable.tl)

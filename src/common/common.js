@@ -289,6 +289,16 @@ export const utils = {
     let d = str.length - str1.length
     return (d >= 0 && str.lastIndexOf(str1) === d)
   },
+  cellStyle: function (value, row, index, field) {
+    return {
+      css: {
+        'white-space': 'nowrap',
+        'text-overflow': 'ellipsis',
+        'overflow': 'hidden',
+        'max-width': '150px'
+      }
+    }
+  },
   formatTime: function (number, format) {
     let formateArr = ['Y', 'M', 'D', 'h', 'm', 's']
     let returnArr = []

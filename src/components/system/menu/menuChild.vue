@@ -41,7 +41,7 @@ export default {
         item: tab,
         view: this.view
       })
-      this.removeSelectCss()
+      this.removeSelectCss(tab)
     },
     getItem: function (item) {
       this.$emit('introduce', {
@@ -49,9 +49,11 @@ export default {
         view: item.view
       })
     },
-    removeSelectCss: function () {
+    removeSelectCss: function (tab) {
       this.$jquery('li.dropdown').removeClass('open')
       this.$jquery('li.active').removeClass('active')
+      let parent = this.$jquery('#' + tab.id).parent()
+      parent.addClass('active')
     },
     /**
      * 添加选中标签open样式

@@ -31,6 +31,7 @@ export default {
     'data-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/dataDictionary')),
     'type-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/typeDictionary')),
     'logical-log': () => AsyncView.lazyLoadViews(import('../body/log/logicalLog')),
+    'access-log': () => AsyncView.lazyLoadViews(import('../body/log/accessLog')),
     'system-monitoring': () => AsyncView.lazyLoadViews(import('../body/systemMonitoring/systemMonitoring')),
     'role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleConfig/roleConfig')),
     'user-role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/userRoleConfig/userRoleConfig')),
