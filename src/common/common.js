@@ -247,13 +247,14 @@ export const utils = {
   },
   /**
    * 根据元素类型获取值
-   * @param obj 元素对象
-   * @param htmlType 元素类型
+   * @param $ jquery对象
+   * @param item 字段
    * @returns {*}
    */
-  switchHtmlTypeValue: function (obj, htmlType) {
+  switchHtmlTypeValue: function ($, item) {
     let v = null
-    switch (htmlType) {
+    let obj = $('#' + item.id)
+    switch (item.htmlType) {
       case 'inputLable':
         v = obj.val()
         break
@@ -266,10 +267,30 @@ export const utils = {
       case 'selects':
         v = utils.selects.getVal(obj)
         break
+      case 'dateTimePicker':
+        debugger
+        v = this.getDateTimePicker($, item)
+        break
       default:
         break
     }
     return v
+  },
+  getDateTimePicker: function ($, item) {
+    let obj = $('.' + item.id)
+    let i = 0
+    let s = ''
+    obj.each(function () {
+      let value = $(this).val()
+      if (value !== undefined) {
+        if (++i < obj.length) {
+          s += value + ','
+        } else {
+          s += value
+        }
+      }
+    })
+    return s
   },
   /**
    * 获取查询数据
@@ -279,8 +300,7 @@ export const utils = {
   searchData: function ($, bo) {
     let searchData = {}
     operaClick.operaInEach(bo, null, (v, index, item, data) => {
-      let obj = $('#' + v.id)
-      let s = this.switchHtmlTypeValue(obj, v.htmlType)
+      let s = this.switchHtmlTypeValue($, v)
       searchData = this.addObjProperty(searchData, v.field, s)
     })
     return searchData

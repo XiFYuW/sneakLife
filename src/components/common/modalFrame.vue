@@ -77,8 +77,7 @@ export default {
       return obj
     },
     getByHtmlType: function ($, item, data) {
-      let obj = $('#' + item.id)
-      let v = this.$utils.switchHtmlTypeValue(obj, item.htmlType)
+      let v = this.$utils.switchHtmlTypeValue($, item)
       // 添加请求参数
       data = this.$utils.addObjProperty(data, item.field, v)
       return data

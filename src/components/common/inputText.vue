@@ -15,6 +15,11 @@ export default {
       required: false
     }
   },
+  mounted () {
+    this.$jquery('#' + this.inputText.id).parent().parent().css({
+      'width': 'min-content'
+    })
+  },
   watch: {
     inputText: {
       handler (newVal, oldVal) {

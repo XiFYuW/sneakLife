@@ -1,6 +1,7 @@
 export const datetimepicker = {
   el: 'form_datetime',
   tl: {
+    format: 'yyyy-mm-dd hh:ii:ss',
     // 语言
     language: 'zh-CN',
     // 一周从哪一天开始
@@ -12,7 +13,7 @@ export const datetimepicker = {
     // 一周的周几不能选
     daysOfWeekDisabled: [],
     // 选完时间后是否自动关闭
-    autoclose: false,
+    autoclose: true,
     // 当天日期按钮
     todayBtn: true,
     // 当天日期高亮
@@ -24,7 +25,9 @@ export const datetimepicker = {
     // 'bottom-left’，’top-right’，’top-left’
     pickerPosition: 'bottom-right',
     // 步进值
-    minuteStep: 5,
+    hourStep: 1,
+    minuteStep: 1,
+    secondStep: 1,
     // 强制解析
     forceParse: true
   },

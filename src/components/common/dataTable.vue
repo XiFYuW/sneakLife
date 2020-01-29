@@ -7,20 +7,11 @@
             <div class="col-md-4" v-for="(items, cindex) in item" v-bind:key="cindex">
               <input-text v-bind:inputText="items" v-if="items.htmlType === 'inputText'"></input-text>
               <common-select v-bind:selectCol="items" v-bind:isMnh="true" v-bind:isSpan="true" v-else-if="items.htmlType === 'selects'"></common-select>
+              <date-time-picker v-bind:picker="items" v-bind:isRange="true" v-else-if="items.htmlType === 'dateTimePicker'"></date-time-picker>
               <select-tree-view v-bind:treeView="items" v-bind:isSpan="true" v-else></select-tree-view>
             </div>
           </div>
-          <!--<div class="row rowPadd">-->
-            <!--<div class="col-md-4">-->
-              <!--<date-time-picker></date-time-picker>-->
-            <!--</div>-->
-            <!--<div class="col-md-4">-->
-              <!--<date-time-picker></date-time-picker>-->
-            <!--</div>-->
-            <!--<div class="col-md-4">-->
-              <!--<date-time-picker></date-time-picker>-->
-            <!--</div>-->
-          <!--</div>-->
+        <!--<idv>-->
           <!--<div class="row rowPadd">-->
             <!--<div class="col-md-4">-->
               <!--<select-data-table></select-data-table>-->
