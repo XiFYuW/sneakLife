@@ -74,7 +74,6 @@ export const treeView = {
    * @param row 填充数据项
    */
   setSelectTreeVal: function ($, p, v, row) {
-    debugger
     let obj = $('#' + v.id)
     let node = this.getNode(obj, p, row)
     let obj1 = $('#' + v.id.substr(0, 30))

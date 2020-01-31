@@ -27,6 +27,8 @@ export default {
     }
   },
   components: {
+    'system-sql': () => AsyncView.lazyLoadViews(import('../body/sql/systemSql')),
+    'system-job': () => AsyncView.lazyLoadViews(import('../body/job/systemJob')),
     'menu-child': () => AsyncView.lazyLoadViews(import('./menuChild')),
     'data-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/dataDictionary')),
     'type-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/typeDictionary')),

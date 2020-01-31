@@ -184,6 +184,9 @@ export const utils = {
     if (v.htmlType === 'selectsTree') {
       this.selectsTree.removeSelectNode(obj, $('#' + v.id.substr(0, 30)))
     }
+    if (v.htmlType === 'dateTimePicker') {
+      this.clearDateTimePicker($, v)
+    }
   },
   /**
    * 设置输入选项的值
@@ -268,7 +271,6 @@ export const utils = {
         v = utils.selects.getVal(obj)
         break
       case 'dateTimePicker':
-        debugger
         v = this.getDateTimePicker($, item)
         break
       default:
@@ -282,7 +284,7 @@ export const utils = {
     let s = ''
     obj.each(function () {
       let value = $(this).val()
-      if (value !== undefined) {
+      if (value !== undefined && value !== '') {
         if (++i < obj.length) {
           s += value + ','
         } else {
@@ -291,6 +293,12 @@ export const utils = {
       }
     })
     return s
+  },
+  clearDateTimePicker: function ($, item) {
+    let obj = $('.' + item.id)
+    obj.each(function () {
+      $(this).val('')
+    })
   },
   /**
    * 获取查询数据
