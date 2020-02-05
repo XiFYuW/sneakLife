@@ -1,9 +1,11 @@
 <template>
   <div>
     <nav class="navbar navbar-default navbar-static-top" v-if="tabs !== undefined && tabs.length > 0">
-      <div class="container">
-        <div class="navbar-collapse collapse">
-          <menu-child v-bind:tabs="tabs" v-bind:cla="'nav navbar-nav'" @introduce="getItem"></menu-child>
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="navbar-collapse">
+            <menu-child v-bind:tabs="tabs" v-bind:cla="'nav navbar-nav'" @introduce="getItem"></menu-child>
+          </div>
         </div>
       </div>
     </nav>

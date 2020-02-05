@@ -34,7 +34,7 @@
         <div class="btn-b">
           <button class="btn btn-default" v-bind:class="item.code" v-bind:key="item.code" v-bind:type="item.type"
                   v-for="item in opera.sb" v-on:click="selectMe(item.code, item.url, item.codeName)">
-            <span class="glyphicon" v-bind:class="item.iconName" aria-hidden="true"></span> {{item.codeName}}
+            <span class="glyphicon" v-bind:class="item.icon" aria-hidden="true"></span> {{item.codeName}}
           </button>
         </div>
       </div>

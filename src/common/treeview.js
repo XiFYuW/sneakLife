@@ -4,6 +4,7 @@ export const treeView = {
     data: [],
     // 扩展到5个级别
     levels: 5,
+    preventUnselect: true,
     // 多选
     multiSelect: false,
     // 是否突出显示所选节点
@@ -29,7 +30,7 @@ export const treeView = {
     tree.treeview(this.options)
   },
   /**
-   * 选中树形视图的节点
+   * 单击树形视图的节点
    * @param $ jquery对象
    * @param f 回调方法
    */

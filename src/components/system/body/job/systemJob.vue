@@ -1,5 +1,5 @@
 <template>
-  <iframe :src="xxlJobPath" :id="id" scrolling="auto" class="word"></iframe>
+  <iframe-sn :src="xxlJobPath" :id="id"></iframe-sn>
 </template>
 
 <script>
@@ -11,6 +11,9 @@ export default {
       xxlJobPath: ''
     }
   },
+  components: {
+    'iframe-sn': () => import('../../../common/iframeSn')
+  },
   props: {
     item: {
       type: Object,
@@ -21,17 +24,9 @@ export default {
     this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       this.xxlJobPath = resp.respData.xxlJobPath
     })
-  },
-  mounted () {
-    let ifm = document.getElementById(this.id)
-    ifm.height = document.documentElement.clientHeight - 66
   }
 }
 </script>
 
 <style scoped>
-  .word{
-    width: 100%;
-    border: 1px solid black;
-  }
 </style>

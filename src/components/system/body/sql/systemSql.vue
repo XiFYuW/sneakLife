@@ -1,10 +1,13 @@
 <template>
-  <iframe :src="serverPath" :id="id" scrolling="auto" class="word"></iframe>
+  <iframe-sn :src="serverPath" :id="id"></iframe-sn>
 </template>
 
 <script>
 export default {
   name: 'system-sql',
+  components: {
+    'iframe-sn': () => import('../../../common/iframeSn')
+  },
   data () {
     return {
       id: 'system-sql',
@@ -21,17 +24,9 @@ export default {
     this.$central.send(this.$utils.http, {me: this.item.pageUrl, data: {menuId: this.item.id}}).then(resp => {
       this.serverPath = resp.respData.serverPath
     })
-  },
-  mounted () {
-    let ifm = document.getElementById(this.id)
-    ifm.height = document.documentElement.clientHeight - 66
   }
 }
 </script>
 
 <style scoped>
-  .word{
-    width: 100%;
-    border: 1px solid black;
-  }
 </style>

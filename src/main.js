@@ -30,8 +30,8 @@ import 'jquery-treegrid/js/bootstrap-table-treegrid'
 /**
  * treeview
  */
-import 'bootstrap-treeview/dist/bootstrap-treeview.min.css'
-import 'bootstrap-treeview/dist/bootstrap-treeview.min'
+import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css'
+import 'patternfly-bootstrap-treeview/dist/bootstrap-treeview.min'
 
 /**
  * select
