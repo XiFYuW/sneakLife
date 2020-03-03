@@ -21,7 +21,7 @@ export default {
     color: #fff;
     padding-left: 60px;
     font-size: 15px;
-    background: #32941a url(/static/images/loading.gif) no-repeat 10px 50%;
+    background: #32941a url(/src/assets/loading.gif) no-repeat 10px 50%;
     opacity: 0.7;
     z-index: 9999;
     -moz-border-radius: 20px;

@@ -1,6 +1,3 @@
-import {mountComponent} from './common'
-import {selects} from './selects'
-
 export const dataTable = {
   tl: {
     url: '',
@@ -47,17 +44,9 @@ export const dataTable = {
     'data-halign': 'center'
   },
   /**
-   * 设置过渡组件
-   * @param mc
-   */
-  setTraCom: function (mc) {
-    mountComponent.setTransitionalComponent(mc)
-  },
-  /**
    * 渲染数据表格
    * @param el 数据表格元素的位置
    * @param $ jquery
-   * @param body 数据表格内容获取形式
    * @param tls 数据表格格式
    */
   init: function (el, $, tls) {
@@ -68,51 +57,6 @@ export const dataTable = {
   refresh: function (el, $, tls) {
     let table = $('#' + el)
     table.bootstrapTable('refresh', tls)
-  },
-  /**
-   * 渲染select列表
-   * @param $ jquery对象
-   * @param data 下拉列表数据
-   * @param disabled 是否可以操作
-   */
-  applySelect: function ($, data, disabled) {
-    let zIndex = 1258
-    if (mountComponent.getTransitionalComponent()) {
-      let rows = data.rows
-      $('.rowOperator').each(function () {
-        let idTemp = $(this).attr('id')
-        let co = $('#' + idTemp)
-        co.parent().parent().css({
-          'padding': 0
-        })
-        let id = co.parent().attr('id')
-        let rowId = id.substr(3, 32)
-        let row = {}
-        for (let index in rows) {
-          if (rows[index].userId === rowId) {
-            row = rows[index]
-            break
-          }
-        }
-        let es = rowId + 'list'
-        // 挂载组件
-        mountComponent.mountSelect(idTemp, es)
-        let obj = $('#' + es)
-        // 初始化select值
-        selects.setVal(obj, row.value)
-        $('#' + id + ' label').remove()
-        $('#' + id + ' .mba').css({
-          'margin-bottom': 'auto',
-          'display': 'table',
-          'margin-left': '11%'
-        })
-        $('#' + id + ' button').css('width', '200px')
-        $('#' + id + ' .bootstrap-select').css({
-          'position': 'absolute',
-          'z-index': zIndex--
-        })
-      })
-    }
   },
   /**
    * 数据表格请求参数封装
@@ -160,16 +104,15 @@ export const dataTable = {
     }
     return this.getResponse(resp)
   },
+  /**
+   * 获取具体响应数据
+   * @param resp 响应数据
+   * @returns {{total: *, rows: *}}
+   */
   getResponse: function (resp) {
     return {
       total: resp.respData.totalElements,
       rows: resp.respData.content
     }
-  },
-  getTwoResponse: async function (resp, http, params, central) {
-    central.init(resp.respData)
-    await central.send(http, params).then(resps => {
-      return this.getResponse(resps)
-    })
   }
 }

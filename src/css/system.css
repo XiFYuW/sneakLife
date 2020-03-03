@@ -1,0 +1,14 @@
+.suitable {
+  width: fit-content;
+}
+
+.btn-a{
+  display: inline;
+  margin-left: 2px;
+  padding-right: 100px;
+  float: left;
+}
+
+.btn-b{
+  float: left;
+}

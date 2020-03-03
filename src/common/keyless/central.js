@@ -111,7 +111,7 @@ export const central = {
     if (this.time !== null && this.time < now) {
       this.getCookieStorageItem((skJson) => {
         this.init(skJson)
-      })
+      }, () => {})
     }
     let ps = {
       data: this.aesEncrypts(JSON.stringify(parameter)),
@@ -143,8 +143,8 @@ export const central = {
    * @returns {boolean}
    */
   checkCode: function (resp) {
-    let success = [2000, 5566, 7766, 4467, 4466, 2038, 3346]
-    let waiting = [3879, 1893, 1894, 3347]
+    let success = [2000, 5566, 7766, 4467, 4466, 2038, 3346, 3348]
+    let waiting = [3879, 1893, 1894, 3347, 4367]
     let login = [3345]
     if (login.indexOf(resp.respCode) >= 0) {
       this.vue.$emit('changeIsLogin')

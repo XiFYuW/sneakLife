@@ -44,7 +44,7 @@ export default {
       this.$utils.selectsTree.nodeSelected($, (event, data) => {
         $('#' + this.treeView.id.substr(0, 30)).val(data.text)
         obj.hide()
-        this.$utils.selectsTree.selectNode(obj, data.nodeId)
+        this.$utils.selectsTree.selectNode(obj, data)
       })
     }
   },
@@ -85,5 +85,16 @@ export default {
     height: 34px;
     margin-left: 0;
     margin-bottom: 0;
+  }
+  .selectTreeView::-webkit-scrollbar {
+    width: 3px;
+  }
+  .selectTreeView::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: rgb(115, 188, 199);
+  }
+  .selectTreeView::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: rgba(71, 167, 40, 0.2);
   }
 </style>

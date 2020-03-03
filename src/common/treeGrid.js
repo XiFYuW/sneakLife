@@ -24,6 +24,7 @@ export const treeGrid = {
     contentType: 'application/x-www-form-urlencoded',
     // 工具栏
     toolbar: '#toolbar',
+    height: 411,
     striped: false,
     sidePagination: 'server',
     idField: this.id,
@@ -236,12 +237,14 @@ export const treeGrid = {
    * @param central 服务连接对象
    * @returns {{total: *, rows: *}}
    */
-  responseHandler: function (resp, central) {
+  responseHandler: function (resp, central, callback) {
     if (!central.checkCode(resp)) {
       return {}
     }
     if (resp.respCode === 2038) {
       central.init(resp.respData)
+      callback()
+      return false
     }
     return {
       data: resp.respData

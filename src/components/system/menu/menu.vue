@@ -6,6 +6,7 @@
           <div class="navbar-collapse">
             <menu-child v-bind:tabs="tabs" v-bind:cla="'nav navbar-nav'" @introduce="getItem"></menu-child>
           </div>
+          <static-menu></static-menu>
         </div>
       </div>
     </nav>
@@ -29,6 +30,7 @@ export default {
     }
   },
   components: {
+    'static-menu': () => AsyncView.lazyLoadViews(import('./staticMenu')),
     'system-sql': () => AsyncView.lazyLoadViews(import('../body/sql/systemSql')),
     'system-job': () => AsyncView.lazyLoadViews(import('../body/job/systemJob')),
     'menu-child': () => AsyncView.lazyLoadViews(import('./menuChild')),
@@ -39,6 +41,7 @@ export default {
     'system-monitoring': () => AsyncView.lazyLoadViews(import('../body/systemMonitoring/systemMonitoring')),
     'role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleConfig/roleConfig')),
     'user-role-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/userRoleConfig/userRoleConfig')),
+    'role-function-config1': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig1')),
     'role-function-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/roleFunctionConfig/roleFunctionConfig')),
     'function-button-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionButton/functionButtonConfig')),
     'function-columns-config': () => AsyncView.lazyLoadViews(import('../body/authorityControl/functionColumns/functionColumnsConfig')),
@@ -47,7 +50,6 @@ export default {
     'system-function': () => AsyncView.lazyLoadViews(import('../body/systemFunction/systemFunction.vue'))
   },
   mounted: function () {
-    // await this.$central.serverInit(this.$utils.http)
     this.$central.send(this.$utils.http, {me: 'getMenu', data: {}}).then(resp => {
       this.tabs = resp.respData
     })

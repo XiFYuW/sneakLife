@@ -99,12 +99,14 @@ export default {
       dataTable.tl.columns = data.table.columns
       dataTable.tl.columns.splice(0, 0, dataTable.checkbox)
       dataTable.tl.columns.push(this.handle.operate)
-      let disabled = !this.opera.sb
       dataTable.tl.clickToSelect = false
       dataTable.tl.onLoadSuccess = (data) => {
-        dataTable.applySelect(this.$jquery, data, disabled)
+        this.applySelect(this.$jquery, data, (idTemp, es) => {
+          this.mountSelect(idTemp, es)
+        }, (obj, value) => {
+          this.$utils.selects.setVal(obj, value)
+        })
       }
-      dataTable.setTraCom(this.handle.transitionalComponent)
       dataTable.init(this.tableId, this.$jquery, dataTable.tl)
     })
   },
@@ -153,6 +155,65 @@ export default {
     },
     immediate: true,
     deep: true
+  },
+  methods: {
+    mountSelect: function (el, es) {
+      let CommonSelect = this.handle.transitionalComponent.vue.extend(this.handle.transitionalComponent.componentTra)
+      this.$utils.vue.set(this.handle.transitionalComponent.selectCol, 'id', es)
+      new CommonSelect(
+        {
+          propsData:
+            {
+              selectCol: this.handle.transitionalComponent.selectCol,
+              isMnh: this.handle.transitionalComponent.isMnh
+            }
+        }
+      ).$mount('#' + el)
+    },
+    /**
+     * 渲染为下拉列表
+     * @param $ jquery对象
+     * @param data 数据
+     * @param callback 挂载组件
+     * @param callback1 赋值
+     */
+    applySelect: function ($, data, callback, callback1) {
+      let zIndex = 1258
+      let rows = data.rows
+      $('.rowOperator').each(function () {
+        let idTemp = $(this).attr('id')
+        let co = $('#' + idTemp)
+        co.parent().parent().css({
+          'padding': 0
+        })
+        let id = co.parent().attr('id')
+        let rowId = id.substr(3, 32)
+        let row = {}
+        for (let index in rows) {
+          if (rows[index].userId === rowId) {
+            row = rows[index]
+            break
+          }
+        }
+        let es = rowId + 'list'
+        // 挂载组件
+        callback(idTemp, es)
+        let obj = $('#' + es)
+        // 初始化select值
+        callback1(obj, row.value)
+        $('#' + id + ' label').remove()
+        $('#' + id + ' .mba').css({
+          'margin-bottom': 'auto',
+          'display': 'table',
+          'margin-left': '11%'
+        })
+        $('#' + id + ' button').css('width', '200px')
+        $('#' + id + ' .bootstrap-select').css({
+          'position': 'absolute',
+          'z-index': zIndex--
+        })
+      })
+    }
   }
 }
 </script>

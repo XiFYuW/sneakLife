@@ -5,7 +5,7 @@ import router from './router'
 import axios from 'axios'
 import $ from 'jquery'
 
-import './../static/css/system/system.css'
+import './css/system.css'
 
 /**
  * bootstrap
@@ -56,7 +56,7 @@ import toastr from 'toastr/build/toastr.min'
 /**
  * 共有属性
  */
-import {utils, operaClick} from './common/common'
+import {utils, operaClick, deepCopy} from './common/common'
 import {central} from './common/keyless/central'
 import {modalFrame} from './common/modalFrame'
 import {myToastr} from './common/toastr'
@@ -65,6 +65,7 @@ import {treeView} from './common/treeview'
 
 const v = new Vue()
 myToastr.init(toastr)
+
 /**
  * 设置jquery与axios异步
  */
@@ -116,12 +117,22 @@ utils.setVue(Vue)
 utils.setSelects(selects)
 utils.setSelectsTree(treeView)
 utils.setOperaClick(operaClick)
+utils.setDeepCopy(deepCopy)
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$jquery = $
 Vue.prototype.$utils = utils
 Vue.prototype.$central = central
+// window.onbeforeunload = function () {
+//   debugger
+//   let n = window.screenX - window.screenLeft
+//   let b = n > document.documentElement.scrollWidth - 20
+//   if (b || window.screenY <= 0) {
+//     VueCookies.remove('sk')
+//     VueCookies.remove('to')
+//   }
+// }
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

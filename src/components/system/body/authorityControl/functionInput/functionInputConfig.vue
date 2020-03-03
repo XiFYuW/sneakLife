@@ -53,8 +53,8 @@ export default {
       this.$utils.selectsTree.options.data = resp.respData
       this.$utils.selectsTree.init($, this.treeViewId)
       this.$utils.selectsTree.nodeSelected($, (event, data) => {
-        this.isShowData = true
         if (data.url !== '#') {
+          this.isShowData = true
           this.$central.send(this.$utils.http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {
             const initDataTable = resp.respData
             this.head = this.item.tab + ' - ' + data.text
@@ -130,10 +130,5 @@ export default {
 </script>
 
 <style scoped>
-  .treeViewMa{
-    margin-left: 60px;
-    width: max-content;
-    height: 639px;
-    overflow-y: auto;
-  }
+  @import "./../../../../../css/treeViewMa.css";
 </style>

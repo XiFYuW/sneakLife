@@ -3,6 +3,7 @@
               v-bind:tableId="tableId" v-bind:toolbarId="toolbarId"></data-table>
 </template>
 <script>
+import {popover} from '../../../../common/popover'
 const dataTable = require('../../../../common/common').deepCopy.deepCopy(require('../../../../common/dataTable').dataTable)
 const AsyncView = require('../../../../common/common').AsyncView
 export default {
@@ -49,14 +50,14 @@ export default {
             return this.$utils.formatTime(value, 'Y/M/D h:m:s')
           }
         } else {
-          col.formatter = function (value) {
-            let span = document.createElement('span')
-            span.setAttribute('title', value)
-            span.innerHTML = value
-            return span.outerHTML
+          col.formatter = (value, row, index) => {
+            let uid = this.$utils.guid()
+            return '<div class="logicalLog" id=' + uid + '>' + value + '</div>'
           }
         }
-        col.cellStyle = this.$utils.cellStyle
+      }
+      dataTable.tl.onLoadSuccess = (data) => {
+        popover.applyLog(this.$jquery, 'logicalLog')
       }
       dataTable.tl.columns.splice(0, 0, dataTable.checkbox)
       dataTable.init(this.tableId, this.$jquery, dataTable.tl)
@@ -79,3 +80,12 @@ export default {
   }
 }
 </script>
+<style>
+  @import "./../../../../css/log/popoverLog.css";
+  .logicalLog{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 150px
+  }
+</style>

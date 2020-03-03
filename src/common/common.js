@@ -26,6 +26,13 @@ export const utils = {
   selectsTree: null,
   // 功能操作对象
   operaClick: null,
+  getSelectsTree: function () {
+    return this.deepCopy.deepCopy(this.selectsTree)
+  },
+  deepCopy: null,
+  setDeepCopy: function (deepCopy) {
+    this.deepCopy = deepCopy
+  },
   /**
    * 设置功能操作对象
    * @param operaClick 功能操作对象
@@ -246,7 +253,7 @@ export const utils = {
     } else {
       utils.vue.set(v, 'value', row[p])
     }
-    item.splice(index, index + 1, v)
+    // item.splice(index, index + 1, v)
   },
   /**
    * 根据元素类型获取值
@@ -348,6 +355,15 @@ export const utils = {
   formatNumber: function (t) {
     t = t.toString()
     return t[1] ? t : '0' + t
+  },
+  guid: function () {
+    /**
+     * @return {string}
+     */
+    function gu () {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+    }
+    return ('i' + gu() + gu() + '-' + gu() + '-' + gu() + '-' + gu() + '-' + gu() + gu() + gu())
   }
 }
 
@@ -577,47 +593,6 @@ export const operaClick = {
   }
 }
 
-/**
- * 挂载组件
- * @type {{transitionalComponent: {}, mountSelect: mountComponent.mountSelect, setTransitionalComponent: mountComponent.setTransitionalComponent, getTransitionalComponent: (function(): (mountComponent.transitionalComponent|{}))}}
- */
-export const mountComponent = {
-  /**
-   * 过渡组件对象
-   */
-  transitionalComponent: {},
-  /**
-   * 设置过渡组件
-   * @param mc
-   */
-  setTransitionalComponent: function (mc) {
-    this.transitionalComponent = mc
-  },
-  /**
-   * 获取过渡组件
-   * @returns {mountComponent.transitionalComponent|{}}
-   */
-  getTransitionalComponent: function () {
-    return this.transitionalComponent
-  },
-  /**
-   * 挂载下拉列表组件
-   * @param el 挂载位置
-   */
-  mountSelect: function (el, es) {
-    let CommonSelect = this.transitionalComponent.vue.extend(this.transitionalComponent.componentTra)
-    utils.vue.set(this.transitionalComponent.selectCol, 'id', es)
-    new CommonSelect(
-      {
-        propsData:
-          {
-            selectCol: this.transitionalComponent.selectCol,
-            isMnh: this.transitionalComponent.isMnh
-          }
-      }
-    ).$mount('#' + el)
-  }
-}
 /**
  * 加载视图
  * @param AsyncView

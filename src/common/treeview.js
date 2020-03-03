@@ -5,6 +5,7 @@ export const treeView = {
     // 扩展到5个级别
     levels: 5,
     preventUnselect: true,
+    allowReselect: true,
     // 多选
     multiSelect: false,
     // 是否突出显示所选节点
@@ -80,7 +81,7 @@ export const treeView = {
     let obj1 = $('#' + v.id.substr(0, 30))
     if (node) {
       obj1.val(node.text)
-      this.selectNode(obj, node.nodeId)
+      this.selectNode(obj, node)
     } else {
       this.removeSelectNode(obj, obj1)
     }
@@ -94,8 +95,9 @@ export const treeView = {
     obj1.val('')
     let se = this.getSelected(obj)
     for (let i in se) {
-      let item = se[i]
-      this.toggleNodeSelected(obj, item.nodeId)
+      let node = se[i]
+      node.state.selected = false
+      obj.treeview('updateNode', [ node, node, { silent: true } ])
     }
   },
   /**
@@ -114,7 +116,7 @@ export const treeView = {
   getSelectedValue: function (obj) {
     let selectTree = this.getSelected(obj)
     if (selectTree.length > 0) {
-      return selectTree[0].value
+      return selectTree[0].id
     }
     return ''
   },
@@ -128,9 +130,16 @@ export const treeView = {
   /**
    * 切换一个节点的选择状态
    * @param obj jquery对象
-   * @param nodeId 树形视图id
+   * @param nodes 树形视图
    */
-  toggleNodeSelected: function (obj, nodeId) {
-    obj.treeview('toggleNodeSelected', [ nodeId, { silent: true } ])
+  toggleNodeSelected: function (obj, nodes) {
+    obj.treeview('toggleNodeSelected', [ nodes, { silent: true } ])
+  },
+  /**
+   * 返回检查节点的数组
+   * @param obj jquery对象
+   */
+  getChecked: function (obj) {
+    return obj.treeview('getChecked')
   }
 }
