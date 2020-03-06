@@ -99,8 +99,13 @@ axios.interceptors.response.use((response) => {
   return response
 }, function (err) {
   const { config, code, message } = err
-  if (code === 'ECONNABORTED' || message === 'Network Error') { // 请求超时
-    myToastr.error('请求超时')
+  if (code === 'ECONNABORTED') {
+    myToastr.error('请求超时！')
+    v.$emit('isRespLoad', false)
+  }
+  if (message === 'Network Error') {
+    myToastr.error('请求错误，服务拒绝响应！')
+    v.$emit('isRespLoad', false)
   }
   return Promise.reject(err)
 })
