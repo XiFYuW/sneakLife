@@ -39,6 +39,7 @@ export default {
       roleList: 'roleList' + this.item.id,
       operaList: 'operaList' + this.item.id,
       roleId: '',
+      erMenuId: '',
       isOperaList: false,
       isSave: false
     }
@@ -67,6 +68,7 @@ export default {
             operaListTree.init(this.$jquery, this.operaList)
             operaListTree.nodeSelected(this.$jquery, (event, data) => {
               if (data.url !== '#') {
+                this.erMenuId = data.id
                 this.isOperaList = true
                 this.$central.send(http, {me: data.url, data: {menuId: this.item.id}}).then(resp => {
                   const initDataTable = resp.respData
@@ -101,7 +103,7 @@ export default {
       pageData.forEach(e => {
         arr.push(e.treeViewId)
       })
-      this.$central.send(this.$utils.http, {me: this.$utils.url, data: {up: arr, roleId: this.roleId}}).then(resp => {
+      this.$central.send(this.$utils.http, {me: this.$utils.url, data: {up: arr, roleId: this.roleId, erMenuId: this.erMenuId}}).then(resp => {
         this.$central.toastr.success(resp.respMsg)
         obj.bootstrapTable('refresh')
       })
