@@ -324,16 +324,6 @@ export const utils = {
     let d = str.length - str1.length
     return (d >= 0 && str.lastIndexOf(str1) === d)
   },
-  cellStyle: function (value, row, index, field) {
-    return {
-      css: {
-        'white-space': 'nowrap',
-        'text-overflow': 'ellipsis',
-        'overflow': 'hidden',
-        'max-width': '150px'
-      }
-    }
-  },
   formatTime: function (number, format) {
     let formateArr = ['Y', 'M', 'D', 'h', 'm', 's']
     let returnArr = []
@@ -416,9 +406,24 @@ export const operaClick = {
       case '2' :
         this.deleteTable(table, $, columns)
         break
+      case '3':
+        this.export(table, $, columns)
+        break
       default :
         alert('.....')
     }
+  },
+  /**
+   * 基本导出操作，默认实现
+   * @param el 数据表格元素id
+   * @param $ jquery对象
+   * @param columns 功能输入字段
+   */
+  export: function (el, $, columns) {
+    utils.central.sendGet(utils.http, {me: utils.url, data: {}}).then(resp => {
+      utils.central.toastr.success(resp.respMsg)
+      $('#' + el).bootstrapTable('refresh')
+    })
   },
   /**
    * 基本添加操作，默认实现
