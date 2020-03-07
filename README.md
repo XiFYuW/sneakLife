@@ -2,10 +2,6 @@
 
 ## [后台地址](https://github.com/XiFYuW/sneakLife-admin)
 
-## 功能
-
-> 权限管理
-
 ## 运行方式
 
 ``` bash
