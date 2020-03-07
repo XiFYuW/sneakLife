@@ -104,6 +104,7 @@ export default {
   methods: {
     selectMe: function (code, url, name) {
       this.modalFrameTitle = this.head + '-' + name
+      // 设置具体请求地址
       this.btnUrl = url
       this.$utils.setUrl(url)
       this.operaClick.selectClickMe(code, this.tableId, this.$jquery, this.opera.in)
