@@ -100,6 +100,10 @@ export const central = {
     let resp = await this.post(http, this.url, {data: this.enParameter(parameter)}, parameter)
     return resp.data
   },
+  sendGet: async function (http, parameter) {
+    let resp = await this.get(http, this.url, {data: this.enParameter(parameter)}, parameter)
+    return resp.data
+  },
   /**
    * 加密参数
    * @param parameter 请求参数
@@ -156,7 +160,9 @@ export const central = {
       return false
     }
     if (success.indexOf(resp.respCode) < 0) {
-      this.toastr.error(resp.respMsg)
+      if (resp.respMsg) {
+        this.toastr.error(resp.respMsg)
+      }
       return false
     }
     return true
@@ -197,6 +203,47 @@ export const central = {
           if (res.data.respCode === 2038) {
             this.init(res.data.respData)
             res = this.post(http, url, {data: this.enParameter(parameter)}, parameter)
+          }
+          resolve(res)
+        }
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  get: function (http, url, data, parameter) {
+    return new Promise((resolve, reject) => {
+      http({
+        method: 'get',
+        timeout: 150000,
+        url: url,
+        params: {
+          data: data
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        withCredentials: true,
+        responseType: 'arraybuffer'
+      }).then((res) => {
+        try {
+          let enc = new TextDecoder('utf-8')
+          res = JSON.parse(enc.decode(new Uint8Array(res.data)))
+        } catch (err) {
+          const filename = decodeURI(res.headers['content-disposition'].split(';')[1].split('=')[1])
+          const link = document.createElement('a')
+          const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' })
+          link.style.display = 'none'
+          link.href = URL.createObjectURL(blob)
+          link.setAttribute('download', filename)
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }
+        if (this.checkCode(res)) {
+          if (res.respCode === 2038) {
+            this.init(res.respData)
+            res = this.get(http, url, {data: this.enParameter(parameter)}, parameter)
           }
           resolve(res)
         }
