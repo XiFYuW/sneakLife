@@ -41,7 +41,7 @@ import 'bootstrap-select/dist/js/bootstrap-select.min'
 import 'bootstrap-select/dist/js/i18n/defaults-zh_CN.min'
 
 /**
- *datetimepicker
+ * datetimepicker
  */
 import 'bootstrap-datetimepicker/src/css/bootstrap-datetimepicker.min.css'
 import 'bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.min'
@@ -52,6 +52,14 @@ import 'bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.zh-CN'
  */
 import 'toastr/build/toastr.css'
 import toastr from 'toastr/build/toastr.min'
+
+/**
+ * bootstrap-fileinput
+ */
+import 'bootstrap-fileinput/css/fileinput.css'
+import 'bootstrap-fileinput/js/fileinput.js'
+import 'bootstrap-fileinput/js/locales/zh.js'
+import 'bootstrap-fileinput/themes/fa/theme.js'
 
 /**
  * 共有属性
