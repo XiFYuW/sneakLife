@@ -70,6 +70,7 @@ import {modalFrame} from './common/modalFrame'
 import {myToastr} from './common/toastr'
 import {selects} from './common/selects'
 import {treeView} from './common/treeview'
+import {fileInput} from './common/fileInput'
 
 const v = new Vue()
 myToastr.init(toastr)
@@ -131,6 +132,7 @@ utils.setSelects(selects)
 utils.setSelectsTree(treeView)
 utils.setOperaClick(operaClick)
 utils.setDeepCopy(deepCopy)
+utils.setFileInput(fileInput)
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
