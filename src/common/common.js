@@ -26,6 +26,10 @@ export const utils = {
   selectsTree: null,
   // 功能操作对象
   operaClick: null,
+  fileInput: null,
+  setFileInput: function (fileInput) {
+    this.fileInput = fileInput
+  },
   getSelectsTree: function () {
     return this.deepCopy.deepCopy(this.selectsTree)
   },
