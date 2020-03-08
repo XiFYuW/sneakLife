@@ -17,7 +17,6 @@
 
 <script>
 import {datetimepicker} from '../../common/datetimepicker'
-
 export default {
   name: 'date-time-picker',
   data () {
