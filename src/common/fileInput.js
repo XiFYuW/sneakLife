@@ -19,7 +19,43 @@ export const fileInput = {
     // 允许的最小文件数
     minFileCount: 1
   },
-  init: function ($, el, option) {
-    $('#' + el).fileinput(option)
+  init: function (obj, option) {
+    obj.fileinput(option)
+  },
+  /**
+   * 单个先触发
+   * @param obj 元素对象
+   */
+  filePreUpload: function (obj) {
+    obj.on('filepreupload', function (event, data, previewId, index) {
+      debugger
+    })
+  },
+  /**
+   * 单个上传成功之后
+   * @param obj 元素对象
+   */
+  fileUploaded: function (obj) {
+    obj.on('fileuploaded', function (event, data, previewId, index) {
+      debugger
+    })
+  },
+  /**
+   * 批处理先触发,之后触发filePreUpload
+   * @param obj 元素对象
+   */
+  fileBatchPreUpload: function (obj) {
+    obj.on('filebatchpreupload', function (event, data) {
+      debugger
+    })
+  },
+  /**
+   * 批量成功之后
+   * @param obj 元素对象
+   */
+  fileBatchUploadSuccess: function (obj) {
+    obj.on('filebatchuploadsuccess', function (event, data) {
+      debugger
+    })
   }
 }
