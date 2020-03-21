@@ -57,6 +57,7 @@ import toastr from 'toastr/build/toastr.min'
  * bootstrap-fileinput
  */
 import 'bootstrap-fileinput/css/fileinput.css'
+import 'bootstrap-fileinput/js/plugins/piexif.js'
 import 'bootstrap-fileinput/js/fileinput.js'
 import 'bootstrap-fileinput/js/locales/zh.js'
 import 'bootstrap-fileinput/themes/fa/theme.js'
