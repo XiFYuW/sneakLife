@@ -30,10 +30,12 @@ export default {
     }
   },
   components: {
+    'doc-swagger': () => AsyncView.lazyLoadViews(import('../body/doc/docSwagger')),
     'static-menu': () => AsyncView.lazyLoadViews(import('./staticMenu')),
     'system-sql': () => AsyncView.lazyLoadViews(import('../body/sql/systemSql')),
     'system-job': () => AsyncView.lazyLoadViews(import('../body/job/systemJob')),
     'menu-child': () => AsyncView.lazyLoadViews(import('./menuChild')),
+    'system-file-upload': () => AsyncView.lazyLoadViews(import('../body/tools/systemFileUpload')),
     'data-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/dataDictionary')),
     'type-dictionary': () => AsyncView.lazyLoadViews(import('../body/dataDictionary/typeDictionary')),
     'logical-log': () => AsyncView.lazyLoadViews(import('../body/log/logicalLog')),
