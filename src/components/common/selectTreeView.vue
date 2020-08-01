@@ -35,6 +35,11 @@ export default {
     this.$jquery('#' + this.treeView.id.substr(0, 30)).val('')
     this.$utils.selectsTree.options.data = this.treeView[this.treeView.field + 'SelectTreeData']
     this.$utils.selectsTree.init(this.$jquery, this.treeView.id)
+    this.$utils.selectsTree.nodeSelected(this.$jquery, (event, data) => {
+      this.$jquery('#' + this.treeView.id.substr(0, 30)).val(data.text)
+      let obj = $('#' + this.treeView.id)
+      this.$utils.selectsTree.selectNode(obj, data)
+    })
   },
   methods: {
     showTreeView: function () {
