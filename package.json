@@ -14,7 +14,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bootstrap": "^3.3.7",
     "bootstrap-fileinput": "^5.0.8",
     "bootstrap-select": "^1.13.10",
